@@ -1,6 +1,7 @@
 import { Button, Container, Form, FormControl, Nav, Navbar } from "react-bootstrap"
+import { LinkContainer } from "react-router-bootstrap"
 
-const LINKS =  [
+const LINKS = [
   {
     link: '/',
     name: 'User Rating'
@@ -29,8 +30,9 @@ export function NavigationBar() {
         <Navbar.Collapse id="main-navbar-nav">
           <Nav className="me-auto">
             {LINKS.map((l, idx) => (
-              
+              // <LinkContainer to={l.link}>
               <Nav.Link key={idx} className="fw-semibold mx-lg-3 fs-5">{l.name}</Nav.Link>
+              // </LinkContainer>
             ))}
           </Nav>
           <Nav>
