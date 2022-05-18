@@ -1,0 +1,16 @@
+.property-table li {
+  display: flex;
+  align-items: baseline;
+  color: #373737;
+}
+
+.property-spacer {
+  width: 100%;
+  border-bottom: 1px dotted #373737;
+}
+
+.property-empty {
+  width: 100%;
+  height: 15px;
+  border-bottom: 1px #373737;
+}

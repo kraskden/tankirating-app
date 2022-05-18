@@ -17,7 +17,6 @@ const targetSlice = createSlice({
 })
 
 export const loadTarget = createAsyncThunk('target/set', async (name, {dispatch, getState}) => {
-    await (new Promise((res, rej) => setTimeout(() => res(), 2000)))
     const {data} = await getTargetByName(name)
     dispatch(eraseSnapshot())
     return data    

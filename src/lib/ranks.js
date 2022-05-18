@@ -1,4 +1,6 @@
 
+const en_ranks_names = ['Recruit', 'Private', 'Gefreiter', 'Corporal', 'Master Corporal', 'Sergeant', 'Staff Sergeant', 'Master Sergeant', 'First Sergeant', 'Sergeant-Major', 'Warrant Officer 1', 'Warrant Officer 2', 'Warrant Officer 3', 'Warrant Officer 4', 'Warrant Officer 5', 'Third Lieutenant', 'Second Lieutenant', 'First Lieutenant', 'Captain', 'Major', 'Lieutenant Colonel', 'Colonel', 'Brigadier', 'Major General', 'Lieutenant General', 'General', 'Marshal', 'Fieldmarshal', 'Commander', 'Generalissimo', 'Legend']
+
 const ranks = [
   {
     "rank": "Новобранец",
@@ -33,7 +35,7 @@ const ranks = [
     "score": 100
   },
   {
-    "rank": "Уорэнт-офицер1",
+    "rank": "Уорэнт-офицер 1",
     "score": 57000
   },
   {
@@ -49,11 +51,11 @@ const ranks = [
     "score": 98000
   },
   {
-    "rank": "Уорэнт-офицер2",
+    "rank": "Уорэнт-офицер 2",
     "score": 76000
   },
   {
-    "rank": "Уорэнт-офицер4",
+    "rank": "Уорэнт-офицер 4",
     "score": 125000
   },
   {
@@ -127,13 +129,18 @@ const ranks = [
 ].sort((a, b) => a.score - b.score)
 
 export const getRank = (score) => {
+  // TODO: language support is sucks
+  const lang = navigator.language || navigator.userLanguage
+  const useRuLang = lang ? lang.indexOf('ru') != -1 : false
+
   for (let idx = 0; idx < ranks.length; ++idx) {
     let rank = ranks[idx]
     if (rank.score > score) {
-      return ranks[idx - 1].rank
+      return useRuLang ? ranks[idx - 1].rank : en_ranks_names[idx - 1]
     }
   }
-  return "Легенда " + (Math.floor((score - 1600000) / 200000) + 1)
+  const legendPrefix = useRuLang ? "Легенда " : "Legend "
+  return legendPrefix + (Math.floor((score - 1600000) / 200000) + 1)
 }
 
 export const getRankPercent = (score) => {

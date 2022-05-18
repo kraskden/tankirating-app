@@ -1,12 +1,12 @@
 import { useCallback } from "react"
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col, Tabs, Tab } from "react-bootstrap"
 import { useParams } from "react-router"
 import { PageLoader } from "../components/loader/PageLoader"
 import { UserBox } from "../components/profile/UserBox"
 import { SearchBox } from "../components/SearchBox"
-import { SnapshotView } from "../components/view/SnapshotView"
 import { getSnapshot, loadLastSnapshot } from "../slices/snapshotSlice"
 import { getTarget, loadTarget } from "../slices/targetSlice"
+import UserHomePage from "./UserHomePage"
 
 
 export function UserPage() {
@@ -25,7 +25,11 @@ export function UserPage() {
       <PageLoader selector={getTarget} loadEvent={targetLoadEvent}>
         <PageLoader selector={getSnapshot} loadEvent={loadLastSnapshot}>
           <UserBox />
-          <SnapshotView />
+          <Tabs defaultActiveKey="home" className="my-2">
+            <Tab eventKey="home" title="Home">
+              <UserHomePage />
+            </Tab>
+          </Tabs>
         </PageLoader>
       </PageLoader>
 
