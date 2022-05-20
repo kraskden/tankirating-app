@@ -1,10 +1,14 @@
-import { Badge, Card } from "react-bootstrap"
+import { Badge, Card, Spinner } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { EmbeddedPieChart } from "../components/charts/EmbeddedPieChart"
+import { SpinnerLoader } from "../components/loader/Loaders"
+import { CenterSpinner } from "../components/loader/Spinners"
 import { SnapshotBadges } from "../components/profile/SnapshotBadges"
 import { SummaryTable } from "../components/profile/summary/SummaryTable"
+import { TimeHeatMap } from "../components/profile/TimeHeatMap"
 import { makePieTimeData } from "../lib/chart"
 import { makeAllTimeSummary } from "../lib/summary"
+import { getHeatMap, loadHeatMap } from "../slices/heatMapSlice"
 import { getSnapshot } from "../slices/snapshotSlice"
 import { getData } from "../util/slices"
 
@@ -34,11 +38,11 @@ export default function UserHomePage() {
           </div>
           <div className="row mt-4 justify-content-center">
             {pieActivities.map(stat => (
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 px-2">
+              <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6 px-2" key={stat.name}>
                 <div className="fs-6 text-center">
                   <span className="fw-bold">{stat.name}</span>
                 </div>
-                <EmbeddedPieChart key={stat.name} data={makePieTimeData(stat.activity, stat.countLimit)} />
+                <EmbeddedPieChart data={makePieTimeData(stat.activity, stat.countLimit)} />
 
               </div>
             ))}
@@ -46,6 +50,10 @@ export default function UserHomePage() {
 
         </Card.Body>
       </Card>
+
+      <TimeHeatMap initialYear={new Date().getUTCFullYear()}/>
+
+      
     </div>
   )
 }

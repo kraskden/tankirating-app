@@ -11,7 +11,6 @@ export const addThunkReducers = (builder, thunk, onSuccess) => {
       state.status = 'loading'
     })
     .addCase(thunk.fulfilled, (state, action) => {
-      console.log(action)
       state.status = 'ok'
       onSuccess ? onSuccess(state, action) : state.data = action.payload
     })

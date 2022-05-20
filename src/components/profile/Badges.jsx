@@ -1,4 +1,5 @@
 import {Badge} from 'react-bootstrap'
+import { matcher } from '../../lib/matcher'
 
 function UserBadge({ bg, name, value }) {
   return (
@@ -23,80 +24,39 @@ function makeBigNumberTitle(num) {
   }
 }
 
-export function CryBadge({cry}) {
+const cryBgMatcher = matcher(["warning", [1000000], "secondary", [10000000], "success", [20000000], "dark"])
 
-  function makeBg(cry) {
-    if (cry > 20000000) {
-      return "dark"
-    } else if (cry > 10000000) {
-      return "success"
-    } else if (cry < 1000000) {
-      return "warning"
-    } else {
-      return "secondary"
-    }
-  }
+export function CryBadge({cry}) {
   
-  return <UserBadge bg={makeBg(cry)} name="CRY" value={makeBigNumberTitle(cry)}/>
+  return <UserBadge bg={cryBgMatcher(cry)} name="CRY" value={makeBigNumberTitle(cry)}/>
 
 }
+
+
+const kdBgMatcher = matcher(["danger", [1], "warning", [1.3], "secondary", [1.5], "success", [3], "dark", [10], "danger"])
 
 export function KdBadge({kills, deaths}) {
 
   const kd = Math.round(kills * 100 / deaths) / 100
 
-  function makeBg() {
-    if (kd < 1 || kd > 10) {
-      return "danger"
-    } else if (kd < 1.3) {
-      return "warning"
-    } else if (kd > 3) {
-      return "dark"
-    } else if (kd > 1.5) {
-      return "success"
-    } else {
-      return "secondary"
-    }
-  }
-
-  return <UserBadge bg={makeBg()} name="K/D" value={kd} />
+  return <UserBadge bg={kdBgMatcher(kd)} name="K/D" value={kd} />
 
 }
+
+const scoreBgMatcher = matcher(["warning", [1600000], "secondary", [10000000], "success", [20000000], "dark"])
 
 export function ScoreBadge({score}) {
 
-  function makeBg() {
-    if (score < 1600000) {
-      return "warning"
-    } else if (score > 20000000) {
-      return "dark"
-    } else if (score > 10000000) {
-      return "success"
-    } else {
-      return "secondary"
-    }
-  }
-
-  return <UserBadge bg={makeBg()} name="Score" value={makeBigNumberTitle(score)} />
+  return <UserBadge bg={scoreBgMatcher(score)} name="Score" value={makeBigNumberTitle(score)} />
 
 }
+
+const timeBgMatcher = matcher(["danger", [25], "warning", [100], "secondary", [1000], "success", [2000], "dark"])
 
 export function TimeBadge({time}) {
 
   const hours = Math.round(time / 3600)
 
-  function makeBg() {
-    if (hours < 100) {
-      return "danger"
-    } else if (hours > 2000) {
-      return "dark"
-    } else if (hours > 1000) {
-      return "success"
-    } else {
-      return "secondary"
-    }
-  }
-
-  return <UserBadge bg={makeBg()} name="Time" value={`${hours}h`} /> 
+  return <UserBadge bg={timeBgMatcher(hours)} name="Time" value={`${hours}h`} /> 
 
 }

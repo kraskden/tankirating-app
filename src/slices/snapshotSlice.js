@@ -17,9 +17,9 @@ const snapshotSlice = createSlice({
     }
 })
 
-export const loadLastSnapshot = createAsyncThunk('currSnapshot/load', async (_, {dispatch, getState}) => {
+export const loadLastSnapshot = createAsyncThunk('snapshot/load', async (_, {getState}) => {
     const user = getState().target.data
-    const {data} = await getLatestSnapshot(user.name)
+    const {data} = await getLatestSnapshot(user.id)
     return data
 })
 

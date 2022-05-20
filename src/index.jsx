@@ -6,8 +6,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
+import './index.css'
 
+import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8080'
 
 const container = document.getElementById('root');

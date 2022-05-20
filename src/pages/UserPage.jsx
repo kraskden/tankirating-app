@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { Container, Row, Col, Tabs, Tab } from "react-bootstrap"
 import { useParams } from "react-router"
-import { PageLoader } from "../components/loader/PageLoader"
+import { Loader, SpinnerLoader } from "../components/loader/Loaders"
 import { UserBox } from "../components/profile/UserBox"
 import { SearchBox } from "../components/SearchBox"
 import { getSnapshot, loadLastSnapshot } from "../slices/snapshotSlice"
@@ -22,16 +22,16 @@ export function UserPage() {
         </Col>
       </Row>
 
-      <PageLoader selector={getTarget} loadEvent={targetLoadEvent}>
-        <PageLoader selector={getSnapshot} loadEvent={loadLastSnapshot}>
+      <SpinnerLoader selector={getTarget} loadEvent={targetLoadEvent} variant='absolute'>
+        <SpinnerLoader selector={getSnapshot} loadEvent={loadLastSnapshot} variant='absolute'>
           <UserBox />
           <Tabs defaultActiveKey="home" className="my-2">
             <Tab eventKey="home" title="Home">
               <UserHomePage />
             </Tab>
           </Tabs>
-        </PageLoader>
-      </PageLoader>
+        </SpinnerLoader>
+      </SpinnerLoader>
 
     </Container>
   )

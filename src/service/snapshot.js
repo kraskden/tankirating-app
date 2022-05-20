@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export async function getLatestSnapshot(name, format) {
-	return axios.get(`/account/${name}/snapshot/latest`, {
+export async function getLatestSnapshot(targetId, format = 'FULL') {
+	return axios.get(`/target/${targetId}/snapshot/latest`, {
 		params: {
-			format: 'FULL'
+			format
 		}
 	})
 }
