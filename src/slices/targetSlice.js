@@ -10,7 +10,6 @@ const targetSlice = createSlice({
     name: 'target',
     initialState,
     reducers: {
-
     },
     extraReducers(builder) {
         addThunkReducers(builder, loadTarget)

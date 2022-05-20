@@ -35,10 +35,11 @@ export function HeatMapView({ year }) {
   }
 
   function getTooltipAttrs(value) {
-    if (value && value.date && value.count) {
+    if (value && value.date) {
       const seconds = value.count
-      const timeStr = seconds > 3600 ? (seconds / 3600).toFixed(1) + 'h' :
-        ((seconds / 60).toFixed(0) || '<1') + ' min'
+
+      const timeStr = seconds ? seconds > 3600 ? (seconds / 3600).toFixed(1) + 'h' :
+        ((seconds / 60).toFixed(0) || '<1') + ' min' : "N/P"
 
       return { 'data-tip': `${moment(value.date).format('D MMM')}: ${timeStr}` }
     }
