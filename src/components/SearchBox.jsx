@@ -21,7 +21,7 @@ export function SearchBox() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Row>
         <Col>
-          <Form.Control type='text' placeholder='Search user' {...register("username", {required: true})} />
+          <Form.Control  autoComplete='off' type='text' placeholder='Search user' {...register("username", {required: true})} />
         </Col>
         <Col className='col-auto'>
           <Button variant='primary' type='submit'>
