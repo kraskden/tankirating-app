@@ -28,6 +28,8 @@ export function HeatMapView({ year, property }) {
     count: d[property.name]
   }))
 
+  const total = heatMapSeries.reduce((acc, curr) => acc += curr?.count ?? 0, 0)
+
   function getTooltipAttrs(value) {
     if (value && value.date) {
       const valueStr = property.getValueStr ? property.getValueStr(value?.count) : value?.count;
@@ -53,6 +55,10 @@ export function HeatMapView({ year, property }) {
         tooltipDataAttrs={getTooltipAttrs}
       />
       <ReactTooltip className="fs-6" />
+      <div className="d-flex justify-content-start mt-2">
+        <p className="fs-5 mb-0">Total: {property.getTotalStr ? property.getTotalStr(total, heatMapSeries.length) : total}</p>
+        <p className="fs-5 mb-0 ms-auto">Days: {heatMapSeries.length} </p>
+      </div>
     </>
   )
 
@@ -64,13 +70,18 @@ const properties = [
     title: 'Time',
     getCssClass(value) {
       const minutes = value / 60
-      return classTimeMatcher(minutes)  
+      return classTimeMatcher(minutes)
     },
     getValueStr(value) {
       const seconds = value
 
       return seconds ? seconds > 3600 ? (seconds / 3600).toFixed(1) + 'h' :
-        ((seconds / 60).toFixed(0) || '<1') + ' min' : "N/P"  
+        ((seconds / 60).toFixed(0) || '<1') + ' min' : "N/P"
+    },
+    getTotalStr(value, days) {
+      const totalValue = this.getValueStr(value)
+      const perDay = this.getValueStr((value / days).toFixed())
+      return `${totalValue} [≈ ${perDay === 'N/P' ? '0s' : perDay}/day]`
     }
   },
   {
@@ -78,6 +89,10 @@ const properties = [
     title: 'Golds',
     getCssClass(value) {
       return classGoldMatcher(value)
+    },
+    getTotalStr(value, days) {
+      const perWeek = (value * 7 / days).toFixed()
+      return `${value} [≈ ${perWeek} per week]`
     }
   },
   {
@@ -88,6 +103,9 @@ const properties = [
     },
     getValueStr(value) {
       return value ? '+' : '-'
+    },
+    getTotalStr(value, days) {
+      return `${value}/${days} [${(value * 100 / days).toFixed()}%]`
     }
   }
 ]
@@ -118,7 +136,7 @@ export function HeatMap({ initialYear }) {
             <RightIcon className="fs-3 mx-2" onClick={() => changeYear(1)}>Next</RightIcon>
           </div>
           <div className="invisible">
-            <OptionRadio  items={properties} />
+            <OptionRadio items={properties} />
           </div>
         </div>
       </Card.Header>
