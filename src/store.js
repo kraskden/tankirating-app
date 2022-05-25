@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { baseDiffReducer, fullDiffReducer } from './slices/diffSlice';
+import { diffReducer } from './slices/diffSlice';
 import { heatMapReducer } from './slices/heatMapSlice';
 import { snapshotReducer } from './slices/snapshotSlice';
 import { targetReducer } from './slices/targetSlice';
@@ -9,7 +9,6 @@ export const store = configureStore({
     target: targetReducer,
     snapshot: snapshotReducer,
     heatMap: heatMapReducer,
-    baseDiffs: baseDiffReducer,
-    fullDiffs: fullDiffReducer
+    diffs: diffReducer
   }
 });

@@ -17,8 +17,6 @@ export function Loader({ selector, loadEvent, children, loader }) {
     }
   }, [status])
 
-  console.log(`[Loader] :: Status -> ${status}`)
-
   switch (status) {
     case 'ok':
       return children;

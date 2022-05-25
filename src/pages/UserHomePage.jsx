@@ -1,6 +1,6 @@
 import { ActivityChart } from "../components/profile/ActivityChart"
 import { SnapshotView } from "../components/profile/SnapshotView"
-import { TimeHeatMap } from "../components/profile/TimeHeatMap"
+import { HeatMap } from "../components/profile/HeatMap"
 
 
 export default function UserHomePage() {
@@ -9,7 +9,7 @@ export default function UserHomePage() {
   return (
     <div>
       <SnapshotView />
-      <TimeHeatMap initialYear={new Date().getUTCFullYear()}/>
+      <HeatMap initialYear={new Date().getUTCFullYear()}/>
       <ActivityChart />
     </div>
   )

@@ -1,3 +1,8 @@
 .react-calendar-heatmap .color-github-5 {
   fill: #062608
 }
+
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}

@@ -12,7 +12,7 @@ export async function apiLoadDiffs(targetId, period, from, to, format) {
     params: {
       from: fmtDate(fromDate),
       to: fmtDate(toDate),
-      format
+      format: format.toUpperCase()
     }
   })
 }
@@ -20,7 +20,7 @@ export async function apiLoadDiffs(targetId, period, from, to, format) {
 export async function apiLoadDiffsByOffset(targetId, period, offsetFrom, offsetTo, format) {
   return axios.get(`/target/${targetId}/diff/${period.toLowerCase()}`, {
     params: {
-      offsetFrom, offsetTo
+      offsetFrom, offsetTo, format: format.toUpperCase()
     }
   })
 }

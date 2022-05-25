@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getTimeHeatMap } from "../service/heatMap";
+import { apiGetHeatMap } from "../service/heatMap";
 import { addThunkReducers, singleLoadState } from "../util/slices";
 
 const initialState = singleLoadState
@@ -20,7 +20,7 @@ const heatMapSlice = createSlice({
 
 export const loadHeatMap = createAsyncThunk('heatMap/load', async (year, {getState}) => {
   const targetId = getState().target.data.id 
-  const {data} = await getTimeHeatMap(targetId, year)
+  const {data} = await apiGetHeatMap(targetId, year)
   return data
 })
 
