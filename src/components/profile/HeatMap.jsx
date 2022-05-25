@@ -15,6 +15,7 @@ import { matcher } from "../../lib/matcher";
 import ReactTooltip from "react-tooltip";
 import moment from 'moment';
 import { OptionRadio } from "../control/OptionRadio";
+import { formatTime } from "../../util/format";
 
 const classTimeMatcher = matcher([1, [30], 2, [60], 3, [120], 4, [240], 5])
 const classGoldMatcher = matcher([[1], 1, [2], 2, [5], 3, [10], 4, [50], 5])
@@ -72,12 +73,7 @@ const properties = [
       const minutes = value / 60
       return classTimeMatcher(minutes)
     },
-    getValueStr(value) {
-      const seconds = value
-
-      return seconds ? seconds > 3600 ? (seconds / 3600).toFixed(1) + 'h' :
-        ((seconds / 60).toFixed(0) || '<1') + ' min' : "N/P"
-    },
+    getValueStr: formatTime,
     getTotalStr(value, days) {
       const totalValue = this.getValueStr(value)
       const perDay = this.getValueStr((value / days).toFixed())

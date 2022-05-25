@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDiffs, loadDiffsByOffsets } from '../../slices/diffSlice';
+import { getDiffs, loadDiffsByOffsets, setFormatAndPeriod } from '../../slices/diffSlice';
 import { getData } from '../../util/slices';
 import { SingleLineChart } from '../charts/LineChart';
 import { OptionDropdown } from '../control/OptionDropdown';
@@ -10,6 +10,8 @@ import { OptionRadio } from '../control/OptionRadio';
 import { SpinnerLoader } from '../loader/Loaders'
 
 import {BsCalendar3, BsArrowCounterclockwise} from 'react-icons/bs';
+import { formatBigNumber, formatHoursTime, formatTime } from '../../util/format';
+import moment from 'moment';
 
 function DiffChart({ height, property }) {
 
@@ -21,7 +23,10 @@ function DiffChart({ height, property }) {
   }))
 
   return (
-    <SingleLineChart height={height} data={chartData} xKey='periodStart' yKey='value'/>
+    <SingleLineChart height={height} data={chartData} xKey='periodStart' yKey='value' options={{
+      yFormatter: property.formatter,
+      xFormatter: (date) => moment(date).format('DD/MM')
+    }}/>
   )
 
 }
@@ -33,26 +38,34 @@ const periods = [
 ]
 
 const properties = [
-  { name: 'time', title: 'Time' },
-  { name: 'cry', title: 'Cry' },
-  { name: 'score', title: 'Score' },
-  { name: 'kd', title: 'K/D' }
+  { name: 'time', title: 'Time', formatter: (time) => time ? formatHoursTime(time) : 0},
+  { name: 'cry', title: 'Cry', formatter: formatBigNumber},
+  { name: 'score', title: 'Score', formatter: formatBigNumber},
+  { name: 'kd', title: 'K/D', formatter:  (value) => value.toFixed(2)}
 ]
 
 export function ActivityChart() {
 
   const [property, setProperty] = useState(properties[0])
+  const dispatch = useDispatch()
 
   const loadDiffs = () => loadDiffsByOffsets({
     offsetFrom: 30,
     offsetTo: 0
   })
 
+  function setPeriod(p) {
+    dispatch(setFormatAndPeriod({
+      format: 'base',
+      period: p.name
+    }))
+  } 
+
   return (
     <Card className='mt-2 mb-4'>
       <Card.Header>
         <div className="d-flex justify-content-start ">
-          <OptionRadio items={periods} />
+          <OptionRadio items={periods} onChange={setPeriod} />
           <div className="ms-2">
             <OptionDropdown items={properties} onChange={setProperty}/>
           </div>

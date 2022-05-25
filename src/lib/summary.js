@@ -1,5 +1,5 @@
 import { FormLabel } from "react-bootstrap"
-import { formatBigNumber } from "../util/number"
+import { formatBigNumber } from "../util/format"
 
 function getFavourite(activities) {
   return activities.reduce((acc, curr) => {
