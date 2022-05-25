@@ -19,51 +19,28 @@ import { OptionRadio } from "../control/OptionRadio";
 const classTimeMatcher = matcher([1, [30], 2, [60], 3, [120], 4, [240], 5])
 const classGoldMatcher = matcher([[1], 1, [2], 2, [5], 3, [10], 4, [50], 5])
 
-function getCssClass(property, value) {
-  if (!value) {
-    return 'color-empty'
-  }
-  let cssClassIdx = 1;
-  if (property === "time") {
-    const minutes = value / 60
-    cssClassIdx = classTimeMatcher(minutes)
-  } else if (property === "golds") {
-    cssClassIdx = classGoldMatcher(value)
-  } else if (property === "premiumDays") {
-    cssClassIdx = 3
-  }
-  return `color-github-${cssClassIdx}`
-}
-
-function getValueStr(property, value) {
-  if (property === "time") {
-    const seconds = value
-
-    return seconds ? seconds > 3600 ? (seconds / 3600).toFixed(1) + 'h' :
-      ((seconds / 60).toFixed(0) || '<1') + ' min' : "N/P"
-  } else if (property === "premiumDays") {
-    return value ? '+' : '-'
-  } else {
-    return value
-  }
-}
-
 export function HeatMapView({ year, property }) {
 
   const data = useSelector(getData(getHeatMap))
 
   const heatMapSeries = data.map(d => ({
     date: d.timestamp,
-    count: d[property]
+    count: d[property.name]
   }))
 
   function getTooltipAttrs(value) {
     if (value && value.date) {
-      const valueStr = getValueStr(property, value.count)
-
+      const valueStr = property.getValueStr ? property.getValueStr(value?.count) : value?.count;
       return { 'data-tip': `${moment(value.date).format('D MMM')}: ${valueStr}` }
     }
     return null
+  }
+
+  function getCssClass(property, value) {
+    if (!value) {
+      return 'color-empty'
+    }
+    return `color-github-${property.getCssClass ? property.getCssClass(value) : 1}`
   }
 
   return (
@@ -84,22 +61,41 @@ export function HeatMapView({ year, property }) {
 const properties = [
   {
     name: 'time',
-    title: 'Time'
+    title: 'Time',
+    getCssClass(value) {
+      const minutes = value / 60
+      return classTimeMatcher(minutes)  
+    },
+    getValueStr(value) {
+      const seconds = value
+
+      return seconds ? seconds > 3600 ? (seconds / 3600).toFixed(1) + 'h' :
+        ((seconds / 60).toFixed(0) || '<1') + ' min' : "N/P"  
+    }
   },
   {
     name: 'golds',
-    title: 'Golds'
+    title: 'Golds',
+    getCssClass(value) {
+      return classGoldMatcher(value)
+    }
   },
   {
     name: 'premiumDays',
-    title: 'Premium'
+    title: 'Premium',
+    getCssClass(value) {
+      return 3;
+    },
+    getValueStr(value) {
+      return value ? '+' : '-'
+    }
   }
 ]
 
 export function HeatMap({ initialYear }) {
 
   const [year, setYear] = useState(initialYear)
-  const [property, setProperty] = useState(properties[0].name)
+  const [property, setProperty] = useState(properties[0])
   const dispatch = useDispatch()
 
   function changeYear(delta) {

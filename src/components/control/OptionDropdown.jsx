@@ -10,7 +10,7 @@ export function OptionDropdown({items, onChange, defaultItem, bg}) {
 
   function onItemChange(item) {
     setItem(item)
-    onChange && onChange(item.name)
+    onChange && onChange(item)
   }
 
   if (item) {

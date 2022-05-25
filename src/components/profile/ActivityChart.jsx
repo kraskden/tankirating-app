@@ -17,7 +17,7 @@ function DiffChart({ height, property }) {
 
   const chartData = diffData.map(d => ({
     periodStart: d.periodStart,
-    value: d[property]
+    value: d[property.name]
   }))
 
   return (
@@ -41,7 +41,7 @@ const properties = [
 
 export function ActivityChart() {
 
-  const [property, setProperty] = useState(properties[0].name)
+  const [property, setProperty] = useState(properties[0])
 
   const loadDiffs = () => loadDiffsByOffsets({
     offsetFrom: 30,
