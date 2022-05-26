@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addThunkReducers, getSelectors, singleLoadState } from "../util/slices";
+import { addThunkReducers, getIdleState } from "../util/slices";
 import {getTargetByName} from '../service/target'
 import { eraseSnapshot } from "./snapshotSlice";
 import { eraseHeatMap } from "./heatMapSlice";
+import { eraseDiffs } from "./diffSlice";
 
-const initialState = singleLoadState
+const initialState = getIdleState()
 
 const targetSlice = createSlice({
     name: 'target',
@@ -21,6 +22,7 @@ export const loadTarget = createAsyncThunk('target/set', async (name, {dispatch,
     // TODO: global eraseUserData() action and global reducer...
     dispatch(eraseSnapshot())
     dispatch(eraseHeatMap())
+    dispatch(eraseDiffs())
     return data    
 });
 

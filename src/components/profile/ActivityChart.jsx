@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Card, Form } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDiffs, getFormatAndPeriod, loadDiffsByOffsets, setFormatAndPeriod } from '../../slices/diffSlice';
+import { useCallback, useMemo, useState } from 'react';
+import { Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { getDiffsSelector, loadDiffs } from '../../slices/diffSlice';
 import { getData } from '../../util/slices';
 import { SingleLineChart } from '../charts/LineChart';
 import { OptionDropdown } from '../control/OptionDropdown';
@@ -12,11 +12,10 @@ import { SpinnerLoader } from '../loader/Loaders'
 import { BsCalendar3, BsArrowCounterclockwise } from 'react-icons/bs';
 import { formatBigNumber, formatHoursTime, formatTime } from '../../util/format';
 import moment from 'moment';
-import { useForm } from 'react-hook-form';
 
-function DiffChart({ height, property, period }) {
+function DiffChart({ height, property, period, selector }) {
 
-  const diffData = useSelector(getData(getDiffs))
+  const diffData = useSelector(getData(selector))
 
   const chartData = diffData.map(d => ({
     periodStart: d.periodStart,
@@ -46,28 +45,26 @@ const properties = [
 ]
 
 export function ActivityChart() {
-  
+
   const defaultOffset = 30;
 
   const [property, setProperty] = useState(properties[0])
+  const [period, setPeriod] = useState(periods[0])
 
-  const fmtAndPeriod = useSelector(getFormatAndPeriod)
+  const loadDiffsForPeriod = useCallback(() => (
+    loadDiffs({ 
+      format: "base", 
+      period: period.name, 
+      params: { 
+        offsetFrom: defaultOffset, 
+        offsetTo: 0 
+      } 
+    })
+  ), [period])
 
-  const period = periods.filter(p => p.name === fmtAndPeriod.period)[0]
-
-  const dispatch = useDispatch()
-
-  const loadDiffs = () => loadDiffsByOffsets({
-    offsetFrom: defaultOffset,
-    offsetTo: 0
-  })
-
-  function setPeriod(p) {
-    dispatch(setFormatAndPeriod({
-      format: 'base',
-      period: p.name
-    }))
-  }
+  const getDiffsForPeriod = useMemo(() => (
+    getDiffsSelector("base", period.name)
+  ), [period])
 
   return (
     <Card className='mt-2 mb-4'>
@@ -80,8 +77,8 @@ export function ActivityChart() {
         </div>
       </Card.Header>
       <Card.Body>
-        <SpinnerLoader loadEvent={loadDiffs} selector={getDiffs}>
-          <DiffChart height={300} property={property} period={period} />
+        <SpinnerLoader loadEvent={loadDiffsForPeriod} selector={getDiffsForPeriod}>
+          <DiffChart height={300} property={property} period={period} selector={getDiffsForPeriod} />
         </SpinnerLoader>
       </Card.Body>
       <Card.Footer className='d-flex align-items-baseline'>

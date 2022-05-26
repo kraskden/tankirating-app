@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getLatestSnapshot } from "../service/snapshot";
-import { addThunkReducers, singleLoadState } from "../util/slices";
+import { addThunkReducers, getIdleState } from "../util/slices";
 
-const initialState = singleLoadState
+const initialState = getIdleState()
 
 const snapshotSlice = createSlice({
     name: 'currSnapshot',

@@ -2,25 +2,16 @@ import axios from "axios"
 
 // Example: 2022-05-20
 function fmtDate(date) {
+  date = date instanceof Date ? date : new Date(date)
   return date.toISOString().substring(0, 10)
 }
 
-export async function apiLoadDiffs(targetId, period, from, to, format) {
-  const fromDate = from instanceof Date ? from : new Date(from)
-  const toDate = to instanceof Date ? to : new Date(to)
-  return axios.get(`/target/${targetId}/diff/${period.toLowerCase()}`, {
-    params: {
-      from: fmtDate(fromDate),
-      to: fmtDate(toDate),
-      format: format.toUpperCase()
-    }
-  })
-}
-
-export async function apiLoadDiffsByOffset(targetId, period, offsetFrom, offsetTo, format) {
-  return axios.get(`/target/${targetId}/diff/${period.toLowerCase()}`, {
-    params: {
-      offsetFrom, offsetTo, format: format.toUpperCase()
-    }
-  })
+export async function apiLoadDiffs(targetId, period, format, options) {
+  const {from, to, offsetFrom, offsetTo} = options
+  const params = {format: format.toUpperCase(), offsetFrom, offsetTo}
+  if (from && to) {
+    params.from = fmtDate(from) 
+    params.to = fmtDate(to)
+  } 
+  return axios.get(`/target/${targetId}/diff/${period.toLowerCase()}`, {params})
 }

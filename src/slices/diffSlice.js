@@ -1,74 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { TIME_PERIODS } from "../lib/constants"
-import { apiLoadDiffs, apiLoadDiffsByOffset } from "../service/diffs"
-import {singleLoadState} from '../util/slices'
-
-let initialDiffState = {
-  period: "day",
-  periods: {}
-}
-TIME_PERIODS.map(p => initialDiffState.periods[p] = {...singleLoadState})
+import { apiLoadDiffs } from "../service/diffs"
+import {addThunkReducers, getIdleState} from '../util/slices'
 
 const initialState = {
-  format: "base",
-  base: {...initialDiffState},
-  full: {...initialDiffState}
+  base: {},
+  full: {}
 }
 
-const getPeriods = (state) => state[state.format].periods
-const getActivePeriod = (state) => state[state.format].period
-const getActivePeriodData = (state) => getPeriods(state)[getActivePeriod(state)]
+const targetFn = (state, action) => {
+  const {format, period} = action.meta.arg 
+  return [state[format.toLowerCase()], period]
+}
 
 const diffSlice = createSlice({
   name: 'diff',
   initialState,
   reducers: {
-    setFormatAndPeriod(state, action) {
-      const {format, period} = action.payload
-      state.format = format
-      state[format].period = period
+    eraseDiffs() {
+      return {...initialState}
     }
   },
   extraReducers(builder) {
-    builder
-      .addCase(loadDiffsByOffsets.pending, (state, action) => {
-        getActivePeriodData(state).status = 'loading'
-      })
-      .addCase(loadDiffsByOffsets.fulfilled, (state, action) => {
-        getActivePeriodData(state).status = 'ok'
-        getActivePeriodData(state).data = action.payload
-      })
-      .addCase(loadDiffsByOffsets.rejected, (state, action) => {
-        getActivePeriodData(state).status = 'error'
-        getActivePeriodData(state).error = action.payload
-        getActivePeriodData(state).data = null
-      })
+    addThunkReducers(builder, loadDiffs, targetFn)
   }
 })
 
-// Actions 
-export const {setFormatAndPeriod} = diffSlice.actions
-
-export const loadDiffsByOffsets = createAsyncThunk('diff/load', async ({offsetFrom, offsetTo}, {getState}) => {
-  const format = getState().diffs.format
-  const period = getActivePeriod(getState().diffs)
+export const loadDiffs = createAsyncThunk('diff/load', async ({format, period, params}, {getState}) => {
   const targetId = getState().target.data.id 
-  const {data} = await apiLoadDiffsByOffset(targetId, period, offsetFrom, offsetTo, format)
+  const {data} = await apiLoadDiffs(targetId, period, format, params)
   data.forEach(e => {
     e.kd = e.deaths ? e.kills / e.deaths : null;
   })
   return data
 })
 
+// Actions
+
+export const {eraseDiffs} = diffSlice.actions
 
 // Selectors 
-
-export const getFormatAndPeriod = (state) => ({
-  format: state.diffs.format,
-  period: getActivePeriod(state.diffs)
-})
-
-export const getDiffs = (state) => getActivePeriodData(state.diffs)
+export const getDiffsSelector = (format, period) => state => {
+  const slice = state.diffs[format]
+  return slice[period] ?? getIdleState()
+}
 
 // Reducer
 export const diffReducer = diffSlice.reducer

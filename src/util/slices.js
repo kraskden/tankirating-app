@@ -1,10 +1,3 @@
-
-export const singleLoadState = {
-  data: null,
-  error: null,
-  status: 'idle'
-}
-
 export const getIdleState = () => (
   {data: null, error: null, status: 'idle'}
 )
@@ -28,6 +21,7 @@ export const getErrorState = (err) => (
  * @param {(state, action) => [stateProj, setProperty: String]} targetFn Function
  */
 export const addThunkReducers = (builder, thunk, targetFn) => {
+
   builder
     .addCase(thunk.pending, (state, action) => {
       const newState = getLoadingState()
