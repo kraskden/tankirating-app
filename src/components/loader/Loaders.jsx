@@ -5,9 +5,10 @@ import { AbsoluteSpinner, CenterSpinner } from "./Spinners";
 
 export function Loader({ selector, loadEvent, children, loader }) {
 
-  const [statusFetcher, _, errorFetcher] = getSelectors(selector)
+  const [statusFetcher, dataFetcher, errorFetcher] = getSelectors(selector)
   const status = useSelector(statusFetcher)
   const error = useSelector(errorFetcher)
+  const data = useSelector(dataFetcher)
 
   const dispatch = useDispatch()
 
@@ -21,6 +22,12 @@ export function Loader({ selector, loadEvent, children, loader }) {
     case 'ok':
       return children;
     case 'loading':
+      if (data === null) {
+        return loader
+      } else {
+        // Show old data
+        return children 
+      }
     case 'idle':
       return loader
     case 'error':

@@ -60,6 +60,7 @@ export const loadDiffsByOffsets = createAsyncThunk('diff/load', async ({offsetFr
   return data
 })
 
+
 // Selectors 
 
 export const getFormatAndPeriod = (state) => ({
