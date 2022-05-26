@@ -22,33 +22,24 @@ export const getErrorState = (err) => (
  */
 export const addThunkReducers = (builder, thunk, targetFn) => {
 
+  function persist(state, action, newState) {
+    if (!targetFn) {
+      return newState
+    } else {
+      const [obj, prop] = targetFn(state, action)
+      obj[prop] = newState
+    }
+  }
+
   builder
     .addCase(thunk.pending, (state, action) => {
-      const newState = getLoadingState()
-      if (!targetFn) {
-        return newState
-      } else {
-        const [obj, prop] = targetFn(state, action)
-        obj[prop] = newState
-      }
+      return persist(state, action, getLoadingState())
     })
     .addCase(thunk.fulfilled, (state, action) => {
-      const newState = getOkState(action.payload)
-      if (!targetFn) {
-        return newState
-      } else {
-        const [obj, prop] = targetFn(state, action)
-        obj[prop] = newState
-      }
+      return persist(state, action, getOkState(action.payload))
     })
     .addCase(thunk.rejected, (state, action) => {
-      const newState = getErrorState(action.payload)
-      if (!targetFn) {
-        return newState
-      } else {
-        const [obj, prop] = targetFn(state, action)
-        obj[prop] = newState
-      }
+      return persist(state, action, getErrorState(action.payload))
     })
 }
 
