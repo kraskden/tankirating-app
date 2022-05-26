@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectors } from "../../util/slices";
 import { AbsoluteSpinner, CenterSpinner } from "./Spinners";
@@ -18,22 +18,19 @@ export function Loader({ selector, loadEvent, children, loader }) {
     }
   }, [status])
 
+  if (data != null) {
+    return children;
+  }
+
   switch (status) {
     case 'ok':
       return children;
     case 'loading':
-      if (data === null) {
-        return loader
-      } else {
-        // Show old data
-        return children 
-      }
     case 'idle':
       return loader
     case 'error':
       return <p>Error... {error}</p>
   }
-
 }
 
 export function SpinnerLoader({selector, loadEvent, children, variant}) {

@@ -1,10 +1,10 @@
 import { Button, Card } from "react-bootstrap";
 import { BsCaretLeftFill as LeftIcon, BsCaretRightFill as RightIcon } from 'react-icons/bs';
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { SpinnerLoader } from '../loader/Loaders'
-import { getHeatMap, loadHeatMap } from "../../slices/heatMapSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { getHeatMapSelector, loadHeatMap } from "../../slices/heatMapSlice";
+import { useSelector } from "react-redux";
 import { getData } from "../../util/slices";
 
 import CalendarHeatmap from 'react-calendar-heatmap'
@@ -20,9 +20,9 @@ import { formatTime } from "../../util/format";
 const classTimeMatcher = matcher([1, [30], 2, [60], 3, [120], 4, [240], 5])
 const classGoldMatcher = matcher([[1], 1, [2], 2, [5], 3, [10], 4, [50], 5])
 
-export function HeatMapView({ year, property }) {
+export function HeatMapView({ year, selector, property }) {
 
-  const data = useSelector(getData(getHeatMap))
+  const data = useSelector(getData(selector))
 
   const heatMapSeries = data.map(d => ({
     date: d.timestamp,
@@ -109,14 +109,14 @@ const properties = [
 export function HeatMap({ initialYear }) {
 
   const [year, setYear] = useState(initialYear)
+  const heatMapSelector = useMemo(() => getHeatMapSelector(year), [year])
+
   const [property, setProperty] = useState(properties[0])
-  const dispatch = useDispatch()
 
   function changeYear(delta) {
     const newYear = year + delta;
 
     setYear(newYear)
-    dispatch(loadHeatMap(newYear))
   }
 
   return (
@@ -137,8 +137,8 @@ export function HeatMap({ initialYear }) {
         </div>
       </Card.Header>
       <Card.Body>
-        <SpinnerLoader selector={getHeatMap} loadEvent={() => loadHeatMap(year)}>
-          <HeatMapView year={year} property={property} />
+        <SpinnerLoader selector={heatMapSelector} loadEvent={() => loadHeatMap(year)}>
+          <HeatMapView year={year} property={property} selector={heatMapSelector}/>
         </SpinnerLoader>
       </Card.Body>
     </Card>

@@ -1,20 +1,21 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiGetHeatMap } from "../service/heatMap";
-import { addThunkReducers, singleLoadState } from "../util/slices";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { addThunkReducers, getIdleState } from "../util/slices";
+import {apiGetHeatMap} from '../service/heatMap'
 
-const initialState = singleLoadState
+const initialState = {}
 
+const targetFn = (state, action) => [state, action.meta.arg]
 
 const heatMapSlice = createSlice({
   name: 'heatMap',
   initialState,
   reducers: {
     eraseHeatMap(state, action) {
-      return {...initialState}
+      return initialState
     }
   },
   extraReducers(builder) {
-    addThunkReducers(builder, loadHeatMap)
+    addThunkReducers(builder, loadHeatMap, targetFn)
   }
 })
 
@@ -24,7 +25,14 @@ export const loadHeatMap = createAsyncThunk('heatMap/load', async (year, {getSta
   return data
 })
 
-export const getHeatMap = (state) => state.heatMap
+export const getHeatMapSelector = year => state => {
+  const slice = state.heatMap;
+  if (slice[year]) {
+    return slice[year]
+  } else {
+    return getIdleState()
+  }
+}
 
 export const {eraseHeatMap} = heatMapSlice.actions
 export const heatMapReducer = heatMapSlice.reducer
