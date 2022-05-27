@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { diffReducer } from './slices/diffSlice';
 import { heatMapReducer } from './slices/heatMapSlice';
 import { snapshotReducer } from './slices/snapshotSlice';
+import { summaryReducer } from './slices/summarySlice';
 import { targetReducer } from './slices/targetSlice';
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     target: targetReducer,
     snapshot: snapshotReducer,
     heatMap: heatMapReducer,
-    diffs: diffReducer
+    diffs: diffReducer,
+    summary: summaryReducer
   }
 });

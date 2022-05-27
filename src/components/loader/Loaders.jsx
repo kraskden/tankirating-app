@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectors } from "../../util/slices";
-import { AbsoluteSpinner, CenterSpinner } from "./Spinners";
+import {  CenterSpinner } from "./Spinners";
 
-export function Loader({ selector, loadEvent, children, loader }) {
+export function Loader({ selector, loadEvent, children, loader, errorHandler }) {
 
   const [statusFetcher, dataFetcher, errorFetcher] = getSelectors(selector)
   const status = useSelector(statusFetcher)
@@ -22,29 +22,16 @@ export function Loader({ selector, loadEvent, children, loader }) {
     return children;
   }
 
+  const ErrorHandler = errorHandler
+
   switch (status) {
     case 'ok':
       return children;
     case 'loading':
     case 'idle':
-      return loader
+      return loader ?? <CenterSpinner />
     case 'error':
-      return <p>Error... {error}</p>
+      return errorHandler ? <ErrorHandler error={JSON.parse(error.name)} /> :
+       <p>Error: {error.message}</p>
   }
-}
-
-export function SpinnerLoader({selector, loadEvent, children, variant}) {
-
-  variant = variant || 'center'
-
-  function getSpinner() {
-    if (variant == 'absolute') {
-      return <AbsoluteSpinner />
-    } else {
-      return <CenterSpinner />
-    }
-  }
-
-  return <Loader selector={selector} loadEvent={loadEvent} children={children} loader={getSpinner()} />
-
 }

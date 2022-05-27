@@ -46,3 +46,7 @@ export function makeAllTimeSummary(data) {
     ]
   }
 }
+
+export function makeDiffSummary(data) {
+  
+}

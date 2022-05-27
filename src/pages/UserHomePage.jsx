@@ -5,7 +5,6 @@ import { HeatMap } from "../components/profile/HeatMap"
 
 export default function UserHomePage() {
 
-
   return (
     <div>
       <SnapshotView />

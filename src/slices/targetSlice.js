@@ -4,6 +4,7 @@ import {getTargetByName} from '../service/target'
 import { eraseSnapshot } from "./snapshotSlice";
 import { eraseHeatMap } from "./heatMapSlice";
 import { eraseDiffs } from "./diffSlice";
+import { eraseSummary } from "./summarySlice";
 
 const initialState = getIdleState()
 
@@ -23,6 +24,7 @@ export const loadTarget = createAsyncThunk('target/set', async (name, {dispatch,
     dispatch(eraseSnapshot())
     dispatch(eraseHeatMap())
     dispatch(eraseDiffs())
+    dispatch(eraseSummary())
     return data    
 });
 

@@ -2,7 +2,7 @@ import { Button, Card } from "react-bootstrap";
 import { BsCaretLeftFill as LeftIcon, BsCaretRightFill as RightIcon } from 'react-icons/bs';
 
 import { useMemo, useState } from 'react'
-import { SpinnerLoader } from '../loader/Loaders'
+import { Loader } from '../loader/Loaders'
 import { getHeatMapSelector, loadHeatMap } from "../../slices/heatMapSlice";
 import { useSelector } from "react-redux";
 import { getData } from "../../util/slices";
@@ -137,9 +137,9 @@ export function HeatMap({ initialYear }) {
         </div>
       </Card.Header>
       <Card.Body>
-        <SpinnerLoader selector={heatMapSelector} loadEvent={() => loadHeatMap(year)}>
+        <Loader selector={heatMapSelector} loadEvent={() => loadHeatMap(year)}>
           <HeatMapView year={year} property={property} selector={heatMapSelector}/>
-        </SpinnerLoader>
+        </Loader>
       </Card.Body>
     </Card>
   )

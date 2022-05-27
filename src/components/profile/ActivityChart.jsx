@@ -7,7 +7,7 @@ import { SingleLineChart } from '../charts/LineChart';
 import { OptionDropdown } from '../control/OptionDropdown';
 import { OptionRadio } from '../control/OptionRadio';
 
-import { SpinnerLoader } from '../loader/Loaders'
+import { Loader } from '../loader/Loaders'
 
 import { BsCalendar3, BsArrowCounterclockwise } from 'react-icons/bs';
 import { formatBigNumber, formatHoursTime, formatTime } from '../../util/format';
@@ -77,9 +77,9 @@ export function ActivityChart() {
         </div>
       </Card.Header>
       <Card.Body>
-        <SpinnerLoader loadEvent={loadDiffsForPeriod} selector={getDiffsForPeriod}>
+        <Loader loadEvent={loadDiffsForPeriod} selector={getDiffsForPeriod}>
           <DiffChart height={300} property={property} period={period} selector={getDiffsForPeriod} />
-        </SpinnerLoader>
+        </Loader>
       </Card.Body>
       <Card.Footer className='d-flex align-items-baseline'>
         <p className="fs-4">01.04.2020 - 01.04.2022</p>

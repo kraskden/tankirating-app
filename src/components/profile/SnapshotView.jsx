@@ -25,7 +25,7 @@ export function SnapshotView() {
 
   return (
     <Card className="mt-3 shadow-sm">
-      <Card.Header>
+      <Card.Header className="py-0">
         <SnapshotBadges snapshot={snapshot} />
       </Card.Header>
       <Card.Body>

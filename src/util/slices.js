@@ -39,7 +39,7 @@ export const addThunkReducers = (builder, thunk, targetFn) => {
       return persist(state, action, getOkState(action.payload))
     })
     .addCase(thunk.rejected, (state, action) => {
-      return persist(state, action, getErrorState(action.payload))
+      return persist(state, action, getErrorState(action.error))
     })
 }
 
