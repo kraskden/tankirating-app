@@ -1,20 +1,20 @@
-import { BarChart, ResponsiveContainer, XAxis, YAxis, Bar } from "recharts";
+import { BarChart, ResponsiveContainer, XAxis, YAxis, Bar, CartesianGrid, Tooltip } from "recharts";
 
-export function CategoryBarChart({ height, data, xKey, yKey }) {
+export function CategoryBarChart({ height, data, xKey, yKey, options }) {
+
+  const {xFormatter, valueFormatter, tickFormatter} = (options || {})
 
   return (
     <ResponsiveContainer height={height}>
       <BarChart
-        width={400}
-        height={500}
         data={data}
         layout="vertical"
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        margin={{ top: 5, right: 30, left: 25, bottom: 5 }}
       >
-        <XAxis type="number" />
+        <XAxis type="number" tickFormatter={tickFormatter}/>
         <YAxis type="category" dataKey={xKey} />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
+        <CartesianGrid strokeDasharray="3 " />
+        <Tooltip formatter={valueFormatter} labelFormatter={xFormatter}/>
         <Bar dataKey={yKey} fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>

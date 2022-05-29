@@ -1,7 +1,11 @@
 import moment from "moment"
 
 export function formatBigNumber(num) {
-  return num.toLocaleString('en-US')
+  const realNum = Number(num)
+  if (realNum === NaN) {
+    return num;
+  }
+  return realNum.toLocaleString('en-US')
 }
 
 export function truncateBigNumber(num) {
@@ -22,6 +26,10 @@ export function toISODate(date) {
 export function toHumanDate(date) {
   // So, America, fuck you!
   return moment(date).format('DD.MM.YYYY')
+}
+
+export function toHumanDateTime(date) {
+  return moment(date).format('DD.MM.YYYY hh:mm')
 }
 
 export function formatTime(seconds) {

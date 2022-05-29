@@ -13,7 +13,7 @@ export function Loader({ selector, loadEvent, children, loader, errorHandler }) 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === 'idle' && loadEvent) {
       dispatch(loadEvent())
     }
   }, [status])

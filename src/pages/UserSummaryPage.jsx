@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { getData } from "../util/slices";
 import { Loader } from "../components/loader/Loaders";
 import { toHumanDate } from "../util/format";
-import { SummaryView } from "../components/profile/SummaryView";
+import { SummaryView, SummaryNoData } from "../components/profile/SummaryView";
 
 const periods = [
   { name: 'day', title: 'Day' },
@@ -61,7 +61,7 @@ export function UserSummaryPage() {
           </div>
         </Card.Body>
       </Card>
-      <Loader loadEvent={summaryLoader} selector={summarySelector} errorHandler={SummaryNoData}>
+      <Loader selector={summarySelector} errorHandler={SummaryNoData}>
         <SummaryView selector={summarySelector} />
       </Loader>
     </>
@@ -78,13 +78,7 @@ function SummaryErrDescription({ error }) {
   return <SummaryDates from={error.args.periodStart} to={error.args.periodEnd} />
 }
 
-function SummaryNoData() {
-  return (
-    <Alert className="mt-2 fs-5 text-center" variant="danger">
-      No data
-    </Alert>
-  )
-}
+
 
 function SummaryDescription({ selector }) {
 

@@ -4,6 +4,7 @@ import { useData } from "../../hooks/hooks";
 import { getSnapshot } from "../../slices/snapshotSlice";
 import { getTarget } from "../../slices/targetSlice";
 import { getRank, getRankPercent } from "../../lib/ranks";
+import { toHumanDate, toHumanDateTime } from "../../util/format";
 
 
 export const UserBox = () => {
@@ -24,7 +25,7 @@ export const UserBox = () => {
             </div>
           </div>
           <div className="col px-0 my-auto ">
-            <Card.Subtitle className="d-inline float-end align-middle text-muted fs-6">Updated: {snapshot.timestamp}</Card.Subtitle>
+            <Card.Subtitle className="d-inline float-end align-middle text-muted fs-6">Updated: {toHumanDateTime(snapshot.timestamp)}</Card.Subtitle>
           </div>
         </div>
         <div className="row">
