@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDiffsSelector, loadDiffs } from '../../slices/diffSlice';
 import { getData } from '../../util/slices';
 import { SingleLineChart } from '../charts/LineChart';
@@ -11,7 +11,7 @@ import { DateRangeSelect } from '../control/DateRangeSelect'
 import { Loader } from '../loader/Loaders'
 
 import { formatBigNumber, formatHoursTime } from '../../util/format';
-import { format } from 'date-fns';
+import { format, sub } from 'date-fns';
 
 function DiffChart({ height, property, period, selector }) {
 
@@ -31,17 +31,32 @@ function DiffChart({ height, property, period, selector }) {
 
 }
 
-function DiffDateRange({period, onRangeChange}) {
+function DiffDateRange({ period, selector, onRangeChange, onRangeReset }) {
 
-  // const diffData = useSelector(getData(selector))
-  // const startDate = 
+  const diffData = useSelector(getData(selector))
+  const diffPresented = diffData && diffData.length 
+
+  const bg = diffPresented ? 'secondary' : 'danger';
+
+  return (
+    <DateRangeSelect
+      selectedStartDate={new Date(period.startDate)}
+      selectedEndDate={new Date(period.endDate)}
+      bg={bg}
+      onReset={onRangeReset}
+      onChange={onRangeChange}
+      showMonths={period.name === 'month'}
+      maxDate={new Date()}
+      // TODO: min date
+    />
+  )
 
 }
 
 const periods = [
-  { name: 'day', title: 'Daily', formatter: (time) => format(new Date(time), 'dd/MM') },
-  { name: 'week', title: 'Weekly', formatter: (time) => format(new Date(time), 'dd/MM') },
-  { name: 'month', title: 'Monthly', formatter: (time) => format(new Date(time), 'MM/yy') },
+  { name: 'day', title: 'Daily', fnsPeriod: 'days', formatter: (time) => format(new Date(time), 'dd/MM') },
+  { name: 'week', title: 'Weekly', fnsPeriod: 'weeks', formatter: (time) => format(new Date(time), 'dd/MM') },
+  { name: 'month', title: 'Monthly', fnsPeriod: 'months', formatter: (time) => format(new Date(time), 'MM/yy') },
 ]
 
 const properties = [
@@ -55,19 +70,59 @@ export function ActivityChart() {
 
   const defaultOffset = 30;
 
-  const [property, setProperty] = useState(properties[0])
-  const [period, setPeriod] = useState(periods[0])
+  function defPeriodStart(period) {
+    return sub(new Date(), {[period.fnsPeriod]: defaultOffset})
+  }
 
-  const loadDiffsForPeriod = useCallback(() => (
-    loadDiffs({
+  const dispatch = useDispatch()
+  const [property, setProperty] = useState(properties[0])
+
+  const [period, setPeriod] = useState({
+    ...periods[0],
+    startDate: defPeriodStart(periods[0]),
+    endDate: new Date()
+  })
+
+  function onPeriodChange(period) {
+    setPeriod({
+      ...period, 
+      startDate: defPeriodStart(period),
+      endDate: new Date()
+    })
+  }
+
+  function onPeriodRangeChange(startDate, endDate) {
+    const newPeriod = {
+      ...period,
+      startDate,
+      endDate
+    }
+    setPeriod(newPeriod)
+    dispatch(loadDiffsForPeriod(newPeriod))
+  }
+
+  function onPeriodRangeReset() {
+    const newPeriod = {
+      ...period, 
+      startDate: defPeriodStart(period),
+      endDate: new Date()
+    }
+    setPeriod(newPeriod)
+    dispatch(loadDiffsForPeriod(newPeriod))
+  }
+
+  function loadDiffsForPeriod(period) {
+    return loadDiffs({
       format: "base",
       period: period.name,
       params: {
-        offsetFrom: defaultOffset,
-        offsetTo: 0
+        from: period.startDate,
+        to: period.endDate
       }
     })
-  ), [period])
+  }
+
+  const loadDiffsForPeriodEvent = useCallback(() => loadDiffsForPeriod(period), [period])
 
   const getDiffsForPeriod = useMemo(() => (
     getDiffsSelector("base", period.name)
@@ -77,25 +132,29 @@ export function ActivityChart() {
     <Card className='mt-2 mb-4'>
       <Card.Header>
         <div className="d-flex justify-content-start ">
-          <OptionRadio items={periods} onChange={setPeriod} />
+          <OptionRadio items={periods} onChange={onPeriodChange} />
           <div className="ms-2">
             <OptionDropdown items={properties} onChange={setProperty} />
           </div>
         </div>
       </Card.Header>
       <Card.Body>
-        <Loader loadEvent={loadDiffsForPeriod} selector={getDiffsForPeriod}>
+        <Loader loadEvent={loadDiffsForPeriodEvent} selector={getDiffsForPeriod}>
           <DiffChart height={300} property={property} period={period} selector={getDiffsForPeriod} />
         </Loader>
       </Card.Body>
       <Card.Footer>
-        <div className="my-2">
-          <DateRangeSelect
-            selectedStartDate={new Date()}
-            selectedEndDate={new Date()}
-          />
-        </div>
+        <Loader selector={getDiffsForPeriod}>
+          <div className="my-2">
+            <DiffDateRange
+              selector={getDiffsForPeriod} 
+              period={period}
+              onRangeChange={onPeriodRangeChange}
+              onRangeReset={onPeriodRangeReset}
+            />
+          </div>
 
+        </Loader>
       </Card.Footer>
     </Card>
   )

@@ -11,11 +11,15 @@ import DatePicker from 'react-datepicker';
 export function DateRangeSelect({
   selectedStartDate,
   selectedEndDate,
+
   minDate,
   maxDate,
   validator,
+  bg,
+  
   onChange,
-  onReset
+  onReset,
+  showMonths
 }) {
 
   const dateFormat = "dd.MM.yyyy"
@@ -44,6 +48,20 @@ export function DateRangeSelect({
     }
   }
 
+  const commonDatePickerParams = {
+    startDate: startDate,
+    endDate: endDate,
+    maxDate: maxDate,
+    customInput: <DateInput />,
+    dateFormat: dateFormat,
+    calendarStartDay: 1,
+    fixedHeight: true,
+    showMonthDropdown: true,
+    showYearDropdown: true,
+    scrollableYearDropdown :true,
+    yearDropdownItemNumber: 5,
+    showMonthYearPicker: showMonths
+  }
 
   const popover = (
     <Popover id="popover-trigger-click-root-close" style={{ maxWidth: "600px" }}>
@@ -51,33 +69,20 @@ export function DateRangeSelect({
         <Card.Body>
           <div className="d-flex align-items-baseline">
             <DatePicker
+              {...commonDatePickerParams}
               selected={startDate}
               onChange={(date) => setStartDate(date)}
-
               selectsStart
-              startDate={startDate}
-              endDate={endDate}
               minDate={minDate}
-              maxDate={maxDate}
-
-              customInput={<DateInput />}
-              dateFormat={dateFormat}
-              calendarStartDay={1}
             />
             <p className='mx-2'>–</p>
             <DatePicker
+              {...commonDatePickerParams}
               selected={endDate}
               onChange={(date) => setEndDate(date)}
 
               selectsEnd
-              startDate={startDate}
-              endDate={endDate}
               minDate={startDate}
-              maxDate={maxDate}
-
-              customInput={<DateInput />}
-              dateFormat={dateFormat}
-              calendarStartDay={1}
             />
             <div>
               <Button variant='success' className='ms-3' onClick={onDatesSave}><OkIcon /></Button>
@@ -92,7 +97,7 @@ export function DateRangeSelect({
   return (
     <div className="d-flex">
       <OverlayTrigger trigger="click" placement="top" overlay={popover} show={overlayShow} >
-        <Button className="d-flex align-items-baseline" variant='secondary' onClick={() => setOverlayShow(!overlayShow)}>
+        <Button className="d-flex align-items-baseline" variant={bg || 'secondary'} onClick={() => setOverlayShow(!overlayShow)}>
           <CalIcon className='me-2 fs-6' />
           <p className="fs-5 mb-0">{`${toHumanDate(selectedStartDate)} – ${toHumanDate(selectedEndDate)}`}</p>
         </Button>

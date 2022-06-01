@@ -34,7 +34,7 @@ export function HeatMapView({ year, selector, property }) {
   function getTooltipAttrs(value) {
     if (value && value.date) {
       const valueStr = property.getValueStr ? property.getValueStr(value?.count) : value?.count;
-      return { 'data-tip': `${format(new Date(value.date), 'Do MMM')}: ${valueStr}` }
+      return { 'data-tip': `${format(new Date(value.date), 'do MMM')}: ${valueStr}` }
     }
     return null
   }
@@ -58,7 +58,7 @@ export function HeatMapView({ year, selector, property }) {
       <ReactTooltip className="fs-6" />
       <div className="d-flex justify-content-start mt-2">
         <p className="fs-5 mb-0">Total: {property.getTotalStr ? property.getTotalStr(total, heatMapSeries.length) : total}</p>
-        <p className="fs-5 mb-0 ms-auto">Days: {heatMapSeries.length} </p>
+        <p className="fs-5 mb-0 ms-auto">Track Days: {heatMapSeries.length} </p>
       </div>
     </>
   )
