@@ -6,12 +6,12 @@ import { getData } from '../../util/slices';
 import { SingleLineChart } from '../charts/LineChart';
 import { OptionDropdown } from '../control/OptionDropdown';
 import { OptionRadio } from '../control/OptionRadio';
+import { DateRangeSelect } from '../control/DateRangeSelect'
 
 import { Loader } from '../loader/Loaders'
 
-import { BsCalendar3, BsArrowCounterclockwise } from 'react-icons/bs';
-import { formatBigNumber, formatHoursTime, formatTime } from '../../util/format';
-import moment from 'moment';
+import { formatBigNumber, formatHoursTime } from '../../util/format';
+import { format } from 'date-fns';
 
 function DiffChart({ height, property, period, selector }) {
 
@@ -31,10 +31,17 @@ function DiffChart({ height, property, period, selector }) {
 
 }
 
+function DiffDateRange({period, onRangeChange}) {
+
+  // const diffData = useSelector(getData(selector))
+  // const startDate = 
+
+}
+
 const periods = [
-  { name: 'day', title: 'Daily', formatter: (time) => moment(time).format('DD/MM') },
-  { name: 'week', title: 'Weekly', formatter: (time) => moment(time).format('DD/MM') },
-  { name: 'month', title: 'Monthly', formatter: (time) => moment(time).format('MM/YY') },
+  { name: 'day', title: 'Daily', formatter: (time) => format(new Date(time), 'dd/MM') },
+  { name: 'week', title: 'Weekly', formatter: (time) => format(new Date(time), 'dd/MM') },
+  { name: 'month', title: 'Monthly', formatter: (time) => format(new Date(time), 'MM/yy') },
 ]
 
 const properties = [
@@ -52,13 +59,13 @@ export function ActivityChart() {
   const [period, setPeriod] = useState(periods[0])
 
   const loadDiffsForPeriod = useCallback(() => (
-    loadDiffs({ 
-      format: "base", 
-      period: period.name, 
-      params: { 
-        offsetFrom: defaultOffset, 
-        offsetTo: 0 
-      } 
+    loadDiffs({
+      format: "base",
+      period: period.name,
+      params: {
+        offsetFrom: defaultOffset,
+        offsetTo: 0
+      }
     })
   ), [period])
 
@@ -81,10 +88,13 @@ export function ActivityChart() {
           <DiffChart height={300} property={property} period={period} selector={getDiffsForPeriod} />
         </Loader>
       </Card.Body>
-      <Card.Footer className='d-flex align-items-baseline'>
-        <p className="fs-4">01.04.2020 - 01.04.2022</p>
-        <BsCalendar3 className='ms-2 fs-5' />
-        <BsArrowCounterclockwise className='ms-2 fs-5' />
+      <Card.Footer>
+        <div className="my-2">
+          <DateRangeSelect
+            selectedStartDate={new Date()}
+            selectedEndDate={new Date()}
+          />
+        </div>
 
       </Card.Footer>
     </Card>

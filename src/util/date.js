@@ -1,6 +1,5 @@
-import moment from 'moment'
+import { differenceInCalendarDays } from "date-fns"
 
 export function getDaysBetweenDates(start, end) {
-  return moment.duration(moment(end)
-    .diff(moment(start))).asDays()
+  return differenceInCalendarDays(new Date(start), new Date(end))
 }

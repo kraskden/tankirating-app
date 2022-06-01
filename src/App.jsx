@@ -5,7 +5,6 @@ import {
   Routes
 } from 'react-router-dom'
 import { NavigationBar } from "./components/navbar/NavBar";
-import { MemoUserBox, UserBox } from "./components/profile/UserBox";
 import { UserPage } from './pages/UserPage';
 
 
@@ -19,7 +18,6 @@ function App() {
             path="/user/:user"
             element={<UserPage />}
           />
-
         </Routes>
       </div>
 

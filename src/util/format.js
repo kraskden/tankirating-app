@@ -1,4 +1,4 @@
-import moment from "moment"
+import { format } from "date-fns";
 
 export function formatBigNumber(num) {
   const realNum = Number(num)
@@ -25,11 +25,11 @@ export function toISODate(date) {
 
 export function toHumanDate(date) {
   // So, America, fuck you!
-  return moment(date).format('DD.MM.YYYY')
+  return format(new Date(date), 'dd.MM.yyyy')
 }
 
 export function toHumanDateTime(date) {
-  return moment(date).format('DD.MM.YYYY hh:mm')
+  return format(new Date(date), 'dd.MM.yyyy HH:mm')
 }
 
 export function formatTime(seconds) {

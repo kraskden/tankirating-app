@@ -6,7 +6,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-datepicker/dist/react-datepicker.css";
 import './index.css'
+
 import './config/axios'
 
 const container = document.getElementById('root');

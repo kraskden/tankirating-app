@@ -13,9 +13,9 @@ import 'react-calendar-heatmap/dist/styles.css';
 
 import { matcher } from "../../lib/matcher";
 import ReactTooltip from "react-tooltip";
-import moment from 'moment';
 import { OptionRadio } from "../control/OptionRadio";
 import { formatTime } from "../../util/format";
+import { format } from "date-fns";
 
 const classTimeMatcher = matcher([1, [30], 2, [60], 3, [120], 4, [240], 5])
 const classGoldMatcher = matcher([[1], 1, [2], 2, [5], 3, [10], 4, [50], 5])
@@ -34,7 +34,7 @@ export function HeatMapView({ year, selector, property }) {
   function getTooltipAttrs(value) {
     if (value && value.date) {
       const valueStr = property.getValueStr ? property.getValueStr(value?.count) : value?.count;
-      return { 'data-tip': `${moment(value.date).format('D MMM')}: ${valueStr}` }
+      return { 'data-tip': `${format(new Date(value.date), 'Do MMM')}: ${valueStr}` }
     }
     return null
   }
