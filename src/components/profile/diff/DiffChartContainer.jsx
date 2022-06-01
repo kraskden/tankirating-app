@@ -1,47 +1,22 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDiffsSelector, loadDiffs } from '../../slices/diffSlice';
-import { getData } from '../../util/slices';
-import { SingleLineChart } from '../charts/LineChart';
-import { OptionDropdown } from '../control/OptionDropdown';
-import { OptionRadio } from '../control/OptionRadio';
+import { useDispatch } from 'react-redux';
+import { getDiffsSelector, loadDiffs } from '../../../slices/diffSlice';
+import { OptionDropdown } from '../../control/OptionDropdown';
+import { OptionRadio } from '../../control/OptionRadio';
 
-import { Loader } from '../loader/Loaders'
+import { Loader } from '../../loader/Loaders'
 
-import { formatBigNumber, formatHoursTime } from '../../util/format';
-import { format, sub } from 'date-fns';
-import { BASE_DIFF_FORMAT, DIFF_PERIODS } from '../../lib/constants';
-import { DiffDateRangeSelect } from '../control/DiffDateRangeSelect';
-
-function DiffChart({ height, property, period, selector }) {
-
-  const diffData = useSelector(getData(selector))
-
-  const chartData = diffData.map(d => ({
-    periodStart: d.periodStart,
-    value: d[property.name]
-  }))
-
-  return (
-    <SingleLineChart height={height} data={chartData} xKey='periodStart' yKey='value' options={{
-      yFormatter: property.formatter,
-      xFormatter: period.formatter
-    }} />
-  )
-
-}
+import { sub } from 'date-fns';
+import { DIFF_PERIODS } from '../../../lib/constants';
+import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
 
 const periods = DIFF_PERIODS
 
-const properties = [
-  { name: 'time', title: 'Time', formatter: (time) => time ? formatHoursTime(time) : 0 },
-  { name: 'cry', title: 'Cry', formatter: formatBigNumber },
-  { name: 'score', title: 'Score', formatter: formatBigNumber },
-  { name: 'kd', title: 'K/D', formatter: (value) => value.toFixed(2) }
-]
+export function DiffChartContainer({properties, format, additionalControls, chartComponent}) {
 
-export function ActivityChart() {
+  const Chart = chartComponent
+  const Controls = additionalControls
 
   const defaultOffset = 30;
 
@@ -88,7 +63,7 @@ export function ActivityChart() {
 
   function loadDiffsForPeriod(period) {
     return loadDiffs({
-      format: BASE_DIFF_FORMAT,
+      format: format.toUpperCase(),
       period: period.name,
       params: {
         from: period.startDate,
@@ -100,7 +75,7 @@ export function ActivityChart() {
   const loadDiffsForPeriodEvent = useCallback(() => loadDiffsForPeriod(period), [period])
 
   const getDiffsForPeriod = useMemo(() => (
-    getDiffsSelector("base", period.name)
+    getDiffsSelector(format.toLowerCase(), period.name)
   ), [period])
 
   return (
@@ -111,11 +86,12 @@ export function ActivityChart() {
           <div className="ms-2">
             <OptionDropdown items={properties} onChange={setProperty} />
           </div>
+          {additionalControls ? <Controls selector={getDiffsForPeriod} /> : <></>}
         </div>
       </Card.Header>
       <Card.Body>
         <Loader loadEvent={loadDiffsForPeriodEvent} selector={getDiffsForPeriod}>
-          <DiffChart height={300} property={property} period={period} selector={getDiffsForPeriod} />
+          <Chart property={property} period={period} selector={getDiffsForPeriod} />
         </Loader>
       </Card.Body>
       <Card.Footer>
@@ -128,7 +104,6 @@ export function ActivityChart() {
               onRangeReset={onPeriodRangeReset}
             />
           </div>
-
         </Loader>
       </Card.Footer>
     </Card>

@@ -1,6 +1,6 @@
-import { ActivityChart } from "../components/profile/ActivityChart"
 import { SnapshotView } from "../components/view/SnapshotView"
 import { HeatMap } from "../components/profile/HeatMap"
+import { BaseDiffChart } from "../components/profile/diff/BaseDiffChart"
 
 
 export default function UserHomePage() {
@@ -9,7 +9,7 @@ export default function UserHomePage() {
     <div>
       <SnapshotView />
       <HeatMap initialYear={new Date().getUTCFullYear()}/>
-      <ActivityChart />
+      <BaseDiffChart />
     </div>
   )
 }
