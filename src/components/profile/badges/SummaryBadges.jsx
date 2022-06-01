@@ -1,5 +1,5 @@
-import { getSupplyUsages } from "../../lib/tracking"
-import { getDaysBetweenDates } from "../../util/date"
+import { getSupplyUsages } from "../../../lib/tracking"
+import { getDaysBetweenDates } from "../../../util/date"
 import { btrPhBgMatcher, CryBadge, cryPhBgMatcher, ddPhBgMatcher, KdBadge, killsPhBgMatcher, PerHourBadge, PremiumBadge, scorePhBgMatcher, TimePerDayBadge, } from "./Badges"
 
 export function SummaryBadges({ summary }) {

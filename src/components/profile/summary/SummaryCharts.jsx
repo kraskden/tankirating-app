@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { Card } from "react-bootstrap"
 
-import { OptionRadio } from "../control/OptionRadio"
-import { CategoryBarChart } from '../charts/CategoryBarChart';
+import { OptionRadio } from "../../control/OptionRadio"
+import { CategoryBarChart } from '../../charts/CategoryBarChart';
 
-import { formatBigNumber, formatHoursTime, formatTime } from '../../util/format';
+import { formatBigNumber, formatHoursTime, formatTime } from '../../../util/format';
 
 const properties = [
   {

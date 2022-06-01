@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { getData } from "../util/slices";
 import { Loader } from "../components/loader/Loaders";
 import { toHumanDate } from "../util/format";
-import { SummaryView, SummaryNoData } from "../components/profile/SummaryView";
+import { SummaryView, SummaryNoData } from "../components/view/SummaryView";
 
 const periods = [
   { name: 'day', title: 'Day' },

@@ -1,6 +1,6 @@
 import { Badge } from 'react-bootstrap'
-import { matcher } from '../../lib/matcher'
-import { formatTime, truncateBigNumber } from '../../util/format'
+import { matcher } from '../../../lib/matcher'
+import { formatTime, truncateBigNumber } from '../../../util/format'
 
 function UserBadge({ bg, name, value, abbr }) {
   const content = (

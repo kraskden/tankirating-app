@@ -6,12 +6,13 @@ import { getData } from '../../util/slices';
 import { SingleLineChart } from '../charts/LineChart';
 import { OptionDropdown } from '../control/OptionDropdown';
 import { OptionRadio } from '../control/OptionRadio';
-import { DateRangeSelect } from '../control/DateRangeSelect'
 
 import { Loader } from '../loader/Loaders'
 
 import { formatBigNumber, formatHoursTime } from '../../util/format';
 import { format, sub } from 'date-fns';
+import { BASE_DIFF_FORMAT, DIFF_PERIODS } from '../../lib/constants';
+import { DiffDateRangeSelect } from '../control/DiffDateRangeSelect';
 
 function DiffChart({ height, property, period, selector }) {
 
@@ -31,33 +32,7 @@ function DiffChart({ height, property, period, selector }) {
 
 }
 
-function DiffDateRange({ period, selector, onRangeChange, onRangeReset }) {
-
-  const diffData = useSelector(getData(selector))
-  const diffPresented = diffData && diffData.length 
-
-  const bg = diffPresented ? 'secondary' : 'danger';
-
-  return (
-    <DateRangeSelect
-      selectedStartDate={new Date(period.startDate)}
-      selectedEndDate={new Date(period.endDate)}
-      bg={bg}
-      onReset={onRangeReset}
-      onChange={onRangeChange}
-      showMonths={period.name === 'month'}
-      maxDate={new Date()}
-      // TODO: min date
-    />
-  )
-
-}
-
-const periods = [
-  { name: 'day', title: 'Daily', fnsPeriod: 'days', formatter: (time) => format(new Date(time), 'dd/MM') },
-  { name: 'week', title: 'Weekly', fnsPeriod: 'weeks', formatter: (time) => format(new Date(time), 'dd/MM') },
-  { name: 'month', title: 'Monthly', fnsPeriod: 'months', formatter: (time) => format(new Date(time), 'MM/yy') },
-]
+const periods = DIFF_PERIODS
 
 const properties = [
   { name: 'time', title: 'Time', formatter: (time) => time ? formatHoursTime(time) : 0 },
@@ -113,7 +88,7 @@ export function ActivityChart() {
 
   function loadDiffsForPeriod(period) {
     return loadDiffs({
-      format: "base",
+      format: BASE_DIFF_FORMAT,
       period: period.name,
       params: {
         from: period.startDate,
@@ -146,7 +121,7 @@ export function ActivityChart() {
       <Card.Footer>
         <Loader selector={getDiffsForPeriod}>
           <div className="my-2">
-            <DiffDateRange
+            <DiffDateRangeSelect
               selector={getDiffsForPeriod} 
               period={period}
               onRangeChange={onPeriodRangeChange}

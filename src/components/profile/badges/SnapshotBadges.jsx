@@ -1,5 +1,5 @@
 import { Card } from "react-bootstrap";
-import { CryBadge, KdBadge, ScoreBadge, TimeBadge } from "../profile/Badges"
+import { CryBadge, KdBadge, ScoreBadge, TimeBadge } from "./Badges"
 
 export function SnapshotBadges({ snapshot }) {
   return (

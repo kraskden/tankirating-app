@@ -1,11 +1,11 @@
 import { Card, Alert } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { getData } from '../../util/slices'
-import { SummaryTable } from './summary/SummaryTable'
-import { SummaryBadges } from './SummaryBadges'
+import { SummaryTable } from '../profile/summary/summary_table/SummaryTable'
+import { SummaryBadges } from '../profile/badges/SummaryBadges'
 
 import { makeDiffSummary } from '../../lib/summary';
-import { SummaryCharts } from './SummaryCharts'
+import { SummaryCharts } from '../profile/summary/SummaryCharts'
 
 export function SummaryView({ selector }) {
 

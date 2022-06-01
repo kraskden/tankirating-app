@@ -1,5 +1,5 @@
 import { ActivityChart } from "../components/profile/ActivityChart"
-import { SnapshotView } from "../components/profile/SnapshotView"
+import { SnapshotView } from "../components/view/SnapshotView"
 import { HeatMap } from "../components/profile/HeatMap"
 
 
