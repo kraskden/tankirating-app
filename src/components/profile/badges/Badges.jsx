@@ -69,8 +69,6 @@ const timePerDayMatcher = matcher(["danger", [7 * 60], "warning", [15 * 60], "se
 export function TimePerDayBadge({time, totalDays, bg}) {
   const secondsPerDay = time / totalDays
 
-  console.log(secondsPerDay)
-
   return <UserBadge bg={bg || timePerDayMatcher(secondsPerDay)}
    value={`≈ ${formatTime(secondsPerDay)}/day`} />
 }

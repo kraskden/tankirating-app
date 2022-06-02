@@ -1,21 +1,25 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, forwardRef } from "react";
 import { Alert, Card } from "react-bootstrap";
 import { OptionRadio } from "../components/control/OptionRadio";
 
 import { getSummarySelector, loadSummary } from '../slices/summarySlice';
 
-import { BsCaretLeftFill as LeftIcon, BsCaretRightFill as RightIcon } from 'react-icons/bs';
+import { BsCaretLeftFill as LeftIcon, BsCaretRightFill as RightIcon, BsFillSkipBackwardFill as LeftSkipIcon,
+   BsFillSkipForwardFill as RightSkipIcon, BsArrowCounterclockwise as ResetIcon } from 'react-icons/bs';
 import { useSelector } from "react-redux";
 import { getData } from "../util/slices";
 import { Loader } from "../components/loader/Loaders";
 import { toHumanDate } from "../util/format";
 import { SummaryView, SummaryNoData } from "../components/view/SummaryView";
+import { DateSelect } from "../components/control/DateSelect";
+import { differenceInDays, differenceInMonths, differenceInWeeks, differenceInYears, startOfDay } from "date-fns";
+import classNames from "classnames";
 
 const periods = [
-  { name: 'day', title: 'Day' },
-  { name: 'week', title: 'Week' },
-  { name: 'month', title: 'Month' },
-  { name: 'year', title: 'Year' },
+  { name: 'day', title: 'Day', diffFn: differenceInDays },
+  { name: 'week', title: 'Week', diffFn: differenceInWeeks },
+  { name: 'month', title: 'Month', diffFn: differenceInMonths },
+  { name: 'year', title: 'Year', diffFn: differenceInYears },
   { name: 'all_time', title: 'All Time' },
   { name: 'custom', title: 'Custom' }
 ]
@@ -43,6 +47,29 @@ export function UserSummaryPage() {
     })
   }
 
+  function setOffset(offset) {
+    setOffsets({
+      ...offsets,
+      [period.name]: offset
+    })
+  }
+
+  function changeDate(newDate) {
+    if (period.diffFn) {
+      const today = startOfDay(new Date())
+      const offset = period.diffFn(today, newDate)
+      setOffset(offset)
+    }
+  }
+
+  const ErrorSummaryControlWrapper = ({ error }) => (
+    <ErrorSummaryControl error={error} onOffsetChange={changeOffset} onDateChange={changeDate} period={period} />
+  )
+
+  const resetClassNames = classNames({
+    invisible: offset === 0
+  })
+
   return (
     <>
       <Card className="mt-2">
@@ -52,13 +79,21 @@ export function UserSummaryPage() {
           </div>
         </Card.Header>
         <Card.Body className="py-2">
-          <div className="d-flex justify-content-center align-items-center">
-            <LeftIcon className="fs-3 mx-2" onClick={() => changeOffset(1)}>Prev</LeftIcon>
-            <Loader loadEvent={summaryLoader} selector={summarySelector} errorHandler={SummaryErrDescription}>
-              <SummaryDescription selector={summarySelector} />
-            </Loader>
-            <RightIcon className="fs-3 mx-2" onClick={() => changeOffset(-1)}>Next</RightIcon>
+          <div className="d-flex justify-content-between align-items-baseline">
+            <div className="mr-auto invisible">
+              <ResetIcon className="fs-4"/>
+            </div>
+            <div className="d-flex justify-content-center align-items-center">
+              <Loader loadEvent={summaryLoader} selector={summarySelector} errorHandler={ErrorSummaryControlWrapper}>
+                <LoadedSummaryControl selector={summarySelector}
+                  onOffsetChange={changeOffset} onDateChange={changeDate} period={period} />
+              </Loader>
+            </div>
+            <div className={resetClassNames}>
+              <ResetIcon className="fs-4" onClick={() => setOffset(0)}/>
+            </div>
           </div>
+
         </Card.Body>
       </Card>
       <Loader selector={summarySelector} errorHandler={SummaryNoData}>
@@ -68,21 +103,42 @@ export function UserSummaryPage() {
   )
 }
 
-function SummaryDates({ from, to }) {
-
-  return <p className="fs-3 mb-0 user-select-none">{toHumanDate(from)} - {toHumanDate(to)}</p>
+function ErrorSummaryControl({ error, ...rest }) {
+  return <SummaryControl from={error.args.periodStart} to={error.args.periodEnd} {...rest} />
 }
 
-
-function SummaryErrDescription({ error }) {
-  return <SummaryDates from={error.args.periodStart} to={error.args.periodEnd} />
-}
-
-
-
-function SummaryDescription({ selector }) {
-
+function LoadedSummaryControl({ selector, ...rest }) {
   const summary = useSelector(getData(selector))
 
-  return <SummaryDates from={summary.trackStart} to={summary.trackEnd} />
+  return <SummaryControl from={summary.trackStart} to={summary.trackEnd} {...rest} />
+}
+
+function SummaryControl({ period, from, to, onDateChange, onOffsetChange }) {
+
+  const LeftSkipCalendarInput = forwardRef(({ onClick }, ref) => (
+    <LeftSkipIcon className="fs-3 mx-2" onClick={onClick} />
+  ))
+
+  const RightSkipCalendarInput = forwardRef(({ onClick }, ref) => (
+    <RightSkipIcon className="fs-3 mx-2" onClick={onClick} />
+  ))
+
+  const fromDate = new Date(from)
+
+  return (
+    <>
+      <div className="d-flex">
+        <DateSelect maxDate={fromDate} value={fromDate} onChange={onDateChange} customInput={<LeftSkipCalendarInput />}
+          scale={period.name} />
+      </div>
+      <LeftIcon className="fs-3 mx-2" onClick={() => onOffsetChange(1)}>Prev</LeftIcon>
+      <p className="fs-3 mb-0 user-select-none">{toHumanDate(from)} - {toHumanDate(to)}</p>
+      <RightIcon className="fs-3 mx-2" onClick={() => onOffsetChange(-1)}>Next</RightIcon>
+      <div className="d-flex">
+        <DateSelect minDate={fromDate} value={fromDate} onChange={onDateChange} maxDate={new Date()}
+          customInput={<RightSkipCalendarInput />} scale={period.name} />
+      </div>
+    </>
+  )
+
 }

@@ -1,16 +1,8 @@
 import { ButtonGroup, ToggleButton } from "react-bootstrap"
 import {useState} from 'react';
 
-export function OptionRadio({items, onChange, defaultItem, bg}) {
-
-  const [item, setItem] = useState(defaultItem || items[0])
-
+export function UncontrolledOptionRadio({item, items, onChange, bg}) {
   const variant = bg || "secondary"
-
-  function onItemChange(item) {
-    setItem(item)
-    onChange && onChange(item)
-  }
 
   return (
     <ButtonGroup>
@@ -21,12 +13,31 @@ export function OptionRadio({items, onChange, defaultItem, bg}) {
           type="radio"
           value={i.name}
           checked={item.name === i.name}
-          onClick={() => onItemChange(i)}
+          onClick={() => onChange(i)}
         >
           {i.title}
         </ToggleButton>
       ))}
     </ButtonGroup>
+  )
+}
+
+export function OptionRadio({items, onChange, defaultItem, bg}) {
+
+  const [item, setItem] = useState(defaultItem || items[0])
+
+  function onItemChange(item) {
+    setItem(item)
+    onChange && onChange(item)
+  }
+
+  return (
+    <UncontrolledOptionRadio 
+      bg={bg}
+      item={item}
+      onChange={onItemChange}
+      items={items}
+    />
   )
 
 }

@@ -7,6 +7,7 @@ import { toHumanDate } from '../../util/format';
 import { BsCheckAll as OkIcon } from 'react-icons/bs';
 
 import DatePicker from 'react-datepicker';
+import { DEFAULT_DATEPICKER_PARAMS } from '../../lib/constants';
 
 export function DateRangeSelect({
   selectedStartDate,
@@ -22,7 +23,6 @@ export function DateRangeSelect({
   showMonths
 }) {
 
-  const dateFormat = "dd.MM.yyyy"
   const [overlayShow, setOverlayShow] = useState(false)
 
   const [startDate, setStartDate] = useState(selectedStartDate)
@@ -49,17 +49,12 @@ export function DateRangeSelect({
   }
 
   const commonDatePickerParams = {
+    ...DEFAULT_DATEPICKER_PARAMS,
+
     startDate: startDate,
     endDate: endDate,
     maxDate: maxDate,
     customInput: <DateInput />,
-    dateFormat: dateFormat,
-    calendarStartDay: 1,
-    fixedHeight: true,
-    showMonthDropdown: true,
-    showYearDropdown: true,
-    scrollableYearDropdown :true,
-    yearDropdownItemNumber: 5,
     showMonthYearPicker: showMonths
   }
 

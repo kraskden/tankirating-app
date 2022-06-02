@@ -10,3 +10,15 @@ export const DIFF_PERIODS = [
   { name: 'week', title: 'Weekly', fnsPeriod: 'weeks', formatter: (time) => format(new Date(time), 'dd/MM') },
   { name: 'month', title: 'Monthly', fnsPeriod: 'months', formatter: (time) => format(new Date(time), 'MM/yy') },
 ]
+
+const dateFormat = "dd.MM.yyyy"
+
+export const DEFAULT_DATEPICKER_PARAMS = {
+  dateFormat: dateFormat,
+  calendarStartDay: 1,
+  fixedHeight: true,
+  showMonthDropdown: true,
+  showYearDropdown: true,
+  scrollableYearDropdown :true,
+  yearDropdownItemNumber: 5,
+}

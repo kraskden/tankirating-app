@@ -7,6 +7,7 @@ import { UserBox } from "../components/profile/UserBox"
 import { SearchBox } from "../components/SearchBox"
 import { getSnapshot, loadLastSnapshot } from "../slices/snapshotSlice"
 import { getTarget, loadTarget } from "../slices/targetSlice"
+import { UserActivityPage } from "./UserActivityPage"
 import UserHomePage from "./UserHomePage"
 import { UserSummaryPage } from "./UserSummaryPage"
 
@@ -33,6 +34,9 @@ export function UserPage() {
             </Tab>
             <Tab eventKey="summary" title="Summary">
               <UserSummaryPage />
+            </Tab>
+            <Tab eventKey="activity" title="Activity"> 
+              <UserActivityPage />
             </Tab>
           </Tabs>
         </Loader>
