@@ -37,7 +37,7 @@ export function DateRangeSelect({
   const DateInput = forwardRef(({ value, onClick }, ref) => {
     return (
       <Button variant='secondary' onClick={onClick} ref={ref}>
-        {value === '' ? "Select date" : value}
+        {value === '' ? "Pick date" : value}
       </Button>
     )
   })

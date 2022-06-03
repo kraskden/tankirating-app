@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState, forwardRef } from "react";
 import { Alert, Card } from "react-bootstrap";
 import { OptionRadio, UncontrolledOptionRadio } from "../components/control/OptionRadio";
 
-import { getSummarySelector, loadCustomSummary, loadSummary } from '../slices/summarySlice';
+import { erasePeriod, getSummarySelector, loadCustomSummary, loadSummary } from '../slices/summarySlice';
 
 import {
   BsCaretLeftFill as LeftIcon, BsCaretRightFill as RightIcon, BsFillSkipBackwardFill as LeftSkipIcon,
@@ -78,6 +78,11 @@ export function UserSummaryPage() {
     dispatch(loadCustomSummary({from, to}))
   }
 
+  function onCustomDatesReset() {
+    setCustomRange({})
+    dispatch(erasePeriod({name: 'custom'}))
+  }
+
   const ErrorSummaryControlWrapper = ({ error }) => (
     <ErrorSummaryControl error={error} onOffsetChange={changeOffset} onDateChange={changeDate} period={period} />
   )
@@ -96,7 +101,8 @@ export function UserSummaryPage() {
           {period.name === 'custom' &&
             <div className="d-flex mt-2 justify-content-center">
               <DateRangeSelect
-                hideReset={true}
+                onReset={onCustomDatesReset}
+                // hideReset={true}
                 selectedStartDate={customRange.from}
                 selectedEndDate={customRange.to}
                 onChange={onCustomDatesChange}

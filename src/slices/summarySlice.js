@@ -27,6 +27,10 @@ const summarySlice = createSlice({
   reducers:  {
     eraseSummary() {
       return initialState()
+    },
+    erasePeriod(state, action) {
+      const {name} = action.payload
+      state[name] = {}
     }
   },
   extraReducers(builder) {
@@ -37,14 +41,12 @@ const summarySlice = createSlice({
 
 export const loadSummary = createAsyncThunk('summary/load', async ({period, offset}, {getState}) => {
   const targetId = getState().target.data.id 
-  const {data} = await apiLoadSummaryForPeriod(targetId, period, offset, 'FULL')
-  return data
+  return await apiLoadSummaryForPeriod(targetId, period, offset, 'FULL')
 })
 
 export const loadCustomSummary = createAsyncThunk('summary/custom/load', async ({from, to}, {getState}) => {
   const targetId = getState().target.data.id 
-  const {data} = await apiLoadSummaryForDateRange(targetId, from, to, 'FULL')
-  return data
+  return await apiLoadSummaryForDateRange(targetId, from, to, 'FULL')
 })
 
 export const getSummarySelector = (period, offset) => state => {
@@ -52,6 +54,6 @@ export const getSummarySelector = (period, offset) => state => {
   return slice[offset] ?? getIdleState()
 }
 
-export const {eraseSummary} = summarySlice.actions
+export const {eraseSummary, erasePeriod} = summarySlice.actions
 
 export const summaryReducer = summarySlice.reducer

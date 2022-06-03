@@ -27,11 +27,7 @@ const diffSlice = createSlice({
 
 export const loadDiffs = createAsyncThunk('diff/load', async ({format, period, params}, {getState}) => {
   const targetId = getState().target.data.id 
-  const {data} = await apiLoadDiffs(targetId, period, format, params)
-  data.forEach(e => {
-    e.kd = e.deaths ? e.kills / e.deaths : null;
-  })
-  return data
+  return await apiLoadDiffs(targetId, period, format, params)
 })
 
 // Actions

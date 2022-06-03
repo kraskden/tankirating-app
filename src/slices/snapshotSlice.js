@@ -19,8 +19,7 @@ const snapshotSlice = createSlice({
 
 export const loadLastSnapshot = createAsyncThunk('snapshot/load', async (_, {getState}) => {
     const user = getState().target.data
-    const {data} = await getLatestSnapshot(user.id)
-    return data
+    return  await getLatestSnapshot(user.id)
 })
 
 export const {eraseSnapshot} = snapshotSlice.actions

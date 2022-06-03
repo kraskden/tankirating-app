@@ -21,8 +21,7 @@ const heatMapSlice = createSlice({
 
 export const loadHeatMap = createAsyncThunk('heatMap/load', async (year, {getState}) => {
   const targetId = getState().target.data.id 
-  const {data} = await apiGetHeatMap(targetId, year)
-  return data
+  return await apiGetHeatMap(targetId, year)
 })
 
 export const getHeatMapSelector = year => state => {
