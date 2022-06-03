@@ -9,7 +9,7 @@ import { SummaryCharts } from '../profile/summary/SummaryCharts'
 
 export function SummaryView({ selector }) {
 
-  const summary = useSelector(getData(selector))
+  const summary = useSelector(getData(selector)) 
 
   if (!summary.time) {
     return <SummaryNoData />

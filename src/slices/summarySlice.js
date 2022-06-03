@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import {TIME_PERIODS} from '../lib/constants'
-import { apiLoadSummaryForPeriod } from "../service/summary"
+import { apiLoadSummaryForDateRange, apiLoadSummaryForPeriod } from "../service/summary"
 import { addThunkReducers, getIdleState } from "../util/slices"
 
 function initialState() {
@@ -17,6 +17,10 @@ const targetFn = (state, action) => {
   return [state[period], offset]
 }
 
+const customTargetFn = (state, action) => {
+  return [state.custom, 0]
+}
+
 const summarySlice = createSlice({
   name: 'summary',
   initialState: initialState(),
@@ -27,6 +31,7 @@ const summarySlice = createSlice({
   },
   extraReducers(builder) {
     addThunkReducers(builder, loadSummary, targetFn)
+    addThunkReducers(builder, loadCustomSummary, customTargetFn)
   }
 })
 
@@ -36,7 +41,11 @@ export const loadSummary = createAsyncThunk('summary/load', async ({period, offs
   return data
 })
 
-// TODO: loadCustomSummary
+export const loadCustomSummary = createAsyncThunk('summary/custom/load', async ({from, to}, {getState}) => {
+  const targetId = getState().target.data.id 
+  const {data} = await apiLoadSummaryForDateRange(targetId, from, to, 'FULL')
+  return data
+})
 
 export const getSummarySelector = (period, offset) => state => {
   const slice = state.summary[period]

@@ -20,7 +20,7 @@ export function truncateBigNumber(num) {
 
 export function toISODate(date) {
   date = date instanceof Date ? date : new Date(date)
-  return date.toISOString().substring(0, 10)
+  return format(date, 'yyyy-MM-dd')
 }
 
 export function toHumanDate(date) {

@@ -17,10 +17,11 @@ export function DateRangeSelect({
   maxDate,
   validator,
   bg,
-  
+
   onChange,
   onReset,
-  showMonths
+  showMonths,
+  hideReset
 }) {
 
   const [overlayShow, setOverlayShow] = useState(false)
@@ -33,15 +34,22 @@ export function DateRangeSelect({
     setEndDate(selectedEndDate)
   }, [selectedStartDate, selectedEndDate])
 
-  const DateInput = forwardRef(({ value, onClick }, ref) => (
-    <Button variant='secondary' onClick={onClick} ref={ref}>
-      {value}
-    </Button>
-  ))
+  const DateInput = forwardRef(({ value, onClick }, ref) => {
+    return (
+      <Button variant='secondary' onClick={onClick} ref={ref}>
+        {value === '' ? "Select date" : value}
+      </Button>
+    )
+  })
+
+  const datesPresents = selectedStartDate && selectedEndDate
 
   function onDatesSave() {
+    if (!(startDate && endDate)) {
+      return
+    }
     if (!validator || validator(startDate, endDate)) {
-      onChange(startDate, endDate)
+      onChange && onChange(startDate, endDate)
       setOverlayShow(false)
     } else {
       // TODO: error handling
@@ -59,7 +67,7 @@ export function DateRangeSelect({
   }
 
   const popover = (
-    <Popover id="popover-trigger-click-root-close" style={{ maxWidth: "600px" }}>
+    <Popover id="popover-trigger-click-root-close" style={{ maxWidth: "800px" }}>
       <Card>
         <Card.Body>
           <div className="d-flex align-items-baseline">
@@ -92,14 +100,18 @@ export function DateRangeSelect({
   return (
     <div className="d-flex">
       <OverlayTrigger trigger="click" placement="top" overlay={popover} show={overlayShow} >
-        <Button className="d-flex align-items-baseline" variant={bg || 'secondary'} onClick={() => setOverlayShow(!overlayShow)}>
+        <Button className="d-flex align-items-center" variant={bg || 'secondary'} onClick={() => setOverlayShow(!overlayShow)}>
           <CalIcon className='me-2 fs-6' />
-          <p className="fs-5 mb-0">{`${toHumanDate(selectedStartDate)} – ${toHumanDate(selectedEndDate)}`}</p>
+          <p className="fs-6 mb-0">{datesPresents ?
+            `${toHumanDate(selectedStartDate)} – ${toHumanDate(selectedEndDate)}`
+            : "Select range"}
+          </p>
         </Button>
       </OverlayTrigger>
-      <Button variant='success ms-2'>
-        <ResetIcon className='fs-5' onClick={() => onReset && onReset()} />
-      </Button>
+      {hideReset ? <></> :
+        <Button variant='success ms-2'>
+          <ResetIcon className='fs-6' onClick={() => onReset && onReset()} />
+        </Button>}
     </div>
   )
 
