@@ -13,7 +13,7 @@ import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
 
 const periods = DIFF_PERIODS
 
-export function DiffChartContainer({properties, format, additionalControls, chartComponent, 
+export function DiffChartContainer({ properties, format, additionalControls, chartComponent,
   onDataChanges }) {
 
   const Chart = chartComponent
@@ -22,7 +22,7 @@ export function DiffChartContainer({properties, format, additionalControls, char
   const defaultOffset = 30;
 
   function defPeriodStart(period) {
-    return sub(new Date(), {[period.fnsPeriod]: defaultOffset})
+    return sub(new Date(), { [period.fnsPeriod]: defaultOffset })
   }
 
   const dispatch = useDispatch()
@@ -36,7 +36,7 @@ export function DiffChartContainer({properties, format, additionalControls, char
 
   function onPeriodChange(period) {
     setPeriod({
-      ...period, 
+      ...period,
       startDate: defPeriodStart(period),
       endDate: new Date()
     })
@@ -57,7 +57,7 @@ export function DiffChartContainer({properties, format, additionalControls, char
 
   function onPeriodRangeReset() {
     const newPeriod = {
-      ...period, 
+      ...period,
       startDate: defPeriodStart(period),
       endDate: new Date()
     }
@@ -92,7 +92,12 @@ export function DiffChartContainer({properties, format, additionalControls, char
           <div className="ms-2">
             <OptionDropdown items={properties} onChange={setProperty} />
           </div>
-          {additionalControls ? <Controls selector={getDiffsForPeriod} /> : <></>}
+          {additionalControls ? 
+            <Loader selector={getDiffsForPeriod} loader={<></>}>
+              <Controls selector={getDiffsForPeriod}
+                property={property} period={period} />
+            </Loader> : <></>
+          }
         </div>
       </Card.Header>
       <Card.Body>
@@ -101,10 +106,10 @@ export function DiffChartContainer({properties, format, additionalControls, char
         </Loader>
       </Card.Body>
       <Card.Footer>
-        <Loader selector={getDiffsForPeriod}>
+        <Loader selector={getDiffsForPeriod} loader={<></>}>
           <div className="my-2">
             <DiffDateRangeSelect
-              selector={getDiffsForPeriod} 
+              selector={getDiffsForPeriod}
               period={period}
               onRangeChange={onPeriodRangeChange}
               onRangeReset={onPeriodRangeReset}

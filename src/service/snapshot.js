@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { humanizeTrackModuleNames } from '../lib/modules'
+import { postProcessTrack } from '../lib/tracking'
 
 export async function getLatestSnapshot(targetId, format = 'FULL') {
 	const {data} = await axios.get(`/target/${targetId}/snapshot/latest`, {
@@ -7,6 +7,6 @@ export async function getLatestSnapshot(targetId, format = 'FULL') {
 			format
 		}
 	})
-	humanizeTrackModuleNames(data)
+	postProcessTrack(data)
 	return data
 }

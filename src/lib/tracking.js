@@ -1,3 +1,55 @@
+const MODULES_MAP = {
+  Fox: "Fire",
+  Badger: "Freeze",
+  Ocelot: "Isida",
+  Weasel: "Tesla",
+  Wolf: "Hammer",
+  Panther: "Twins",
+  Lion: "Rico",
+  Dolphin: "Smoky",
+  Orka: "Strike",
+  Shark: "Vulcan",
+  Grizzly: "Thunder",
+  Falcon: "Rail",
+  Griffin: "Magnum",
+  Owl: "Gauss",
+  Eagle: "Shaft",
+  Spider: "Mines"
+}
+
+function getNormalModuleName(name) {
+  const turret = MODULES_MAP[name]
+  return turret ? `m${turret}` : name;
+}
+
+function humanizeTrackModuleNames(track) {
+  if (track.activities && track.activities.modules) {
+    for (const m of track.activities.modules) {
+      // So, Opex, fuck you
+      m.name = getNormalModuleName(m.name)
+    }
+  }
+}
+
+
+function addAdditionalTrackProperties(track) {
+  track.kd = track.deaths ? track.kills / track.deaths : null;
+
+  if (track.activities) {
+    for (const k in track.activities) {
+      for (const entry of track.activities[k]) {
+        track.st = entry.time ? Math.round(entry.score * 3600 * 100 / entry.time) / 100 : null
+      }
+    }
+  }
+
+}
+
+export function postProcessTrack(track) {
+  humanizeTrackModuleNames(track)
+  addAdditionalTrackProperties(track)
+}
+
 
 export function getSupplyUsages(tracking, name) {
   const supply = tracking.supplies
@@ -5,16 +57,35 @@ export function getSupplyUsages(tracking, name) {
   return supply?.usages ?? 0
 }
 
-export function makeItemsTracks(tracks, category, property) {
+export function getTrackActivityNames(tracks, category, property) {
+  var names = new Map()
+  for (const track of tracks) {
+    for (const activity of track.activities[category]) {
+      if (activity.time) {
+        const existedTime = names.get(activity.name) || 0
+        names.set(activity.name, existedTime + activity[property])
+      }
+    }
+  }
+  return [...names.entries()].sort(([k1, v1], [k2, v2]) => v2 - v1).map(pair => pair[0])
+}
+
+export function makeItemsTracks(tracks, category, property, items) {
   
   function makeItemsTrack(track) {
-    console.log(track)
-    const {periodStart, periodEnd, trackStart, trackEnd, activities} = track 
-    return activities[category].reduce((acc, curr) => {
+    const {periodStart, periodEnd, trackStart, trackEnd, activities} = track
+    
+    const trackMap = activities[category].reduce((acc, curr) => {
       acc[curr.name] = curr[property]
       return acc
-    }, {periodStart, periodEnd, trackStart, trackEnd})
+    }, {})
+
+    return items.reduce((acc, item) => {
+      acc[item.value] = trackMap[item.value] || 0
+      return acc
+    }, {periodStart, periodEnd, trackStart, trackEnd})    
   }
 
   return tracks.map(makeItemsTrack)
 }
+

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { humanizeTrackModuleNames } from "../lib/modules"
+import { postProcessTrack } from "../lib/tracking"
 import { toISODate } from "../util/format"
 
 export async function apiLoadDiffs(targetId, period, format, options) {
@@ -10,9 +10,6 @@ export async function apiLoadDiffs(targetId, period, format, options) {
     params.to = toISODate(to)
   } 
   const {data} = await axios.get(`/target/${targetId}/diff/${period.toLowerCase()}`, {params})
-  data.forEach(e => {
-    humanizeTrackModuleNames(e)
-    e.kd = e.deaths ? e.kills / e.deaths : null;
-  })
+  data.forEach(postProcessTrack)
   return data;
 }

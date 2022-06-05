@@ -1,12 +1,12 @@
 import axios from "axios";
-import { humanizeTrackModuleNames } from "../lib/modules";
+import { postProcessTrack } from "../lib/tracking";
 import { toISODate } from "../util/format";
 
 export async function apiLoadSummaryForPeriod(targetId, period, offset, format) {
   const {data} = await axios.get(`/target/${targetId}/diff/${period}/${offset}`, {
     params: { format }
   })
-  humanizeTrackModuleNames(data)
+  postProcessTrack(data)
   return data
 }
 
@@ -18,6 +18,6 @@ export async function apiLoadSummaryForDateRange(targetId, from, to, format) {
       format
     }
   })
-  humanizeTrackModuleNames(data)
+  postProcessTrack(data)
   return data
 }
