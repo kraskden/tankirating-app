@@ -1,11 +1,17 @@
 # TankiRating client
 
+## DONE: 
+* Snapshot & diff summary view
+* Diff charts
+* Heatmap
+* Select custom date range on all charts/views
+* Different items activity comparing (3rd tab)
+
 ## TODO: 
 
 * SearchBox navigate - don't reset current open view!
-* DateRange picker: Activity Chart, Summary
-* Compare activity on different items (3rd tab)
 * OnlineHub 
+* Main page (Users list)
 
 ## Stack: 
 
