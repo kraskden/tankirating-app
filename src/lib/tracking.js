@@ -38,7 +38,7 @@ function addAdditionalTrackProperties(track) {
   if (track.activities) {
     for (const k in track.activities) {
       for (const entry of track.activities[k]) {
-        track.st = entry.time ? Math.round(entry.score * 3600 * 100 / entry.time) / 100 : null
+        entry.sh = entry.time ? Math.round(entry.score * 3600 * 100 / entry.time) / 100 : undefined
       }
     }
   }
