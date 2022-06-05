@@ -8,7 +8,7 @@ export function UncontrolledOptionDropdown({ items, item, onChange, bg }) {
   const title = item ? (item.title || item.name) : "N/S"
 
   return (
-    <DropdownButton title={title} variant={variant}>
+    <DropdownButton className="align-self-start" title={title} variant={variant}>
       {items.map(i => (
         <Dropdown.Item key={i.name} onClick={() => onChange(i)}>{i.title || i.name}</Dropdown.Item>
       ))}

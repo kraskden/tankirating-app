@@ -10,7 +10,7 @@ function Chart({ height, property, period, selector }) {
   const diffData = useSelector(getData(selector))
 
   const chartData = diffData.map(d => ({
-    periodStart: d.periodStart,
+    periodStart: new Date(d.periodStart),
     value: d[property.name]
   }))
 

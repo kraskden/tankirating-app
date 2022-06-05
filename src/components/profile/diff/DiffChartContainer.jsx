@@ -13,7 +13,8 @@ import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
 
 const periods = DIFF_PERIODS
 
-export function DiffChartContainer({properties, format, additionalControls, chartComponent}) {
+export function DiffChartContainer({properties, format, additionalControls, chartComponent, 
+  onDataChanges }) {
 
   const Chart = chartComponent
   const Controls = additionalControls
@@ -39,6 +40,7 @@ export function DiffChartContainer({properties, format, additionalControls, char
       startDate: defPeriodStart(period),
       endDate: new Date()
     })
+    onDataChanges && onDataChanges()
   }
 
   function onPeriodRangeChange(startDate, endDate) {
@@ -49,6 +51,8 @@ export function DiffChartContainer({properties, format, additionalControls, char
     }
     setPeriod(newPeriod)
     dispatch(loadDiffsForPeriod(newPeriod))
+    onDataChanges && onDataChanges()
+
   }
 
   function onPeriodRangeReset() {
@@ -59,6 +63,8 @@ export function DiffChartContainer({properties, format, additionalControls, char
     }
     setPeriod(newPeriod)
     dispatch(loadDiffsForPeriod(newPeriod))
+    onDataChanges && onDataChanges()
+
   }
 
   function loadDiffsForPeriod(period) {

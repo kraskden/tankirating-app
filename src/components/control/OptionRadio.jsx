@@ -5,7 +5,7 @@ export function UncontrolledOptionRadio({item, items, onChange, bg}) {
   const variant = bg || "secondary"
 
   return (
-    <ButtonGroup>
+    <ButtonGroup className="align-self-start">
       {items.map(i => (
         <ToggleButton
           variant={variant}
