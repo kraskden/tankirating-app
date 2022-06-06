@@ -5,6 +5,7 @@ import {
   Routes
 } from 'react-router-dom'
 import { NavigationBar } from "./components/navbar/NavBar";
+import { OnlinePage } from './pages/OnlinePage';
 import { UserPage } from './pages/UserPage';
 
 
@@ -18,6 +19,11 @@ function App() {
             path="/user/:user"
             element={<UserPage />}
           />
+          <Route 
+            exact path="/online"
+            element={<OnlinePage />}
+          />
+          
         </Routes>
       </div>
 

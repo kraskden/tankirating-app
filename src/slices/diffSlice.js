@@ -25,12 +25,12 @@ const diffSlice = createSlice({
   }
 })
 
+// Actions
+
 export const loadDiffs = createAsyncThunk('diff/load', async ({format, period, params}, {getState}) => {
   const targetId = getState().target.data.id 
   return await apiLoadDiffs(targetId, period, format, params)
 })
-
-// Actions
 
 export const {eraseDiffs} = diffSlice.actions
 
