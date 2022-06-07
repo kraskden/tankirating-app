@@ -38,7 +38,7 @@ export function Loader({ selector, loadEvent, children, loader, idleLoader, erro
     case 'loading':
       return loader ?? <CenterSpinner />
     case 'error':
-      return errorHandler ? <ErrorHandler error={JSON.parse(error.name)} /> :
+      return errorHandler ? <ErrorHandler error={error.name && JSON.parse(error.name)} /> :
        <p>Error: {error.message}</p>
   }
 }

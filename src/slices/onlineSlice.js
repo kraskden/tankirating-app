@@ -1,4 +1,4 @@
-import { apiLoadCcu, apiLoadMomentaryOnline, apiLoadPcu } from "../service/online"
+import { apiLoadCcu, apiLoadCurrentPcu, apiLoadMomentaryOnline, apiLoadPcu } from "../service/online"
 import { addThunkReducers, getIdleState } from "../util/slices"
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
@@ -18,7 +18,7 @@ const onlineSlice = createSlice({
   },
   extraReducers(builder) {
     addThunkReducers(builder, loadMomentary, (s) => [s, 'momentary'])
-    addThunkReducers(builder, loadCurrentPcu, (s) => [s, 'ccu'])
+    addThunkReducers(builder, loadCcu, (s) => [s, 'ccu'])
     addThunkReducers(builder, loadPcu, (state, action) => {
       const {period} = action.meta.arg 
       return [state.pcu, period]
@@ -32,7 +32,7 @@ const onlineSlice = createSlice({
 export const loadMomentary = createAsyncThunk('online/momentary/load', apiLoadMomentaryOnline)
 export const loadCcu = createAsyncThunk('online/ccu/load', async ({from, to}) => apiLoadCcu(from, to) )
 export const loadPcu = createAsyncThunk('online/pcu/load', async ({period, from, to}) => apiLoadPcu(period, from, to))
-export const loadCurrentPcu = createAsyncThunk('online/currentPcu/load', loadCurrentPcu)
+export const loadCurrentPcu = createAsyncThunk('online/currentPcu/load', apiLoadCurrentPcu)
 
 // Selectors
 

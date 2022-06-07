@@ -8,7 +8,7 @@ export async function apiLoadMomentaryOnline() {
   const {data} = await axios.get(MOMENTARY_ONLINE_URL)
   return Object.values(data.nodes).reduce((acc, curr) => {
     acc.online += curr.online 
-    acc.inbattles += curr.onbattles
+    acc.inbattles += curr.inbattles
     return acc
   }, {online: 0, inbattles: 0})
 }
@@ -40,5 +40,6 @@ export async function apiLoadCurrentPcu() {
   const {data} = await axios.get(`/online/pcu/current`)
   return data.reduce((acc, curr) => {
     acc[curr.period.toLowerCase()] = curr
+    return acc
   }, {})
 }
