@@ -1,15 +1,15 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { getDiffsSelector, loadDiffs } from '../../../slices/diffSlice';
+import { getDiffsSelector, loadDiffsForDatePeriod } from '../../../slices/diffSlice';
 import { OptionDropdown } from '../../control/OptionDropdown';
 import { OptionRadio } from '../../control/OptionRadio';
 
 import { Loader } from '../../loader/Loaders'
 
-import { sub } from 'date-fns';
 import { DIFF_PERIODS } from '../../../lib/constants';
 import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
+import { useDatePeriodState } from '../../../hooks/hooks';
 
 const periods = DIFF_PERIODS
 
@@ -21,68 +21,34 @@ export function DiffChartContainer({ properties, format, additionalControls, cha
 
   const defaultOffset = 30;
 
-  function defPeriodStart(period) {
-    return sub(new Date(), { [period.fnsPeriod]: defaultOffset })
-  }
-
   const dispatch = useDispatch()
   const [property, setProperty] = useState(properties[0])
 
-  const [period, setPeriod] = useState({
-    ...periods[0],
-    startDate: defPeriodStart(periods[0]),
-    endDate: new Date()
-  })
+  const [datePeriod, setDatePeriod] = useDatePeriodState(periods[0], defaultOffset)
 
   function onPeriodChange(period) {
-    setPeriod({
-      ...period,
-      startDate: defPeriodStart(period),
-      endDate: new Date()
-    })
+    setDatePeriod(period)
     onDataChanges && onDataChanges()
   }
 
   function onPeriodRangeChange(startDate, endDate) {
-    const newPeriod = {
-      ...period,
-      startDate,
-      endDate
-    }
-    setPeriod(newPeriod)
-    dispatch(loadDiffsForPeriod(newPeriod))
+    const newPeriod =  setDatePeriod(datePeriod, startDate, endDate)
+    dispatch(loadDiffsForDatePeriod(newPeriod, format))
     onDataChanges && onDataChanges()
-
   }
 
   function onPeriodRangeReset() {
-    const newPeriod = {
-      ...period,
-      startDate: defPeriodStart(period),
-      endDate: new Date()
-    }
-    setPeriod(newPeriod)
-    dispatch(loadDiffsForPeriod(newPeriod))
+    const newPeriod = setDatePeriod(datePeriod)
+    dispatch(loadDiffsForDatePeriod(newPeriod, format))
     onDataChanges && onDataChanges()
-
   }
 
-  function loadDiffsForPeriod(period) {
-    return loadDiffs({
-      format: format.toUpperCase(),
-      period: period.name,
-      params: {
-        from: period.startDate,
-        to: period.endDate
-      }
-    })
-  }
 
-  const loadDiffsForPeriodEvent = useCallback(() => loadDiffsForPeriod(period), [period])
+  const loadDiffsForPeriodEvent = useCallback(() => loadDiffsForDatePeriod(datePeriod, format), [datePeriod, format])
 
   const getDiffsForPeriod = useMemo(() => (
-    getDiffsSelector(format.toLowerCase(), period.name)
-  ), [period])
+    getDiffsSelector(format.toLowerCase(), datePeriod.name)
+  ), [datePeriod, format])
 
   return (
     <Card className='mt-2 mb-4'>
@@ -95,14 +61,14 @@ export function DiffChartContainer({ properties, format, additionalControls, cha
           {additionalControls ? 
             <Loader selector={getDiffsForPeriod} loader={<></>}>
               <Controls selector={getDiffsForPeriod}
-                property={property} period={period} />
+                property={property} period={datePeriod} />
             </Loader> : <></>
           }
         </div>
       </Card.Header>
       <Card.Body>
         <Loader loadEvent={loadDiffsForPeriodEvent} selector={getDiffsForPeriod}>
-          <Chart property={property} period={period} selector={getDiffsForPeriod} />
+          <Chart property={property} period={datePeriod} selector={getDiffsForPeriod} />
         </Loader>
       </Card.Body>
       <Card.Footer>
@@ -110,7 +76,7 @@ export function DiffChartContainer({ properties, format, additionalControls, cha
           <div className="my-2">
             <DiffDateRangeSelect
               selector={getDiffsForPeriod}
-              period={period}
+              period={datePeriod}
               onRangeChange={onPeriodRangeChange}
               onRangeReset={onPeriodRangeReset}
             />

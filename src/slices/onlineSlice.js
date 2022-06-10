@@ -30,8 +30,20 @@ const onlineSlice = createSlice({
 // Actions
 
 export const loadMomentary = createAsyncThunk('online/momentary/load', apiLoadMomentaryOnline)
+
 export const loadCcu = createAsyncThunk('online/ccu/load', async ({from, to}) => apiLoadCcu(from, to) )
+export const loadCcuForDatePeriod = (datePeriod) => loadCcu({
+    from: datePeriod.startDate,
+    to: datePeriod.endDate
+  })
+
 export const loadPcu = createAsyncThunk('online/pcu/load', async ({period, from, to}) => apiLoadPcu(period, from, to))
+export const loadPcuForDatePeriod = (datePeriod) => loadPcu({
+  period: datePeriod.name,
+  from: datePeriod.startDate,
+  to: datePeriod.endDate
+})
+
 export const loadCurrentPcu = createAsyncThunk('online/currentPcu/load', apiLoadCurrentPcu)
 
 // Selectors

@@ -32,6 +32,15 @@ export const loadDiffs = createAsyncThunk('diff/load', async ({format, period, p
   return await apiLoadDiffs(targetId, period, format, params)
 })
 
+export const loadDiffsForDatePeriod = (datePeriod, format) => loadDiffs({
+  format: format.toUpperCase(),
+  period: datePeriod.name,
+  params: {
+    from: datePeriod.startDate,
+    to: datePeriod.endDate
+  }
+}) 
+
 export const {eraseDiffs} = diffSlice.actions
 
 // Selectors 

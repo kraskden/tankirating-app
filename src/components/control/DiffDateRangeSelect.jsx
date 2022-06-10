@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { getData } from '../../util/slices';
-import { DateRangeSelect } from "./DateRangeSelect";
+import { DatePeriodRangeSelect } from '../online/DatePeriodRangeSelect';
 
 export function DiffDateRangeSelect({ period, selector, onRangeChange, onRangeReset }) {
 
@@ -10,15 +10,11 @@ export function DiffDateRangeSelect({ period, selector, onRangeChange, onRangeRe
   const bg = diffPresented ? 'secondary' : 'danger';
 
   return (
-    <DateRangeSelect
-      selectedStartDate={new Date(period.startDate)}
-      selectedEndDate={new Date(period.endDate)}
+    <DatePeriodRangeSelect 
+      datePeriod={period}
       bg={bg}
-      onReset={onRangeReset}
-      onChange={onRangeChange}
-      showMonths={period.name === 'month'}
-      maxDate={new Date()}
-      // TODO: min date
+      onRangeChange={onRangeChange}
+      onRangeReset={onRangeReset}
     />
   )
 

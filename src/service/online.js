@@ -1,5 +1,5 @@
 import axios from "axios"
-import { toISODate } from "../util/format"
+import { toISODate, toISOStartOfDayDateTime } from "../util/format"
 
 const MOMENTARY_ONLINE_URL = "https://tankionline.com/s/status.js"
 
@@ -14,9 +14,10 @@ export async function apiLoadMomentaryOnline() {
 }
 
 export async function apiLoadCcu(from, to) {
+  console.log(from, to)
   const params = {
-    from: toISODate(from),
-    to: toISODate(to)
+    from: toISOStartOfDayDateTime(from),
+    to: toISOStartOfDayDateTime(to)
   }
   const {data} =  await axios.get('/online/snapshot', {params})
   return data
@@ -24,8 +25,8 @@ export async function apiLoadCcu(from, to) {
 
 export async function apiLoadPcu(period, from, to) {
   const params = {
-    from: toISODate(from),
-    to: toISODate(to)
+    from: toISOStartOfDayDateTime(from),
+    to: toISOStartOfDayDateTime(to)
   }
   const {data} = await axios.get(`/online/pcu/${period.toLowerCase()}`, {from, to})
   return data

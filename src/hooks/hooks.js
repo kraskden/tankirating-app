@@ -26,10 +26,12 @@ export function useDatePeriodState(defPeriod, defOffset) {
   return [period, (newPeriod, startDate, endDate) => {
     startDate = startDate ?? defPeriodStart(newPeriod)
     endDate = endDate ?? new Date()
-    setPeriod({
+    const newDatePeriod = {
       ...newPeriod,
       startDate,
       endDate
-    })
+    }
+    setPeriod(newDatePeriod)
+    return newDatePeriod
   }]
 }

@@ -18,6 +18,11 @@ export function truncateBigNumber(num) {
   }
 }
 
+export function toISOStartOfDayDateTime(date) {
+  date = date instanceof Date ? date : new Date(date)
+  return toISODate(date) + 'T00:00:00.000Z'
+}
+
 export function toISODate(date) {
   date = date instanceof Date ? date : new Date(date)
   return format(date, 'yyyy-MM-dd')
