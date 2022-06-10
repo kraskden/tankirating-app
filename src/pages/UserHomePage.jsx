@@ -1,6 +1,6 @@
 import { SnapshotView } from "../components/view/SnapshotView"
 import { HeatMap } from "../components/profile/HeatMap"
-import { BaseDiffChart } from "../components/profile/diff/BaseDiffChart"
+import { BaseDiffChart } from "../components/charts/profile/BaseDiffChart"
 
 
 export default function UserHomePage() {

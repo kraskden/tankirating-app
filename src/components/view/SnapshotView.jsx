@@ -2,13 +2,13 @@ import { Badge, Card, Spinner } from "react-bootstrap"
 
 import { useSelector } from "react-redux";
 import { getSnapshot } from "../../slices/snapshotSlice";
-import { EmbeddedPieChart } from "../charts/EmbeddedPieChart"
 import { SnapshotBadges } from "../profile/badges/SnapshotBadges"
-import { SummaryTable } from "../profile/summary/summary_table/SummaryTable"
+import { SummaryTable } from "../profile/summary_table/SummaryTable"
 
 import { makePieTimeData } from "../../lib/chart"
 import { makeAllTimeSummary } from "../../lib/summary"
 import { getData } from "../../util/slices"
+import { EmbeddedPieChart } from "../charts/base/EmbeddedPieChart";
 
 export function SnapshotView() {
 

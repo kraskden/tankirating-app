@@ -1,27 +1,22 @@
 import { useCallback, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useDatePeriodState } from "../../hooks/hooks";
-import { DIFF_PERIODS } from "../../lib/constants";
-import { getCcu, getPcuSelector, loadCcuForDatePeriod, loadPcu, loadPcuForDatePeriod } from "../../slices/onlineSlice";
-import { UncontrolledOptionRadio } from "../control/OptionRadio";
-import { Loader } from "../loader/Loaders";
-import { DatePeriodRangeSelect } from "./DatePeriodRangeSelect";
+import { useDatePeriodState } from "../../../hooks/hooks";
+import { DIFF_PERIODS } from "../../../lib/constants";
+import { getCcu, getPcuSelector, loadCcuForDatePeriod, loadPcu, loadPcuForDatePeriod } from "../../../slices/onlineSlice";
+import { DatePeriodRangeSelect } from "../../control/DatePeriodRangeSelect";
+import { UncontrolledOptionRadio } from "../../control/OptionRadio";
+import { Loader } from "../../loader/Loaders";
+import { CcuChart } from "../online/CcuChart";
+import { PcuChart } from "../online/PcuChart";
 
-function CcuChart() {
-  
-}
-
-function PcuChart({period}) {
-  
-}
 
 const VARIANTS = [
   { name: 'ccu', title: 'CCU', chart: CcuChart, loader: loadCcuForDatePeriod },
   { name: 'pcu', title: 'PCU', chart: PcuChart, loader: loadPcuForDatePeriod }
 ]
 
-export function OnlineChart() {
+export function OnlineChartContainer() {
 
   const defaultPcuOffset = 30
   const defaultCcuOffset = 4

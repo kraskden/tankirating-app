@@ -1,5 +1,5 @@
 import { Container } from 'react-bootstrap'
-import { OnlineChart } from '../components/online/OnlineChart'
+import { OnlineChartContainer } from '../components/charts/container/OnlineChartContainer'
 import { OnlineStatCard } from '../components/online/OnlineStatCard'
 
 export function OnlinePage() {
@@ -7,7 +7,7 @@ export function OnlinePage() {
     <Container fluid='md'>
       <OnlineStatCard />
       <div className='mt-3'>
-        <OnlineChart />
+        <OnlineChartContainer />
       </div>
     </Container>
   )

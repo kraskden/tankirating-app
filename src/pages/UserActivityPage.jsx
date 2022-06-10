@@ -1,4 +1,4 @@
-import { FullDiffChart } from "../components/profile/diff/FullDiffChart";
+import { FullDiffChart } from "../components/charts/profile/FullDiffChart";
 
 
 export function UserActivityPage() {

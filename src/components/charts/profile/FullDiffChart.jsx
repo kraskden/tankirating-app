@@ -5,10 +5,10 @@ import { CHART_COLOR_PALLETE, FULL_DIFF_FORMAT } from "../../../lib/constants"
 import { formatBigNumber, formatHoursTime } from "../../../util/format"
 import { getData } from "../../../util/slices"
 import { UncontrolledOptionDropdown } from "../../control/OptionDropdown"
-import { DiffChartContainer } from "./DiffChartContainer"
+import { DiffChartContainer } from "../../charts/container/DiffChartContainer"
 import { getTrackActivityNames, makeItemsTracks } from '../../../lib/tracking';
 import { Button } from 'react-bootstrap';
-import { MultiLineChart } from '../../charts/LineChart';
+import { MultiLineChart } from '../base/LineChart';
 
 
 const properties = [

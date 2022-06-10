@@ -2,8 +2,8 @@ import { useSelector } from "react-redux"
 import { BASE_DIFF_FORMAT } from "../../../lib/constants"
 import { formatBigNumber, formatHoursTime } from "../../../util/format"
 import { getData } from "../../../util/slices"
-import { SingleLineChart } from "../../charts/LineChart"
-import { DiffChartContainer } from "./DiffChartContainer"
+import { SingleLineChart } from "../base/LineChart"
+import { DiffChartContainer } from "../container/DiffChartContainer"
 
 function Chart({ height, property, period, selector }) {
 

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { getData } from '../../util/slices';
-import { DatePeriodRangeSelect } from '../online/DatePeriodRangeSelect';
+import { DatePeriodRangeSelect } from './DatePeriodRangeSelect';
 
 export function DiffDateRangeSelect({ period, selector, onRangeChange, onRangeReset }) {
 
