@@ -1,3 +1,4 @@
+import { toISODate } from "../util/format";
 
 export function makePieTimeData(activities, countLimit = 5, percentLimit = 1/16) {
 
@@ -25,4 +26,21 @@ export function makePieTimeData(activities, countLimit = 5, percentLimit = 1/16)
     y: e.time
   }))
   
+}
+
+/**
+ * For CCU chart X-Axis tick is draw for point in the middle of the day.
+ * Vertical reference line is drawn on every day start
+ */
+export function makeCcuTickIndexes(data) {
+  const dayMap = {}
+  data.forEach((entry, idx) => {
+    const key = toISODate(entry.timestamp)
+    dayMap[key] = dayMap[key] ?? {start: idx, end: idx}
+    dayMap[key].end = idx
+  });
+  const tickIndexes = new Set(Object.values(dayMap).map(pair => Math.round((pair.start + pair.end) / 2)))
+  const referenceKeys = Object.values(dayMap).map(p => p.start).map(idx => data[idx].timestamp)
+
+  return {tickIndexes, referenceKeys}
 }

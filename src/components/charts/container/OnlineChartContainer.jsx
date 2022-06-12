@@ -62,7 +62,7 @@ export function OnlineChartContainer() {
       </Card.Header>
       <Card.Body>
         <Loader loadEvent={loadOnlineEvent} selector={onlineSelector} loader={<></>}>
-          <Chart period={datePeriod} />
+          <Chart period={datePeriod} height={400} />
         </Loader>
       </Card.Body>
       <Card.Footer className="my-2">

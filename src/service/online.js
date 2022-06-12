@@ -1,5 +1,5 @@
 import axios from "axios"
-import { toISODate, toISOStartOfDayDateTime } from "../util/format"
+import { toISODate, toISOEndOfDayDateTime, toISOStartOfDayDateTime } from "../util/format"
 
 const MOMENTARY_ONLINE_URL = "https://tankionline.com/s/status.js"
 
@@ -14,10 +14,9 @@ export async function apiLoadMomentaryOnline() {
 }
 
 export async function apiLoadCcu(from, to) {
-  console.log(from, to)
   const params = {
     from: toISOStartOfDayDateTime(from),
-    to: toISOStartOfDayDateTime(to)
+    to: toISOEndOfDayDateTime(to)
   }
   const {data} =  await axios.get('/online/snapshot', {params})
   return data

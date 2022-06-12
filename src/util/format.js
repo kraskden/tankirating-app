@@ -23,6 +23,11 @@ export function toISOStartOfDayDateTime(date) {
   return toISODate(date) + 'T00:00:00.000Z'
 }
 
+export function toISOEndOfDayDateTime(date) {
+  date = date instanceof Date ? date : new Date(date)
+  return toISODate(date) + 'T23:59:59.999Z'
+}
+
 export function toISODate(date) {
   date = date instanceof Date ? date : new Date(date)
   return format(date, 'yyyy-MM-dd')

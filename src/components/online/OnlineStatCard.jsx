@@ -16,12 +16,6 @@ const ONLINE_PERIODS = [
   { name: 'all_time', title: 'All Time' }
 ]
 
-function ErrorLabel() {
-  return (
-    <Alert variant="danger">No data</Alert>
-  )
-}
-
 function MomentaryOnlineCard({ online, inbattles, onlineTitle, inbattlesTitle }) {
   const inBattlesPercent = inbattles ? `[${Math.floor(inbattles / online * 100)}%]` : ''
   onlineTitle = onlineTitle || "Online"
@@ -69,7 +63,7 @@ export function OnlineStatCard() {
     const timer = setInterval(() => {
       dispatch(loadMomentary())
       setDate(new Date())
-    }, 1000 * 60 * 1)
+    }, 1000 * 60 * 10)
     return () => clearInterval(timer)
   }, [])
 
@@ -83,7 +77,7 @@ export function OnlineStatCard() {
           {format(date, "do LLL yyyy hh:mm / [O]")}
         </p>
         <div className="row mt-4 mb-4">
-          <Loader selector={getMomentary} loadEvent={loadMomentary} errorHandler={ErrorLabel}>
+          <Loader selector={getMomentary} loadEvent={loadMomentary} errorHandler={MomentaryOnlineCard}>
             <MomentaryOnlineView />
           </Loader>
           <Loader selector={getCurrentPcu} loadEvent={loadCurrentPcu}>

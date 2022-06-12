@@ -25,3 +25,5 @@ export const DEFAULT_DATEPICKER_PARAMS = {
 
 // qualitative colour pallete, see: https://tsitsul.in/blog/coloropt/
 export const CHART_COLOR_PALLETE = ["#4053d3", "#ddb310", "#b51d14", "#00beff", "#fb49b0", "#00b25d"]
+
+export const ONLINE_COLOR_PALLETE = ['#3a3af9', '#ff0000']
