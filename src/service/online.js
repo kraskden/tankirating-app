@@ -27,7 +27,7 @@ export async function apiLoadPcu(period, from, to) {
     from: toISOStartOfDayDateTime(from),
     to: toISOStartOfDayDateTime(to)
   }
-  const {data} = await axios.get(`/online/pcu/${period.toLowerCase()}`, {from, to})
+  const {data} = await axios.get(`/online/pcu/${period.toLowerCase()}`, {params})
   return data
 }
 

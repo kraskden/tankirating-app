@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useDatePeriodState } from "../../../hooks/hooks";
@@ -16,6 +16,10 @@ const VARIANTS = [
   { name: 'pcu', title: 'PCU', chart: PcuChart, loader: loadPcuForDatePeriod }
 ]
 
+const ZOOM_OPTIONS = [
+  { name: true, title: '+' }, { name: false, title: '-' }
+]
+
 export function OnlineChartContainer() {
 
   const defaultPcuOffset = 30
@@ -24,11 +28,13 @@ export function OnlineChartContainer() {
   const dispatch = useDispatch()
 
   const [variant, setVariant] = useState(VARIANTS[0])
+  const [zoom, setZoom] = useState(ZOOM_OPTIONS[0])
   const [pcuDatePeriod, setPcuDatePeriod] = useDatePeriodState(DIFF_PERIODS[0], defaultPcuOffset)
   const [ccuDatePeriod, setCcuDatePeriod] = useDatePeriodState(DIFF_PERIODS[0], defaultCcuOffset)
-  
-  const [datePeriod, setDatePeriod] = variant.name === 'pcu' ? 
-    [pcuDatePeriod, setPcuDatePeriod] : 
+
+
+  const [datePeriod, setDatePeriod] = variant.name === 'pcu' ?
+    [pcuDatePeriod, setPcuDatePeriod] :
     [ccuDatePeriod, setCcuDatePeriod]
 
   function onRangeChange(startDate, endDate) {
@@ -41,12 +47,12 @@ export function OnlineChartContainer() {
     dispatch(variant.loader(newPeriod))
   }
 
-  const loadOnlineEvent = useCallback(() => 
+  const loadOnlineEvent = useCallback(() =>
     variant.loader(datePeriod)
-  , [datePeriod, variant])
+    , [datePeriod, variant])
 
-  const onlineSelector = variant.name === 'pcu' ? 
-    getPcuSelector(datePeriod) : getCcu;
+  const onlineSelector = variant.name === 'pcu' ?
+    getPcuSelector(datePeriod.name) : getCcu
 
   const Chart = variant.chart
 
@@ -55,14 +61,19 @@ export function OnlineChartContainer() {
       <Card.Header className="d-flex">
         <UncontrolledOptionRadio item={variant} items={VARIANTS} onChange={setVariant} />
         {variant.name === 'pcu' &&
-          <div className="ms-3 d-flex">
-            <UncontrolledOptionRadio item={pcuDatePeriod} items={DIFF_PERIODS} onChange={setPcuDatePeriod} />
-          </div>
+          <>
+            <div className="ms-3 d-flex">
+              <UncontrolledOptionRadio item={pcuDatePeriod} items={DIFF_PERIODS} onChange={setPcuDatePeriod} />
+            </div>
+            <div className="ms-3 d-flex">
+              <UncontrolledOptionRadio item={zoom} items={ZOOM_OPTIONS} onChange={setZoom} />
+            </div>
+          </>
         }
       </Card.Header>
       <Card.Body>
         <Loader loadEvent={loadOnlineEvent} selector={onlineSelector} loader={<></>}>
-          <Chart period={datePeriod} height={400} />
+          <Chart period={datePeriod} selector={onlineSelector} height={400} zoom={zoom.name}/>
         </Loader>
       </Card.Body>
       <Card.Footer className="my-2">
