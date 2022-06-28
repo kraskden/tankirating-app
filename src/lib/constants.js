@@ -1,4 +1,4 @@
-import { format } from "date-fns"
+import { differenceInDays, differenceInMonths, differenceInWeeks, differenceInYears, format } from "date-fns"
 
 export const TIME_PERIODS = ["day", "week", "month", "year", "all_time"]
 
@@ -9,6 +9,14 @@ export const DIFF_PERIODS = [
   { name: 'day', title: 'Daily', fnsPeriod: 'days', formatter: (time) => format(new Date(time), 'dd/MM') },
   { name: 'week', title: 'Weekly', fnsPeriod: 'weeks', formatter: (time) => format(new Date(time), 'dd/MM') },
   { name: 'month', title: 'Monthly', fnsPeriod: 'months', formatter: (time) => format(new Date(time), 'MM/yy') },
+]
+
+export const TRACK_PERIODS = [
+  { name: 'day', title: 'Day', diffFn: differenceInDays },
+  { name: 'week', title: 'Week', diffFn: differenceInWeeks },
+  { name: 'month', title: 'Month', diffFn: differenceInMonths },
+  { name: 'year', title: 'Year', diffFn: differenceInYears },
+  { name: 'all_time', title: 'All Time' },
 ]
 
 const dateFormat = "dd.MM.yyyy"

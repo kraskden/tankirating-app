@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { diffReducer } from './slices/diffSlice';
 import { heatMapReducer } from './slices/heatMapSlice';
 import { onlineReducer } from './slices/onlineSlice';
+import { ratingReducer } from './slices/ratingSlice';
 import { snapshotReducer } from './slices/snapshotSlice';
 import { summaryReducer } from './slices/summarySlice';
 import { targetReducer } from './slices/targetSlice';
@@ -13,6 +14,7 @@ export const store = configureStore({
     heatMap: heatMapReducer,
     diffs: diffReducer,
     summary: summaryReducer,
-    online: onlineReducer
+    online: onlineReducer,
+    rating: ratingReducer
   }
 });
