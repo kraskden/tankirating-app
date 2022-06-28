@@ -6,12 +6,21 @@
 * Heatmap
 * Select custom date range on all charts/views
 * Different items activity comparing (3rd tab)
+* OnlineHub
+
+## IN PROGRESS:
+* User rating
 
 ## TODO: 
 
+#### FIXES
+
 * SearchBox navigate - don't reset current open view!
-* OnlineHub 
-* Main page (Users list)
+
+#### FEATURES
+
+* Global rating
+* Add user (with captcha)
 
 ## Stack: 
 
