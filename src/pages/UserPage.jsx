@@ -4,7 +4,7 @@ import { useParams } from "react-router"
 import { Loader } from "../components/loader/Loaders"
 import { AbsoluteSpinner } from "../components/loader/Spinners"
 import { UserBox } from "../components/profile/UserBox"
-import { SearchBox } from "../components/SearchBox"
+import { SearchBox, SearchBoxContainer } from "../components/SearchBox"
 import { getSnapshot, loadLastSnapshot } from "../slices/snapshotSlice"
 import { getTarget, loadTarget } from "../slices/targetSlice"
 import { UserActivityPage } from "./UserActivityPage"
@@ -19,11 +19,7 @@ export function UserPage() {
 
   return (
     <Container fluid='md'>
-      <Row className="my-4">
-        <Col className="col-lg-4 offset-lg-4">
-          <SearchBox />
-        </Col>
-      </Row>
+      <SearchBoxContainer />
 
       <Loader selector={getTarget} loadEvent={targetLoadEvent} loader={<AbsoluteSpinner/>}>
         <Loader selector={getSnapshot} loadEvent={loadLastSnapshot} loader={<AbsoluteSpinner />}>

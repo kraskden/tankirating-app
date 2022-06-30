@@ -28,7 +28,7 @@ export const getRatingSelector = (period, offset) => state => {
   return slice[offset] || getIdleState()
 }
 
-export const loadRating = createAsyncThunk('rating/load', async ({period, offset, page, size, sort}) => 
-  apiLoadRating(period, offset, page, size, sort))
+export const loadRating = createAsyncThunk('rating/load', async ({period, offset, minScore, page, size, sort}) => 
+  apiLoadRating(period, offset, minScore, page, size, sort))
 
 export const ratingReducer = ratingSlice.reducer

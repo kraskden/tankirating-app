@@ -1,8 +1,18 @@
 import { Card, Form, Button, Col, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { loadTarget } from '../slices/targetSlice';
+
+export function SearchBoxContainer() {
+  return (
+    <Row className="my-4">
+      <Col className="col-lg-4 offset-lg-4">
+        <SearchBox />
+      </Col>
+    </Row>
+  )
+}
 
 export function SearchBox() {
 
@@ -21,7 +31,7 @@ export function SearchBox() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Row>
         <Col>
-          <Form.Control  autoComplete='off' type='text' placeholder='Search user' {...register("username", {required: true})} />
+          <Form.Control autoComplete='off' type='text' placeholder='Search user' {...register("username", { required: true })} />
         </Col>
         <Col className='col-auto'>
           <Button variant='primary' type='submit'>

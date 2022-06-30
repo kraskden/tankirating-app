@@ -1,9 +1,12 @@
 import { format } from "date-fns";
 
-export function formatBigNumber(num) {
+export function formatBigNumber(num, zeroStr) {
   const realNum = Number(num)
   if (realNum === NaN) {
     return num;
+  }
+  if (zeroStr && (realNum === 0)) {
+    return zeroStr
   }
   return realNum.toLocaleString('en-US')
 }
@@ -16,6 +19,10 @@ export function truncateBigNumber(num) {
   } else {
     return num
   }
+}
+
+export function truncateBigNumberToK(num) {
+  return `${formatBigNumber(Math.round(num / 1000))}K`
 }
 
 export function toISOStartOfDayDateTime(date) {
@@ -42,7 +49,7 @@ export function toHumanDateTime(date) {
   return format(new Date(date), 'dd.MM.yyyy HH:mm')
 }
 
-export function formatTime(seconds) {
+export function formatTime(seconds, zeroStr = 'N/P') {
   const hours = Math.floor(seconds / 3600)
   const minutes = ((seconds % 3600) / 60).toFixed()
 
@@ -51,7 +58,7 @@ export function formatTime(seconds) {
   } else if (minutes > 1) {
     return `${minutes} min`
   } else {
-    return seconds ? '<1 min' : 'N/P'
+    return seconds ? '<1 min' : zeroStr
   }
 }
 

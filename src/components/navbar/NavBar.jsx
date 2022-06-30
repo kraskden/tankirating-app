@@ -7,6 +7,10 @@ const LINKS = [
     name: 'User Rating'
   },
   {
+    link: '/global',
+    name: 'Global Rating'
+  },
+  {
     link: '/compare',
     name: 'Compare Users'
   },

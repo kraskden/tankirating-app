@@ -34,6 +34,7 @@ function humanizeTrackModuleNames(track) {
 
 function addAdditionalTrackProperties(track) {
   track.kd = track.deaths ? track.kills / track.deaths : null;
+  track.kh = track.time ? Math.round(track.kills * 3600 / track.time) : null;
 
   if (track.activities) {
     for (const k in track.activities) {
