@@ -1,6 +1,6 @@
 import { differenceInDays, differenceInMonths, differenceInWeeks, differenceInYears, format } from "date-fns"
 
-import { formatBigNumber, formatHoursTime, formatPercents, formatTime } from '../util/format';
+import { formatBigNumber, formatHoursTime, formatPercents, formatTime, getWithPercentsFormatter } from '../util/format';
 
 
 export const TIME_PERIODS = ["day", "week", "month", "year", "all_time"]
@@ -39,31 +39,35 @@ const BASE_SUMMARY_CHART_PROPERTIES = [
   }
 ]
 
-export const USER_SUMMARY_CHART_PROPERTIES = [
+const timeWithPercentFormatter = getWithPercentsFormatter((t) => formatTime(t), 'timePercent')
+const scoreWithPercentFormatter = getWithPercentsFormatter(formatBigNumber, 'scorePercent')
+const hoursTimeFormatter = (t) => formatHoursTime(t)
+
+export const ABSOLUTE_SUMMARY_CHART_PROPERTIES = [
   {
     name: 'time',
     title: 'Time',
-    valueFormatter: (time) => time ?  formatTime(time) : 0,
-    tickFormatter: (time) => time ? formatHoursTime(time) : 0
+    valueFormatter: timeWithPercentFormatter,
+    tickFormatter: hoursTimeFormatter
   },
   { 
     name: 'score', 
     title: 'Score', 
-    valueFormatter: formatBigNumber ,
+    valueFormatter:  scoreWithPercentFormatter,
     tickFormatter: formatBigNumber
   },
   ...BASE_SUMMARY_CHART_PROPERTIES, 
 ]
 
-export const GLOBAL_SUMMARY_CHART_PROPERTIES = [
+export const RELATIVE_SUMMARY_CHART_PROPERTIES = [
   {
-    name: 'time', 
+    name: 'timePercent', 
     title: 'Time',
     valueFormatter: formatPercents,
     tickFormatter: formatPercents
   },
   {
-    name: 'score',
+    name: 'scorePercent',
     title: 'Score',
     valueFormatter: formatPercents,
     tickFormatter: formatPercents

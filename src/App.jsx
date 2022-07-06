@@ -5,7 +5,7 @@ import {
   Routes
 } from 'react-router-dom'
 import { NavigationBar } from "./components/navbar/NavBar";
-import { GlobalRatingPage } from './pages/GlobalRatingPage';
+import { GlobalStatPage } from './pages/GlobalStatPage';
 import { OnlinePage } from './pages/OnlinePage';
 import { RatingPage } from './pages/RatingPage';
 import { UserPage } from './pages/UserPage';
@@ -26,7 +26,7 @@ function App() {
             exact path="/online"
             element={<OnlinePage />}
           />
-          <Route exact path='/global' element={<GlobalRatingPage />} />
+          <Route exact path='/global' element={<GlobalStatPage />} />
         </Routes>
       </div>
 

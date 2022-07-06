@@ -19,7 +19,7 @@ const MODULES_MAP = {
 
 function getNormalModuleName(name) {
   const turret = MODULES_MAP[name]
-  return turret ? `m${turret}` : name.replace("Spectrum ", "Spec-");
+  return turret ? `m${turret}` : name.replace("Spectrum ", "Spectr-");
 }
 
 function humanizeTrackModuleNames(track) {
@@ -39,7 +39,13 @@ function addAdditionalTrackProperties(track) {
   if (track.activities) {
     for (const k in track.activities) {
       for (const entry of track.activities[k]) {
+        const total = track.activities[k].reduce((acc, curr) => ({
+          time: acc.time + curr.time, 
+          score: acc.score+ curr.score
+        }), {time: 0,score: 0})  
         entry.sh = entry.time ? Math.round(entry.score * 3600 * 100 / entry.time) / 100 : undefined
+        entry.timePercent = total.time === 0 ? 0 : entry.time / total.time
+        entry.scorePercent = total.score === 0 ? 0 : entry.score / total.score
       }
     }
   }
@@ -50,22 +56,6 @@ export function postProcessTrack(track) {
   humanizeTrackModuleNames(track)
   addAdditionalTrackProperties(track)
 }
-
-export function makeActivitiesDataRelative(track) {
-  if (track.activities) {
-    for (const k in track.activities) {
-      const total = track.activities[k].reduce((acc, curr) => ({
-        time: acc.time + curr.time, 
-        score: acc.score+ curr.score
-      }), {time: 0,score: 0})
-      for (const entry of track.activities[k]) {
-        entry.time = total.time === 0 ? 0 : entry.time / total.time
-        entry.score = total.score === 0 ? 0 : entry.score / total.score
-      }
-    }
-  }
-}
-
 
 export function getSupplyUsages(tracking, name) {
   const supply = tracking.supplies

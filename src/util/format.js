@@ -70,3 +70,8 @@ export function formatHoursTime(seconds) {
 export function formatPercents(val) {
   return `${(val * 100).toFixed(1)}%`
 }
+
+
+export function getWithPercentsFormatter(baseFormatter, percentProperty) {
+  return (val, name, {payload}) => baseFormatter(val) + `  [${formatPercents(payload[percentProperty])}]`
+}

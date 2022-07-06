@@ -10,13 +10,6 @@ export async function apiLoadSummaryForPeriod(targetId, period, offset, format) 
   return data
 }
 
-export async function apiLoadGlobalSummaryForPeriod(targetId, period, offset, format) {
-  const track = await apiLoadSummaryForPeriod(targetId, period, offset, format)
-  makeActivitiesDataRelative(track)
-  return track;
-}
-
-
 export async function apiLoadSummaryForDateRange(targetId, from, to, format) {
   const {data} = await axios.get(`/target/${targetId}/diff/custom`, {
     params: {

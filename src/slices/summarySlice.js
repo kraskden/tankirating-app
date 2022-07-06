@@ -35,7 +35,6 @@ const summarySlice = createSlice({
   },
   extraReducers(builder) {
     addThunkReducers(builder, loadSummary, targetFn)
-    addThunkReducers(builder, loadGlobalSummary, targetFn)
     addThunkReducers(builder, loadCustomSummary, customTargetFn)
   }
 })
@@ -43,11 +42,6 @@ const summarySlice = createSlice({
 export const loadSummary = createAsyncThunk('summary/load', async ({period, offset}, {getState}) => {
   const targetId = getState().target.data.id 
   return await apiLoadSummaryForPeriod(targetId, period, offset, 'FULL')
-})
-
-export const loadGlobalSummary = createAsyncThunk('summary/loadGlobal', async ({period, offset}, {getState}) => {
-  const targetId = getState().target.data.id 
-  return await apiLoadGlobalSummaryForPeriod(targetId, period, offset, 'FULL')
 })
 
 export const loadCustomSummary = createAsyncThunk('summary/custom/load', async ({from, to}, {getState}) => {

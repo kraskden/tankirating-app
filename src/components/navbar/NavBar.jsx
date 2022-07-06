@@ -8,7 +8,7 @@ const LINKS = [
   },
   {
     link: '/global',
-    name: 'Global Rating'
+    name: 'Global Stat'
   },
   {
     link: '/compare',
