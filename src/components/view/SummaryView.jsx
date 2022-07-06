@@ -6,6 +6,7 @@ import { SummaryBadges } from '../profile/badges/SummaryBadges'
 
 import { makeDiffSummary } from '../../lib/summary';
 import { SummaryCharts } from '../charts/profile/SummaryCharts'
+import { USER_SUMMARY_CHART_PROPERTIES } from '../../lib/constants'
 
 export function SummaryView({ selector }) {
 
@@ -28,7 +29,7 @@ export function SummaryView({ selector }) {
         </Card.Body>
       </Card>
 
-      <SummaryCharts summary={summary}/>
+      <SummaryCharts summary={summary} properties={USER_SUMMARY_CHART_PROPERTIES} />
       <div className="mb-5"></div>
     </>
   )

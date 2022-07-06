@@ -15,7 +15,7 @@ import { UserSummaryPage } from "./UserSummaryPage"
 export function UserPage() {
   const { user } = useParams()
 
-  const targetLoadEvent = useCallback(() => loadTarget(user), [user])
+  const targetLoadEvent = useCallback(() => loadTarget({name: user}), [user])
 
   return (
     <Container fluid='md'>

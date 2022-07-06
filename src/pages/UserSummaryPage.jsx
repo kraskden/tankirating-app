@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateRangeSelect } from "../components/control/DateRangeSelect";
 import { PeriodOffsetSelect } from "../components/control/period/PeriodOffsetSelect";
 import { PeriodSelectContainer } from "../components/control/period/PeriodSelectContainer";
+import { ErrorSummaryControl, LoadedSummaryControl } from "../components/control/summary/SummaryControls";
 import { Loader } from "../components/loader/Loaders";
 import { SummaryNoData, SummaryView } from "../components/view/SummaryView";
 import { usePeriodWithOffsetState } from "../hooks/hooks";
@@ -18,7 +19,6 @@ const periods = [
 ]
 
 const defaultPeriod = periods[2]
-const defaultOffsets = getInitOffsetMap(periods)
 
 export function UserSummaryPage() {
 
@@ -78,16 +78,4 @@ export function UserSummaryPage() {
       </Loader>
     </>
   )
-}
-
-function ErrorSummaryControl({ error, period, ...rest }) {
-  return <PeriodOffsetSelect from={error.args.periodStart} to={error.args.periodEnd}
-    navigationDisabled={period.name === 'custom'} period={period} {...rest} />
-}
-
-function LoadedSummaryControl({ selector, period, ...rest }) {
-  const summary = useSelector(getData(selector))
-
-  return <PeriodOffsetSelect from={summary.trackStart} to={summary.trackEnd}
-    navigationDisabled={period.name === 'custom'} period={period} {...rest} />
 }

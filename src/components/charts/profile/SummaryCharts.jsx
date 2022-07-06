@@ -4,22 +4,6 @@ import { Card } from "react-bootstrap"
 import { OptionRadio } from "../../control/OptionRadio"
 import { CategoryBarChart } from '../base/CategoryBarChart';
 
-import { formatBigNumber, formatHoursTime, formatTime } from '../../../util/format';
-
-const properties = [
-  {
-    name: 'time',
-    title: 'Time',
-    valueFormatter: formatTime,
-    tickFormatter: (time) => time === 0 ? 0 : formatHoursTime(time)
-  },
-  { 
-    name: 'score', 
-    title: 'Score', 
-    valueFormatter: formatBigNumber ,
-    tickFormatter: formatBigNumber
-  }
-]
 
 function SummaryBarChart({ data, property }) {
   const height = 30 * data.length + 40;
@@ -37,7 +21,7 @@ function SummaryBarChart({ data, property }) {
   )
 }
 
-export function SummaryCharts({ summary }) {
+export function SummaryCharts({ summary, properties }) {
 
   const [property, setProperty] = useState(properties[0])
   const [activities, setActivities] = useState(getSortedActivities())

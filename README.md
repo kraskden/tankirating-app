@@ -7,9 +7,11 @@
 * Select custom date range on all charts/views
 * Different items activity comparing (3rd tab)
 * OnlineHub
+* User rating
+
 
 ## IN PROGRESS:
-* User rating
+* Global rating
 
 ## TODO: 
 
@@ -17,10 +19,10 @@
 
 * SearchBox navigate - don't reset current open view!
 
-#### FEATURES
+#### TODO
 
-* Global rating
 * Add user (with captcha)
+* Compare users
 
 ## Stack: 
 

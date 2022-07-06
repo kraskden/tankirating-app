@@ -18,8 +18,8 @@ const targetSlice = createSlice({
     }
 })
 
-export const loadTarget = createAsyncThunk('target/set', async (name, {dispatch, getState}) => {
-    const {data} = await getTargetByName(name)
+export const loadTarget = createAsyncThunk('target/set', async ({name, type}, {dispatch, getState}) => {
+    const {data} = await getTargetByName(name, type)
     // TODO: global eraseUserData() action and global reducer...
     dispatch(eraseSnapshot())
     dispatch(eraseHeatMap())

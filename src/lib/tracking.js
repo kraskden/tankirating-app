@@ -19,7 +19,7 @@ const MODULES_MAP = {
 
 function getNormalModuleName(name) {
   const turret = MODULES_MAP[name]
-  return turret ? `m${turret}` : name;
+  return turret ? `m${turret}` : name.replace("Spectrum ", "Spec-");
 }
 
 function humanizeTrackModuleNames(track) {
@@ -49,6 +49,21 @@ function addAdditionalTrackProperties(track) {
 export function postProcessTrack(track) {
   humanizeTrackModuleNames(track)
   addAdditionalTrackProperties(track)
+}
+
+export function makeActivitiesDataRelative(track) {
+  if (track.activities) {
+    for (const k in track.activities) {
+      const total = track.activities[k].reduce((acc, curr) => ({
+        time: acc.time + curr.time, 
+        score: acc.score+ curr.score
+      }), {time: 0,score: 0})
+      for (const entry of track.activities[k]) {
+        entry.time = total.time === 0 ? 0 : entry.time / total.time
+        entry.score = total.score === 0 ? 0 : entry.score / total.score
+      }
+    }
+  }
 }
 
 

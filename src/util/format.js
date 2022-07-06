@@ -66,3 +66,7 @@ export function formatHoursTime(seconds) {
     return seconds ? seconds > 3600 ? (seconds / 3600).toFixed(1) + 'h' :
     ((seconds / 60).toFixed(0) || '<1') + ' min' : "N/P"
 }
+
+export function formatPercents(val) {
+  return `${(val * 100).toFixed(1)}%`
+}
