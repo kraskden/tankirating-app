@@ -1,7 +1,7 @@
 import { differenceInDays, differenceInMonths, differenceInWeeks, differenceInYears, format } from "date-fns"
 
 import { formatBigNumber, formatHoursTime, formatPercents, formatTime, getWithPercentsFormatter } from '../util/format';
-
+import { percentProp } from "../util/util";
 
 export const TIME_PERIODS = ["day", "week", "month", "year", "all_time"]
 
@@ -12,10 +12,14 @@ export const GROUPS = [
   {name: 'legends', title: 'Legends'}
 ]
 
-export const DIFF_PERIODS = [
-  { name: 'day', title: 'Daily', fnsPeriod: 'days', formatter: (time) => format(new Date(time), 'dd/MM') },
+export const GLOBAL_DIFF_PERIODS = [
   { name: 'week', title: 'Weekly', fnsPeriod: 'weeks', formatter: (time) => format(new Date(time), 'dd/MM') },
   { name: 'month', title: 'Monthly', fnsPeriod: 'months', formatter: (time) => format(new Date(time), 'MM/yy') },
+
+]
+export const DIFF_PERIODS = [
+  { name: 'day', title: 'Daily', fnsPeriod: 'days', formatter: (time) => format(new Date(time), 'dd/MM') },
+  ...GLOBAL_DIFF_PERIODS
 ]
 
 export const TRACK_PERIODS = [
@@ -30,7 +34,7 @@ export const GLOBAL_TRACK_PERIODS = TRACK_PERIODS
   .filter(p => p.name !== 'day')
 
 
-const BASE_SUMMARY_CHART_PROPERTIES = [
+const BASE_ACTIVITY_PROPERTIES = [
   {
     name: 'sh',
     title: 'Score/Hour',
@@ -39,11 +43,11 @@ const BASE_SUMMARY_CHART_PROPERTIES = [
   }
 ]
 
-const timeWithPercentFormatter = getWithPercentsFormatter((t) => formatTime(t), 'timePercent')
-const scoreWithPercentFormatter = getWithPercentsFormatter(formatBigNumber, 'scorePercent')
+const timeWithPercentFormatter = getWithPercentsFormatter((t) => formatTime(t))
+const scoreWithPercentFormatter = getWithPercentsFormatter(formatBigNumber)
 const hoursTimeFormatter = (t) => formatHoursTime(t)
 
-export const ABSOLUTE_SUMMARY_CHART_PROPERTIES = [
+export const ABSOLUTE_ACTIVITY_PROPERTIES = [
   {
     name: 'time',
     title: 'Time',
@@ -56,23 +60,35 @@ export const ABSOLUTE_SUMMARY_CHART_PROPERTIES = [
     valueFormatter:  scoreWithPercentFormatter,
     tickFormatter: formatBigNumber
   },
-  ...BASE_SUMMARY_CHART_PROPERTIES, 
+  ...BASE_ACTIVITY_PROPERTIES, 
 ]
 
-export const RELATIVE_SUMMARY_CHART_PROPERTIES = [
+export const RELATIVE_ACTIVE_PROPERTIES = [
   {
-    name: 'timePercent', 
+    name: percentProp('time'),
     title: 'Time',
-    valueFormatter: formatPercents,
     tickFormatter: formatPercents
   },
   {
-    name: 'scorePercent',
+    name: percentProp('score'),
     title: 'Score',
-    valueFormatter: formatPercents,
     tickFormatter: formatPercents
   },
-  ...BASE_SUMMARY_CHART_PROPERTIES
+  ...BASE_ACTIVITY_PROPERTIES
+]
+
+export const ACTIVITY_CATEGORIES = [
+  { name: 'hulls', title: 'Hulls' },
+  { name: 'turrets', title: 'Turrets' },
+  { name: 'modes', title: 'Modes' },
+  { name: 'modules', title: 'Modules' }
+]
+
+export const TRACK_PROPERTIES = [
+  { name: 'time', title: 'Time', tickFormatter: (time) => time ? formatHoursTime(time) : 0 },
+  { name: 'cry', title: 'Cry', tickFormatter: formatBigNumber },
+  { name: 'score', title: 'Score', tickFormatter: formatBigNumber },
+  { name: 'kd', title: 'K/D', tickFormatter: (value) => value.toFixed(2) }
 ]
 
 const dateFormat = "dd.MM.yyyy"

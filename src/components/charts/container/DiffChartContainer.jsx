@@ -11,10 +11,8 @@ import { DIFF_PERIODS } from '../../../lib/constants';
 import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
 import { useDatePeriodState } from '../../../hooks/hooks';
 
-const periods = DIFF_PERIODS
-
 export function DiffChartContainer({ properties, format, additionalControls, chartComponent,
-  onDataChanges }) {
+  onDataChanges, periods }) {
 
   const Chart = chartComponent
   const Controls = additionalControls

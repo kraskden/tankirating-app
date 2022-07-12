@@ -1,7 +1,7 @@
 import Select from 'react-select';
 import { createRef, useEffect, useMemo, useState } from "react"
 import { Provider, shallowEqual, useSelector } from "react-redux"
-import { CHART_COLOR_PALLETE, FULL_DIFF_FORMAT } from "../../../lib/constants"
+import { ACTIVITY_CATEGORIES, CHART_COLOR_PALLETE, FULL_DIFF_FORMAT } from "../../../lib/constants"
 import { formatBigNumber, formatHoursTime } from "../../../util/format"
 import { getData } from "../../../util/slices"
 import { UncontrolledOptionDropdown } from "../../control/OptionDropdown"
@@ -9,20 +9,6 @@ import { DiffChartContainer } from "../../charts/container/DiffChartContainer"
 import { getTrackActivityNames, makeItemsTracks } from '../../../lib/tracking';
 import { Button } from 'react-bootstrap';
 import { MultiLineChart } from '../base/LineChart';
-
-
-const properties = [
-  { name: 'time', title: 'Time', formatter: (time) => time ? formatHoursTime(time) : 0 },
-  { name: 'score', title: 'Score', formatter: formatBigNumber },
-  { name: 'sh', title: 'Score/Hour'}
-]
-
-const categories = [
-  { name: 'hulls', title: 'Hulls' },
-  { name: 'turrets', title: 'Turrets' },
-  { name: 'modes', title: 'Modes' },
-  { name: 'modules', title: 'Modules' }
-]
 
 const MAX_ITEMS = CHART_COLOR_PALLETE.length
 
@@ -45,22 +31,21 @@ function ChartWrapper({ selector, property, category, period, selectedItems }) {
   }
 
   return (
-    <MultiLineChart 
+    <MultiLineChart
       height={450}
       dataKeys={selectedItems.map(i => i.value)}
       colors={CHART_COLOR_PALLETE}
       data={chartData}
       xKey='periodStart'
-      options={{
-        xFormatter: period.formatter,
-        yFormatter: property.formatter
-      }}
+      xFormatter={period.formatter}
+      yFormatter={property.tickFormatter}
+      tooltipValueFormatter={property.valueFormatter}
     />
   )
 
 }
 
-export function FullDiffChart() {
+export function FullDiffChart({ periods, properties }) {
 
   const [category, setCategory] = useState(null)
   const [selectedItems, setSelectedItems] = useState([])
@@ -94,24 +79,25 @@ export function FullDiffChart() {
 
     return (
       <div className="d-flex ms-4">
-        <UncontrolledOptionDropdown item={category} items={categories} onChange={onCategoryChange} />
+        <UncontrolledOptionDropdown item={category} items={ACTIVITY_CATEGORIES} onChange={onCategoryChange} />
         <div className="mx-2"></div>
-        {itemsEmpty ? <Button variant='danger'>{category ? "No data" : "Select category"}</Button> : 
-        <Select
-          options={items}
-          value={selectedItems}
-          onChange={setSelectedItems}
-          isMulti
-          autoFocus
-          isOptionDisabled={() => selectedItems.length > MAX_ITEMS}
-          placeholder='Select items...'
-        />}
+        {itemsEmpty ? <Button variant='danger'>{category ? "No data" : "Select category"}</Button> :
+          <Select
+            options={items}
+            value={selectedItems}
+            onChange={setSelectedItems}
+            isMulti
+            autoFocus
+            isOptionDisabled={() => selectedItems.length > MAX_ITEMS}
+            placeholder='Select items...'
+          />}
       </div>
     )
   }
 
   return (
     <DiffChartContainer
+      periods={periods}
       additionalControls={ControlsWrapper}
       format={FULL_DIFF_FORMAT}
       properties={properties}

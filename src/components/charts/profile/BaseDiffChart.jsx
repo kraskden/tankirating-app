@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { BASE_DIFF_FORMAT } from "../../../lib/constants"
+import { BASE_DIFF_FORMAT, DIFF_PERIODS, TRACK_PROPERTIES } from "../../../lib/constants"
 import { formatBigNumber, formatHoursTime } from "../../../util/format"
 import { getData } from "../../../util/slices"
 import { SingleLineChart } from "../base/LineChart"
@@ -15,21 +15,13 @@ function Chart({ height, property, period, selector }) {
   }))
 
   return (
-    <SingleLineChart height={height} data={chartData} xKey='periodStart' yKey='value' options={{
-      yFormatter: property.formatter,
-      xFormatter: period.formatter
-    }} />
+    <SingleLineChart height={height} data={chartData} xKey='periodStart' yKey='value'
+      yFormatter={property.tickFormatter} xFormatter={period.formatter} />
   )
 
 }
 
-const properties = [
-  { name: 'time', title: 'Time', formatter: (time) => time ? formatHoursTime(time) : 0 },
-  { name: 'cry', title: 'Cry', formatter: formatBigNumber },
-  { name: 'score', title: 'Score', formatter: formatBigNumber },
-  { name: 'kd', title: 'K/D', formatter: (value) => value.toFixed(2) }
-]
-
+const properties = TRACK_PROPERTIES
 
 export function BaseDiffChart() {
 
@@ -39,6 +31,7 @@ export function BaseDiffChart() {
 
   return (
     <DiffChartContainer
+      periods={DIFF_PERIODS}
       format={BASE_DIFF_FORMAT}
       properties={properties}
       chartComponent={chartWrapper}

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
+    "@stadline/react-mtcaptcha": "^0.1.1",
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
     "classnames": "^2.3.1",

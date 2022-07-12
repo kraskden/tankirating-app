@@ -1677,6 +1677,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stadline/react-mtcaptcha@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@stadline/react-mtcaptcha/-/react-mtcaptcha-0.1.1.tgz#e18a9afa3674dbbb07884d4243d31b4305c472ea"
+  integrity sha512-ae9IkCNWmu2M3f7hbB9qJj1H/aJBixOSsRrh1+9J/XjYaBiYhef8/Vl5dkFZo18w6b152hdN90H8FpT3Zv6VtQ==
+
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz#ee34985952ca21558ab0d952f00298ad2190c053"

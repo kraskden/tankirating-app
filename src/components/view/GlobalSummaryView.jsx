@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { RELATIVE_SUMMARY_CHART_PROPERTIES } from "../../lib/constants";
+import { RELATIVE_ACTIVE_PROPERTIES } from "../../lib/constants";
 import { getData } from "../../util/slices";
 import { SummaryCharts } from "../charts/profile/SummaryCharts";
 
@@ -10,7 +10,7 @@ export function GlobalSummaryView({selector}) {
 
   return (
     <div className="mb-5">
-      <SummaryCharts summary={summary} properties={RELATIVE_SUMMARY_CHART_PROPERTIES} />
+      <SummaryCharts summary={summary} properties={RELATIVE_ACTIVE_PROPERTIES} />
     </div>
   )
 

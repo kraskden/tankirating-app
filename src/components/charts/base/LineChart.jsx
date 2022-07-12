@@ -1,12 +1,13 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 
-function BaseChart({ height, data, xKey, options, children }) {
+function BaseChart({ height, data, xKey, xFormatter, yFormatter, 
+  tooltipValueFormatter, tooltipLabelFormatter, children }) {
 
   if (data.length === 0) {
     return <></>
   }
-  const { xFormatter, yFormatter } = (options || {})
+  
 
   return (
     <ResponsiveContainer width='100%' height={height}>
@@ -15,7 +16,8 @@ function BaseChart({ height, data, xKey, options, children }) {
         <CartesianGrid stroke="#373737" strokeDasharray="5 5" />
         <XAxis dataKey={xKey} tickFormatter={xFormatter} interval='preserveStartEnd' />
         <YAxis domain={[0, 'auto']} tickFormatter={yFormatter} />
-        <Tooltip formatter={yFormatter} labelFormatter={xFormatter} />
+        <Tooltip formatter={tooltipValueFormatter || yFormatter} 
+          labelFormatter={tooltipLabelFormatter || xFormatter} />
       </LineChart>
     </ResponsiveContainer>
   );

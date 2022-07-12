@@ -1,4 +1,5 @@
-import React from 'react'
+import { initialize } from '@stadline/react-mtcaptcha';
+import React, { useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -12,6 +13,15 @@ import { UserPage } from './pages/UserPage';
 
 
 function App() {
+
+  useEffect(() => {
+    initialize({
+      sitekey: 'MTPublic-jjbWzoVd7',
+      theme: 'neowhite',
+      lang: 'en'
+    })
+  }, [])
+
   return (
     <Router>
       <NavigationBar />

@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { percentProp } from "./util";
 
 export function formatBigNumber(num, zeroStr) {
   const realNum = Number(num)
@@ -73,5 +74,7 @@ export function formatPercents(val) {
 
 
 export function getWithPercentsFormatter(baseFormatter, percentProperty) {
-  return (val, name, {payload}) => baseFormatter(val) + `  [${formatPercents(payload[percentProperty])}]`
+  return (val, name, {payload}) => {
+    return baseFormatter(val) + `  [${formatPercents(payload[percentProp(name)])}]`
+  } 
 }

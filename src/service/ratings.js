@@ -3,7 +3,7 @@ import { postProcessTrack } from "../lib/tracking";
 
 
 export async function apiLoadRating(period, offset, minScore, page, size, sort) {
-  const {data} = await axios.get(`/users/rating/${period}/${offset}`, {
+  const {data} = await axios.get(`/account/rating/${period}/${offset}`, {
     params: {
       page, size, sort, minScore
     }

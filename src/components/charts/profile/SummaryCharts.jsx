@@ -13,10 +13,8 @@ function SummaryBarChart({ data, property }) {
       data={data}
       xKey='name'
       yKey={property.name}
-      options={{
-        valueFormatter: property.valueFormatter,
-        tickFormatter: property.tickFormatter
-      }}
+      xFormatter={property.tickFormatter}
+      tooltipValueFormatter={property.valueFormatter}
     />
   )
 }

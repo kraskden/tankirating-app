@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Alert, Container, Tab, Tabs } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { FullDiffChart } from "../components/charts/profile/FullDiffChart";
 import { UncontrolledOptionRadio } from "../components/control/OptionRadio";
 import { Loader } from "../components/loader/Loaders";
 import { AbsoluteSpinner } from "../components/loader/Spinners";
-import { GROUPS } from "../lib/constants";
+import { GLOBAL_DIFF_PERIODS, GROUPS, RELATIVE_ACTIVE_PROPERTIES } from "../lib/constants";
 import { getTarget, loadTarget } from "../slices/targetSlice";
 import { GlobalSummaryPage } from "./GlobalSummaryPage";
 
@@ -32,7 +33,7 @@ export function GlobalStatPage() {
             <GlobalSummaryPage />
           </Tab>
           <Tab eventKey="activity" title="Activity">
-
+            <FullDiffChart periods={GLOBAL_DIFF_PERIODS} properties={RELATIVE_ACTIVE_PROPERTIES} />
           </Tab>
         </Tabs>
       </Loader>

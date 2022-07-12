@@ -1,3 +1,5 @@
+import { percentProp } from "../util/util";
+
 const MODULES_MAP = {
   Fox: "Fire",
   Badger: "Freeze",
@@ -41,11 +43,11 @@ function addAdditionalTrackProperties(track) {
       for (const entry of track.activities[k]) {
         const total = track.activities[k].reduce((acc, curr) => ({
           time: acc.time + curr.time, 
-          score: acc.score+ curr.score
+          score: acc.score + curr.score
         }), {time: 0,score: 0})  
-        entry.sh = entry.time ? Math.round(entry.score * 3600 * 100 / entry.time) / 100 : undefined
-        entry.timePercent = total.time === 0 ? 0 : entry.time / total.time
-        entry.scorePercent = total.score === 0 ? 0 : entry.score / total.score
+        entry.sh = entry.time ? Math.round(entry.score * 3600 * 100 / entry.time) / 100 : 0
+        entry[percentProp('time')] = total.time === 0 ? 0 : entry.time / total.time
+        entry[percentProp('score')] = total.score === 0 ? 0 : entry.score / total.score
       }
     }
   }
@@ -83,11 +85,13 @@ export function makeItemsTracks(tracks, category, property, items) {
     
     const trackMap = activities[category].reduce((acc, curr) => {
       acc[curr.name] = curr[property]
+      acc[percentProp(curr.name)] = curr[percentProp(property)]
       return acc
     }, {})
 
     return items.reduce((acc, item) => {
       acc[item.value] = trackMap[item.value] || 0
+      acc[percentProp(item.value)] = trackMap[percentProp(item.value)] || 0
       return acc
     }, {periodStart, periodEnd, trackStart, trackEnd})    
   }
