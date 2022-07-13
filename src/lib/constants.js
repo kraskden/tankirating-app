@@ -1,6 +1,6 @@
 import { differenceInDays, differenceInMonths, differenceInWeeks, differenceInYears, format } from "date-fns"
 
-import { formatBigNumber, formatHoursTime, formatPercents, formatTime, getWithPercentsFormatter } from '../util/format';
+import { formatBigNumber, formatHoursTime, formatPercents, formatTime, getTimeFormatter, getWithPercentsFormatter } from '../util/format';
 import { percentProp } from "../util/util";
 
 export const TIME_PERIODS = ["day", "week", "month", "year", "all_time"]
@@ -13,12 +13,12 @@ export const GROUPS = [
 ]
 
 export const GLOBAL_DIFF_PERIODS = [
-  { name: 'week', title: 'Weekly', fnsPeriod: 'weeks', formatter: (time) => format(new Date(time), 'dd/MM') },
-  { name: 'month', title: 'Monthly', fnsPeriod: 'months', formatter: (time) => format(new Date(time), 'MM/yy') },
+  { name: 'week', title: 'Weekly', fnsPeriod: 'weeks', formatter: getTimeFormatter('dd/MM') },
+  { name: 'month', title: 'Monthly', fnsPeriod: 'months', formatter: getTimeFormatter('MM/yy') },
 
 ]
 export const DIFF_PERIODS = [
-  { name: 'day', title: 'Daily', fnsPeriod: 'days', formatter: (time) => format(new Date(time), 'dd/MM') },
+  { name: 'day', title: 'Daily', fnsPeriod: 'days', formatter: getTimeFormatter('dd/MM') },
   ...GLOBAL_DIFF_PERIODS
 ]
 
@@ -99,7 +99,7 @@ export const DEFAULT_DATEPICKER_PARAMS = {
   fixedHeight: true,
   showMonthDropdown: true,
   showYearDropdown: true,
-  scrollableYearDropdown :true,
+  scrollableYearDropdown: true,
   yearDropdownItemNumber: 5,
 }
 

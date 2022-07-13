@@ -73,8 +73,15 @@ export function formatPercents(val) {
 }
 
 
-export function getWithPercentsFormatter(baseFormatter, percentProperty) {
+export function getWithPercentsFormatter(baseFormatter) {
   return (val, name, {payload}) => {
     return baseFormatter(val) + `  [${formatPercents(payload[percentProp(name)])}]`
   } 
+}
+
+export function getTimeFormatter(pattern) {
+  return (time) => {
+    const obj = time instanceof Date ? time : new Date(time)
+    return format(obj, pattern)
+  }
 }

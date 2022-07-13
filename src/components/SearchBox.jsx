@@ -24,7 +24,6 @@ export function SearchBox() {
   function onSubmit(data) {
     reset()
     navigate(`/user/${data.username}`)
-    dispatch(loadTarget(data.username))
   }
 
   return (
