@@ -6,6 +6,7 @@ import { Loader } from "../components/loader/Loaders"
 import { AbsoluteSpinner } from "../components/loader/Spinners"
 import { UserBox } from "../components/profile/UserBox"
 import { SearchBox, SearchBoxContainer } from "../components/SearchBox"
+import { UserProfileErrorHandler } from "../components/user/UserProfileErrorHandler"
 import { getSnapshot, loadLastSnapshot } from "../slices/snapshotSlice"
 import { getTarget, loadTarget } from "../slices/targetSlice"
 import { UserActivityPage } from "./UserActivityPage"
@@ -26,7 +27,7 @@ export function UserPage() {
     <Container fluid='md'>
       <SearchBoxContainer />
 
-      <Loader selector={getTarget} loader={<AbsoluteSpinner/>}>
+      <Loader selector={getTarget} loader={<AbsoluteSpinner/>} errorHandler={UserProfileErrorHandler}>
         <Loader selector={getSnapshot} loadEvent={loadLastSnapshot} loader={<AbsoluteSpinner />}>
           <UserBox />
           <Tabs defaultActiveKey="home" className="my-2" mountOnEnter={true} unmountOnExit={false}>

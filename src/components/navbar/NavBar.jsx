@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button, Container, Form, FormControl, Nav, Navbar } from "react-bootstrap"
 import { useNavigate } from "react-router"
 import { LinkContainer } from "react-router-bootstrap"
-import { UserAddModal } from "../UserAddModal"
+import { UserAddHandler } from "../user/UserAddHandler"
 
 const LINKS = [
   {
@@ -54,7 +54,7 @@ export function NavigationBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <UserAddModal show={userModalShow} onClose={() => setUserModalShow(false)} />
+      <UserAddHandler show={userModalShow} onClose={() => setUserModalShow(false)} />
     </>
   )
 }

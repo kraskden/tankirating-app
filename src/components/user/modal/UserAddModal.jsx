@@ -3,34 +3,41 @@ import { Button, Form, Modal } from "react-bootstrap";
 import Captcha from '@stadline/react-mtcaptcha';
 
 const MAX_ADD_NICKNAMES = 10;
+const SPLIT_REGEX = /[,\s]+/
 
-export function UserAddModal({ show, onClose }) {
+export function UserAddModal({onClose, onAdd}) {
 
   const [nicknames, setNicknames] = useState([])
-  const [captcha, setCaptcha] = useState(null)
-
-  function onNicknamesChanged(e) {
-    const data = e.target.value 
-    const nicknames = data.split(',')
-      .map(s => s.trim())
-      .filter(s => s !== '')
-    setNicknames(nicknames)
-  }
+  // TODO: Default captcha should be null
+  const [captcha, setCaptcha] = useState('mock')
 
   function onModalClose() {
     setCaptcha(null)
     onClose && onClose()
   }
 
+  function onNicknamesChanged(e) {
+    const data = e.target.value 
+    const nicknames = data.split(SPLIT_REGEX)
+      .map(s => s.trim())
+      .filter(s => s !== '')
+    setNicknames(nicknames)
+  }
+
+  function onSubmit(e) {
+    e.preventDefault()
+    onAdd({nicknames, captcha})
+  }
+  
   return (
-    <Modal show={show} onHide={onModalClose}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>Add users</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Form.Group className="mb-1">
-            <Form.Label>Nicknames (comma separated, max: {MAX_ADD_NICKNAMES})</Form.Label>
+            <Form.Label>Nicknames (comma or space separated, max: {MAX_ADD_NICKNAMES})</Form.Label>
             <Form.Control type="text" autoFocus onChange={onNicknamesChanged} required></Form.Control>
             <Form.Text>Entered: {nicknames.length} nicknames</Form.Text>
           </Form.Group>
@@ -43,10 +50,10 @@ export function UserAddModal({ show, onClose }) {
         <Button variant="secondary" onClick={onModalClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={onModalClose} disabled={nicknames.length == 0 || !captcha}>
+        <Button variant="primary" onClick={() => onAdd({nicknames, captcha})} disabled={nicknames.length == 0 || !captcha}>
           Create
         </Button>
       </Modal.Footer>
-    </Modal>
+    </>
   )
 }

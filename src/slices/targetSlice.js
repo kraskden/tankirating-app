@@ -19,13 +19,13 @@ const targetSlice = createSlice({
 })
 
 export const loadTarget = createAsyncThunk('target/set', async ({name, type}, {dispatch, getState}) => {
-    const {data} = await getTargetByName(name, type)
+    const target = await getTargetByName(name, type)
     // TODO: global eraseUserData() action and global reducer...
     dispatch(eraseSnapshot())
     dispatch(eraseHeatMap())
     dispatch(eraseDiffs())
     dispatch(eraseSummary())
-    return data    
+    return target   
 });
 
 export const getTarget = state => state.target
