@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { Button, Container, Form, FormControl, Nav, Navbar } from "react-bootstrap"
-import { useNavigate } from "react-router"
+import { Button, Container, Nav, Navbar } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import { UserAddHandler } from "../user/UserAddHandler"
 
@@ -31,8 +30,6 @@ export function NavigationBar() {
 
   const [userModalShow, setUserModalShow] = useState(false)
 
-  const navigation = useNavigate()
-
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
@@ -43,8 +40,8 @@ export function NavigationBar() {
           <Navbar.Collapse id="main-navbar-nav">
             <Nav className="me-auto">
               {LINKS.map((l, idx) => (
-                <LinkContainer to={l.link}>
-                  <Nav.Link key={idx} className="fw-semibold mx-lg-3 fs-5">{l.name}</Nav.Link>
+                <LinkContainer to={l.link} key={idx}>
+                  <Nav.Link className="fw-semibold mx-lg-3 fs-5">{l.name}</Nav.Link>
                 </LinkContainer>
               ))}
             </Nav>

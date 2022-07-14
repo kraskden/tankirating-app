@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getLatestSnapshot } from "../service/snapshot";
+import { apiGetLatestSnapshot } from "../service/snapshot";
 import { addThunkReducers, getIdleState } from "../util/slices";
 
 const initialState = getIdleState()
@@ -19,7 +19,7 @@ const snapshotSlice = createSlice({
 
 export const loadLastSnapshot = createAsyncThunk('snapshot/load', async (_, {getState}) => {
     const user = getState().target.data
-    return  await getLatestSnapshot(user.id)
+    return  await apiGetLatestSnapshot(user.id)
 })
 
 export const {eraseSnapshot} = snapshotSlice.actions

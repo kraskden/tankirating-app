@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Captcha from '@stadline/react-mtcaptcha';
 
 const MAX_ADD_NICKNAMES = 10;
 const SPLIT_REGEX = /[,\s]+/
 
-export function UserAddModal({onClose, onAdd}) {
+export function UserAddModal({onClose, onAdd, defaultUsers}) {
 
   const [nicknames, setNicknames] = useState([])
+  const [text, setText] = useState("")
+
   // TODO: Default captcha should be null
   const [captcha, setCaptcha] = useState('mock')
+
+  useEffect(() => {
+    if (defaultUsers) {
+      setNicknames(defaultUsers)
+      setText(defaultUsers.join(','))
+    }
+  }, [defaultUsers])
 
   function onModalClose() {
     setCaptcha(null)
@@ -18,6 +27,7 @@ export function UserAddModal({onClose, onAdd}) {
 
   function onNicknamesChanged(e) {
     const data = e.target.value 
+    setText(data)
     const nicknames = data.split(SPLIT_REGEX)
       .map(s => s.trim())
       .filter(s => s !== '')
@@ -38,7 +48,7 @@ export function UserAddModal({onClose, onAdd}) {
         <Form onSubmit={onSubmit}>
           <Form.Group className="mb-1">
             <Form.Label>Nicknames (comma or space separated, max: {MAX_ADD_NICKNAMES})</Form.Label>
-            <Form.Control type="text" autoFocus onChange={onNicknamesChanged} required></Form.Control>
+            <Form.Control type="text" value={text} autoFocus onChange={onNicknamesChanged} required></Form.Control>
             <Form.Text>Entered: {nicknames.length} nicknames</Form.Text>
           </Form.Group>
           <Form.Group>
@@ -50,7 +60,8 @@ export function UserAddModal({onClose, onAdd}) {
         <Button variant="secondary" onClick={onModalClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={() => onAdd({nicknames, captcha})} disabled={nicknames.length == 0 || !captcha}>
+        <Button variant="primary" onClick={() => onAdd({nicknames, captcha})} disabled={nicknames.length === 0 || 
+          nicknames.length > MAX_ADD_NICKNAMES || !captcha}>
           Create
         </Button>
       </Modal.Footer>

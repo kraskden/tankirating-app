@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getTargetByName(name, type) {
+export async function apiGetTargetByName(name, type) {
   const {data} = await axios.get(`/target/${name}`, {
     params: {
       targetType: type
@@ -9,12 +9,10 @@ export async function getTargetByName(name, type) {
   return data
 }
 
-export async function addUsers(nicknames, captcha) {
+export async function apiAddUsers(nicknames, captcha) {
   const {data} = await axios.post('/account', {
     nicknames,
     captcha
   })
   return data 
 }
-
-// export async function checkExisting()

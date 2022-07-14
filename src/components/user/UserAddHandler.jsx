@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { addUsers } from "../../service/target";
+import { apiAddUsers } from "../../service/target";
 import { UserAddModal } from "./modal/UserAddModal";
 import { UserAddLoadingModal } from "./modal/UserAddLoadingModal";
 import { UserAddResultModal } from "./modal/UserAddResultModal";
@@ -13,7 +13,7 @@ const STATUSES = {
   ERROR_VIEW: 4
 }
 
-export function UserAddHandler({ show, onClose }) {
+export function UserAddHandler({ show, onClose, defaultUsers }) {
 
   const [status, setStatus] = useState(STATUSES.ADD)
   const [result, setResult] = useState(null)
@@ -21,7 +21,7 @@ export function UserAddHandler({ show, onClose }) {
   async function onAdd({nicknames, captcha}) {
     setStatus(STATUSES.LOADING)
     try {
-      const data = await addUsers(nicknames, captcha)
+      const data = await apiAddUsers(nicknames, captcha)
       setResult(data)
       setStatus(STATUSES.RESULT_VIEW)
     } catch (ex) {
@@ -41,7 +41,7 @@ export function UserAddHandler({ show, onClose }) {
   let component = <></>
   let parentExtraProps = {}
   if (status === STATUSES.ADD) {
-    component = <UserAddModal onAdd={onAdd} onClose={onModalClose} />
+    component = <UserAddModal onAdd={onAdd} onClose={onModalClose} defaultUsers={defaultUsers} />
   } else if (status === STATUSES.LOADING) {
     component = <UserAddLoadingModal />
     parentExtraProps = { 
