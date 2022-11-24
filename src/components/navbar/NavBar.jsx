@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Button, Container, Nav, Navbar } from "react-bootstrap"
+import { useNavigate } from "react-router"
 import { LinkContainer } from "react-router-bootstrap"
 import { UserAddHandler } from "../user/UserAddHandler"
 
@@ -34,14 +35,16 @@ export function NavigationBar() {
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
-          <Navbar.Brand className="fs-4 user-select-none" >TankiRating</Navbar.Brand>
+          <Navbar.Brand className="fs-4 user-select-none" onClick={() => document.getElementById('navlink-0').click()}>
+            TankiRating
+          </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="main-navbar-nav" />
           <Navbar.Collapse id="main-navbar-nav">
             <Nav className="me-auto">
               {LINKS.map((l, idx) => (
                 <LinkContainer to={l.link} key={idx}>
-                  <Nav.Link className="fw-semibold mx-lg-3 fs-5">{l.name}</Nav.Link>
+                  <Nav.Link id={`navlink-${idx}`} className="fw-semibold mx-lg-3 fs-5">{l.name}</Nav.Link>
                 </LinkContainer>
               ))}
             </Nav>

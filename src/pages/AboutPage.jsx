@@ -32,7 +32,7 @@ export function AboutPage() {
               <UncontrolledOptionRadio item={lang} items={languages} onChange={setLang} />
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <p className="fs-3 mb-0">About portal</p>
+              <p className="fs-3 mb-0">{lang.name === 'ru' ? 'О сайте' : 'About site'}</p>
             </div>
             <div className="invisible">
               <UncontrolledOptionRadio item={lang} items={languages} onChange={setLang} />
