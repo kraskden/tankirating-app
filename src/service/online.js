@@ -3,14 +3,20 @@ import { toISODate, toISOEndOfDayDateTime, toISOStartOfDayDateTime } from "../ut
 
 const MOMENTARY_ONLINE_URL = "https://tankionline.com/s/status.js"
 
-
-export async function apiLoadMomentaryOnline() {
+// Alternativa enable CORS, so that's won't work anymore
+export async function apiAlternativaLoadMomentaryOnline() {
   const {data} = await axios.get(MOMENTARY_ONLINE_URL)
   return Object.values(data.nodes).reduce((acc, curr) => {
     acc.online += curr.online 
     acc.inbattles += curr.inbattles
     return acc
-  }, {online: 0, inbattles: 0})
+  }, {timestamp: new Date(), online: 0, inbattles: 0})
+}
+
+// Workaround - get latest online snapshot from TankiRating API
+export async function apiLoadMomentaryOnline() {
+  const {data} = await axios.get('/online/snapshot/latest')
+  return data
 }
 
 export async function apiLoadCcu(from, to) {

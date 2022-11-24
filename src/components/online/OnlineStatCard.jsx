@@ -1,8 +1,9 @@
-import { format } from "date-fns";
+import { differenceInHours, format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Alert, Card, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Label } from "recharts";
+import { matcher } from "../../lib/matcher";
 import { getCurrentPcu, getMomentary, loadCurrentPcu, loadMomentary } from "../../slices/onlineSlice";
 import { getData } from "../../util/slices";
 import { UncontrolledOptionRadio } from "../control/OptionRadio";
@@ -53,17 +54,30 @@ function PcuView({ period }) {
   />
 }
 
+const UPDATER_MATCHER = matcher(["text-success", [2], "text-danger", [24], "text-danger fw-bold"])
+
+function SnapshotDateView() {
+  const data = useSelector(getData(getMomentary))
+  const date = new Date(data.timestamp)
+  const hoursPassed = differenceInHours(new Date(), date)
+  console.log(hoursPassed, UPDATER_MATCHER(0))
+  return (
+    <p className={`text-center h3 mt-2 ${UPDATER_MATCHER(hoursPassed)}`}>
+      {format(date, "do LLL yyyy hh:mm / [O]")}
+    </p>
+  )
+}
+
 export function OnlineStatCard() {
 
   const [period, setPeriod] = useState(ONLINE_PERIODS[0])
-  const [date, setDate] = useState(new Date())
   const dispatch = useDispatch()
 
   useEffect(() => {
     const timer = setInterval(() => {
       dispatch(loadMomentary())
-      setDate(new Date())
-    }, 1000 * 60 * 10)
+    }, 1000 * 60 * 15)
+    dispatch(loadMomentary())
     return () => clearInterval(timer)
   }, [])
 
@@ -73,11 +87,11 @@ export function OnlineStatCard() {
         <UncontrolledOptionRadio items={ONLINE_PERIODS} item={period} onChange={setPeriod} />
       </Card.Header>
       <Card.Body>
-        <p className="text-center h3 mt-2">
-          {format(date, "do LLL yyyy hh:mm / [O]")}
-        </p>
+        <Loader selector={getMomentary}>
+          <SnapshotDateView />
+        </Loader>
         <div className="row mt-4 mb-4">
-          <Loader selector={getMomentary} loadEvent={loadMomentary} errorHandler={MomentaryOnlineCard}>
+          <Loader selector={getMomentary} errorHandler={MomentaryOnlineCard}>
             <MomentaryOnlineView />
           </Loader>
           <Loader selector={getCurrentPcu} loadEvent={loadCurrentPcu}>

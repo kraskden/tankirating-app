@@ -1,3 +1,4 @@
+import { getUserLanguage } from "../util/lang"
 
 const en_ranks_names = ['Recruit', 'Private', 'Gefreiter', 'Corporal', 'Master Corporal', 'Sergeant', 'Staff Sergeant', 'Master Sergeant', 'First Sergeant', 'Sergeant-Major', 'Warrant Officer 1', 'Warrant Officer 2', 'Warrant Officer 3', 'Warrant Officer 4', 'Warrant Officer 5', 'Third Lieutenant', 'Second Lieutenant', 'First Lieutenant', 'Captain', 'Major', 'Lieutenant Colonel', 'Colonel', 'Brigadier', 'Major General', 'Lieutenant General', 'General', 'Marshal', 'Fieldmarshal', 'Commander', 'Generalissimo', 'Legend']
 
@@ -129,9 +130,7 @@ const ranks = [
 ].sort((a, b) => a.score - b.score)
 
 export const getRank = (score) => {
-  // TODO: language support is sucks
-  const lang = navigator.language || navigator.userLanguage
-  const useRuLang = lang ? lang.indexOf('ru') != -1 : false
+  const useRuLang = getUserLanguage() === 'ru'
 
   for (let idx = 0; idx < ranks.length; ++idx) {
     let rank = ranks[idx]

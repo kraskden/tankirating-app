@@ -12,10 +12,10 @@ const LINKS = [
     link: '/global',
     name: 'Global Stat'
   },
-  {
-    link: '/compare',
-    name: 'Compare Users'
-  },
+  // {
+  //   link: '/compare',
+  //   name: 'Compare Users'
+  // },
   {
     link: '/online',
     name: 'OnlineHub'

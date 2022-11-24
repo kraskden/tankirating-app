@@ -33,7 +33,7 @@ export function matcher(pattern) {
   return function match(value) {
     let group = null;
     for (const i of pattern) {
-      if (typeof i === 'object' && i[0] !== undefined) {
+      if (Array.isArray(i)) {
         const breakpoint = i[0]
         if (value < breakpoint) {
           return group;
