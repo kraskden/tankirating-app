@@ -38,7 +38,7 @@ function App() {
             exact path="/online"
             element={<OnlinePage />}
           />
-          <Route exact path='/global' element={<GlobalStatPage />} />
+          <Route exact path='/trends' element={<GlobalStatPage />} />
           <Route exact path='/about' element={<AboutPage />} />
         </Routes>
       </div>

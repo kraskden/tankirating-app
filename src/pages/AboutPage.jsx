@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Container } from "react-bootstrap";
+import { Alert, Card, Container } from "react-bootstrap";
 import { EnAbout } from "../components/about/EnAbout";
 import { RuAbout } from "../components/about/RuAbout";
 import { UncontrolledOptionRadio } from "../components/control/OptionRadio";
@@ -7,7 +7,7 @@ import { getUserLanguage } from "../util/lang";
 
 const languages = [
   {
-    name: 'En',
+    name: 'en',
     title: 'En',
     about: EnAbout
   },
@@ -18,6 +18,7 @@ const languages = [
   }
 ]
 
+
 export function AboutPage() {
 
   const [lang, setLang] = useState(languages.find(l => l.name === getUserLanguage()) || languages[0])
@@ -25,7 +26,8 @@ export function AboutPage() {
   const About = lang.about
   return (
     <Container fluid='md mt-2'>
-      <Card>
+      {lang.name === 'en' ? <Alert  variant="info" className="my-2">My english isn't good, so if yours is, and you want to help me with the article - pls <a href="#contact">contact</a> me</Alert> : <></>}
+      <Card className="mb-5">
         <Card.Header>
           <div className="d-flex justify-content-between align-items-center">
             <div className="mr-auto">

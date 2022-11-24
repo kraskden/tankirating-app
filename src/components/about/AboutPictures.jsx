@@ -1,3 +1,4 @@
+import { Image } from 'react-bootstrap';
 import Carousel from 'react-bootstrap/Carousel';
 
 export function AboutPictures() {
@@ -5,11 +6,12 @@ export function AboutPictures() {
     <Carousel variant='dark' className='my-3' controls={true} interval={null}>
       {Array(13).fill(null).map((_, idx) => (
         <Carousel.Item key={idx}>
-          <img
+          <Image
             className="d-block"
             src={`./images/about${getNumberPostfix(idx)}.png`}
             alt="First slide"
-            style={{height: '600px', margin: 'auto'}}
+            height={600}
+            style={{margin: 'auto'}}
           />
         </Carousel.Item>
       ))}
