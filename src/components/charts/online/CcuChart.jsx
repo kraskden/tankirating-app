@@ -28,7 +28,7 @@ export function CcuChart({ height }) {
 
   const data = useSelector(getData(getCcu))
 
-  if (!data || data.length == 0) {
+  if (!data || data.length === 0) {
     return <></>
   }
 

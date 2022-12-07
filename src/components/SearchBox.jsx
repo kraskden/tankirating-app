@@ -1,8 +1,7 @@
-import { Card, Form, Button, Col, Row } from 'react-bootstrap'
-import { useForm } from 'react-hook-form'
+import { Button, Col, Form, Row } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loadTarget } from '../slices/targetSlice';
 
 export function SearchBoxContainer() {
   return (

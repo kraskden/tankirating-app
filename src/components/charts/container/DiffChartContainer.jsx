@@ -5,11 +5,10 @@ import { getDiffsSelector, loadDiffsForDatePeriod } from '../../../slices/diffSl
 import { OptionDropdown } from '../../control/OptionDropdown';
 import { OptionRadio } from '../../control/OptionRadio';
 
-import { Loader } from '../../loader/Loaders'
+import { Loader } from '../../loader/Loaders';
 
-import { DIFF_PERIODS } from '../../../lib/constants';
-import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
 import { useDatePeriodState } from '../../../hooks/hooks';
+import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
 
 export function DiffChartContainer({ properties, format, additionalControls, chartComponent,
   onDataChanges, periods }) {

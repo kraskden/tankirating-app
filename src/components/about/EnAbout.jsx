@@ -18,7 +18,7 @@ export function EnAbout() {
        <br/>
      </p>
      <p className="fs-5">
-       Just open <Link to="/">the main page</Link>, and enjoy!
+2      Just open <Link to="/">the main page</Link>, and enjoy!
      </p>
  
      <p className="h3 mt-4">

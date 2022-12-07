@@ -1,9 +1,9 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useDatePeriodState } from "../../../hooks/hooks";
 import { DIFF_PERIODS } from "../../../lib/constants";
-import { getCcu, getPcuSelector, loadCcuForDatePeriod, loadPcu, loadPcuForDatePeriod } from "../../../slices/onlineSlice";
+import { getCcu, getPcuSelector, loadCcuForDatePeriod, loadPcuForDatePeriod } from "../../../slices/onlineSlice";
 import { DatePeriodRangeSelect } from "../../control/DatePeriodRangeSelect";
 import { UncontrolledOptionRadio } from "../../control/OptionRadio";
 import { Loader } from "../../loader/Loaders";

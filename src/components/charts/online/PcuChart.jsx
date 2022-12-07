@@ -1,6 +1,5 @@
-import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ONLINE_COLOR_PALLETE } from "../../../lib/constants";
 import { getData } from "../../../util/slices";
 

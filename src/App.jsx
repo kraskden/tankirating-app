@@ -1,11 +1,10 @@
 import { initialize } from '@stadline/react-mtcaptcha';
-import React, { useEffect } from 'react'
-import NavbarOffcanvas from 'react-bootstrap/esm/NavbarOffcanvas';
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Routes
-} from 'react-router-dom'
+} from 'react-router-dom';
 import { NavigationBar } from "./components/navbar/NavBar";
 import { AboutPage } from './pages/AboutPage';
 import { GlobalStatPage } from './pages/GlobalStatPage';
