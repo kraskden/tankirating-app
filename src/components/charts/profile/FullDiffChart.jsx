@@ -1,13 +1,13 @@
-import Select from 'react-select';
-import { createRef, useEffect, useMemo, useState } from "react"
-import { Provider, shallowEqual, useSelector } from "react-redux"
-import { ACTIVITY_CATEGORIES, CHART_COLOR_PALLETE, FULL_DIFF_FORMAT } from "../../../lib/constants"
-import { formatBigNumber, formatHoursTime } from "../../../util/format"
-import { getData } from "../../../util/slices"
-import { UncontrolledOptionDropdown } from "../../control/OptionDropdown"
-import { DiffChartContainer } from "../../charts/container/DiffChartContainer"
-import { getTrackActivityNames, makeItemsTracks } from '../../../lib/tracking';
+import { useCallback } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from 'react-bootstrap';
+import { useSelector } from "react-redux";
+import Select from 'react-select';
+import { ACTIVITY_CATEGORIES, CHART_COLOR_PALLETE, FULL_DIFF_FORMAT } from "../../../lib/constants";
+import { getTrackActivityNames, makeItemsTracks } from '../../../lib/tracking';
+import { getData } from "../../../util/slices";
+import { DiffChartContainer } from "../../charts/container/DiffChartContainer";
+import { UncontrolledOptionDropdown } from "../../control/OptionDropdown";
 import { MultiLineChart } from '../base/LineChart';
 
 const MAX_ITEMS = CHART_COLOR_PALLETE.length
@@ -20,7 +20,7 @@ function ChartWrapper({ selector, property, category, period, selectedItems }) {
       return null
     }
     return makeItemsTracks(diffs, category.name, property.name, selectedItems)
-  }, [diffs, category, property])
+  }, [diffs, category, property, selectedItems])
 
   if (!(category && selectedItems && selectedItems.length > 0)) {
     return (
@@ -63,18 +63,18 @@ export function FullDiffChart({ periods, properties }) {
 
     const itemsEmpty = !items || items.length === 0
 
+    const updateItems = useCallback((category) => {
+      setItems(getTrackActivityNames(diffs, category.name, property.name).map(name => ({ value: name, label: name })))
+    }, [diffs, property])
+
     useEffect(() => {
       category && updateItems(category)
-    }, [diffs])
+    }, [diffs, updateItems])
 
     function onCategoryChange(newCategory) {
       setCategory(newCategory)
       updateItems(newCategory)
       setSelectedItems([])
-    }
-
-    function updateItems(category) {
-      setItems(getTrackActivityNames(diffs, category.name, property.name).map(name => ({ value: name, label: name })))
     }
 
     return (

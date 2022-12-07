@@ -15,6 +15,7 @@ function SummaryBarChart({ data, property }) {
       yKey={property.name}
       xFormatter={property.tickFormatter}
       tooltipValueFormatter={property.valueFormatter}
+      xDomain={[0, 'dataMax']}
     />
   )
 }
