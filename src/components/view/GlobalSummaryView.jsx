@@ -4,13 +4,13 @@ import { getData } from "../../util/slices";
 import { SummaryCharts } from "../charts/profile/SummaryCharts";
 
 
-export function GlobalSummaryView({selector}) {
+export function GlobalSummaryView({selector, percentLimit}) {
 
   const summary = useSelector(getData(selector))
 
   return (
     <div className="mb-5">
-      <SummaryCharts summary={summary} properties={RELATIVE_ACTIVE_PROPERTIES} />
+      <SummaryCharts summary={summary} percentLimit={percentLimit} properties={RELATIVE_ACTIVE_PROPERTIES} />
     </div>
   )
 

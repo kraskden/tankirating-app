@@ -14,7 +14,7 @@ export function CategoryBarChart({ height, data, xKey, yKey, xFormatter,
         <YAxis type="category" dataKey={xKey} domain={yDomain} />
         <CartesianGrid strokeDasharray="3 " />
         <Tooltip formatter={tooltipValueFormatter || xFormatter} labelFormatter={tooltipLabelFormatter}/>
-        <Bar dataKey={yKey} fill="#8884d8" />
+        <Bar dataKey={yKey} fill="#8884d8"/>
       </BarChart>
     </ResponsiveContainer>
   )

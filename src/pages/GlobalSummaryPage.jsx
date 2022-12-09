@@ -32,7 +32,7 @@ export function GlobalSummaryPage() {
         </Loader>
       </PeriodSelectContainer>
       <Loader selector={summarySelector} errorHandler={SummaryNoData} loader={<></>}>
-        <GlobalSummaryView selector={summarySelector} />
+        <GlobalSummaryView percentLimit={0} selector={summarySelector} />
       </Loader>
     </>
   )

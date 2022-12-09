@@ -50,9 +50,9 @@ export function DiffChartContainer({ properties, format, additionalControls, cha
   return (
     <Card className='mt-2 mb-4'>
       <Card.Header>
-        <div className="d-flex justify-content-start ">
+        <div className="d-flex flex-wrap justify-content-start " style={{gap: '10px 10px'}}>
           <OptionRadio items={periods} onChange={onPeriodChange} />
-          <div className="ms-2">
+          <div className="">
             <OptionDropdown items={properties} onChange={setProperty} />
           </div>
           {additionalControls ? 

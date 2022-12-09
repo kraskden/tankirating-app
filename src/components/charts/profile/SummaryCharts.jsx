@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Card } from "react-bootstrap"
+import { makeBarSummaryData } from "../../../lib/chart";
 
 import { OptionRadio } from "../../control/OptionRadio"
 import { CategoryBarChart } from '../base/CategoryBarChart';
@@ -20,25 +21,16 @@ function SummaryBarChart({ data, property }) {
   )
 }
 
-export function SummaryCharts({ summary, properties }) {
+export function SummaryCharts({ summary, properties, percentLimit }) {
 
   const [property, setProperty] = useState(properties[0])
-  const [activities, setActivities] = useState(getSortedActivities())
+  const [activities, setActivities] = useState(makeBarSummaryData(summary, property.name, percentLimit))
 
   useEffect(() => {
-    setActivities(getSortedActivities())
-  }, [summary, property])
+    setActivities(makeBarSummaryData(summary, property.name, percentLimit))
+  }, [summary, property, percentLimit])
 
   const { hulls, turrets, modes, modules } = activities
-
-  function getSortedActivities() {
-    return ['hulls', 'turrets', 'modes', 'modules'].reduce((acc, activity) => {
-      const data = [...summary.activities[activity]]
-      data.sort((a, b) => b[property.name] - a[property.name])
-      acc[activity] = data
-      return acc;
-    }, {})
-  }
 
   return (
     <Card className="mt-2 shadow-sm">
@@ -47,19 +39,19 @@ export function SummaryCharts({ summary, properties }) {
       </Card.Header>
       <Card.Body>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <SummaryBarChart data={turrets} property={property} />
           </div>
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <SummaryBarChart data={hulls} property={property} />
 
           </div>
         </div>
         <div className="row mt-5">
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <SummaryBarChart data={modes} property={property} />
           </div>
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <SummaryBarChart data={modules} property={property} />
           </div>
         </div>

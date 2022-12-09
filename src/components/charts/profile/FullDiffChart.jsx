@@ -78,9 +78,8 @@ export function FullDiffChart({ periods, properties }) {
     }
 
     return (
-      <div className="d-flex ms-4">
+      <div className="d-flex" style={{gap: '10px 10px'}}>
         <UncontrolledOptionDropdown item={category} items={ACTIVITY_CATEGORIES} onChange={onCategoryChange} />
-        <div className="mx-2"></div>
         {itemsEmpty ? <Button variant='danger'>{category ? "No data" : "Select category"}</Button> :
           <Select
             options={items}
