@@ -1,0 +1,7 @@
+.react-calendar-heatmap {
+    min-height: 190px;
+}
+
+.heatmap-wrapper {
+    overflow-x: auto;
+}

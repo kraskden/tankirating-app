@@ -2,19 +2,20 @@ import { Button, Card } from "react-bootstrap";
 import { BsCaretLeftFill as LeftIcon, BsCaretRightFill as RightIcon } from 'react-icons/bs';
 
 import { useMemo, useState } from 'react'
-import { Loader } from '../loader/Loaders'
-import { getHeatMapSelector, loadHeatMap } from "../../slices/heatMapSlice";
+import { Loader } from '../../loader/Loaders'
+import { getHeatMapSelector, loadHeatMap } from "../../../slices/heatMapSlice";
 import { useSelector } from "react-redux";
-import { getData } from "../../util/slices";
+import { getData } from "../../../util/slices";
 
 import CalendarHeatmap from 'react-calendar-heatmap'
 
 import 'react-calendar-heatmap/dist/styles.css';
+import './HeatMap.css'
 
-import { matcher } from "../../lib/matcher";
+import { matcher } from "../../../lib/matcher";
 import ReactTooltip from "react-tooltip";
-import { OptionRadio } from "../control/OptionRadio";
-import { formatTime } from "../../util/format";
+import { OptionRadio } from "../../control/OptionRadio";
+import { formatTime } from "../../../util/format";
 import { format } from "date-fns";
 
 const classTimeMatcher = matcher([1, [30], 2, [60], 3, [120], 4, [240], 5])
@@ -48,18 +49,23 @@ export function HeatMapView({ year, selector, property }) {
 
   return (
     <>
-      <CalendarHeatmap
-        startDate={`${year}-01-01`}
-        endDate={`${year}-12-31`}
-        values={heatMapSeries}
-        classForValue={(value) => getCssClass(property, value?.count)}
-        tooltipDataAttrs={getTooltipAttrs}
-      />
+      <div className="heatmap-wrapper">
+        <CalendarHeatmap
+          startDate={`${year}-01-01`}
+          endDate={`${year}-12-31`}
+          values={heatMapSeries}
+          classForValue={(value) => getCssClass(property, value?.count)}
+          tooltipDataAttrs={getTooltipAttrs}
+        />
+      </div>
       <ReactTooltip className="fs-6" />
       <div className="d-flex justify-content-start mt-2">
         <p className="fs-5 mb-0">Total: {property.getTotalStr ? property.getTotalStr(total, heatMapSeries.length) : total}</p>
-        <p className="fs-5 mb-0 ms-auto">Track Days: {heatMapSeries.length} </p>
+        <p className="fs-5 mb-0 d-none d-md-block ms-auto">Track Days: {heatMapSeries.length} </p>
       </div>
+      <p className="fs-5 mt-2 mb-0 d-block d-md-none">
+        Track Days: {heatMapSeries.length}
+      </p>
     </>
   )
 
@@ -138,7 +144,7 @@ export function HeatMap({ initialYear }) {
       </Card.Header>
       <Card.Body>
         <Loader selector={heatMapSelector} loadEvent={() => loadHeatMap(year)}>
-          <HeatMapView year={year} property={property} selector={heatMapSelector}/>
+          <HeatMapView year={year} property={property} selector={heatMapSelector} />
         </Loader>
       </Card.Body>
     </Card>
