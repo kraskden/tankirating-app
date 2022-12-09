@@ -34,8 +34,7 @@ export function RatingTable({ ratingSelector, onTableChange, sort }) {
     <BootstrapTable
       bootstrap4
       striped
-      wrapperClasses="table-responsive-md mt-2"
-
+      wrapperClasses="table-responsive mt-2"
       classes="align-middle"
       remote={{
         sort: true, pagination: true

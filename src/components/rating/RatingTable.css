@@ -2,13 +2,6 @@ a {
   text-decoration: none !important; 
 }
 
-
-.table td, .table th {
-  padding: 0.75rem;
-}
-
-.table td {
-  word-wrap: break-word;
-  min-width: 160px;
-  white-space: normal;
+table {
+  table-layout: auto !important;
 }
