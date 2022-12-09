@@ -34,7 +34,8 @@ export function SnapshotView() {
         </div>
         <div className="row mt-4 justify-content-center">
           {pieActivities.map(stat => (
-            <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6 px-2" key={stat.name}>
+            <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6 px-2" key={stat.name} 
+              style={{maxHeight: '320px'}}>
               <div className="fs-6 text-center">
                 <span className="fw-bold">{stat.name}</span>
               </div>

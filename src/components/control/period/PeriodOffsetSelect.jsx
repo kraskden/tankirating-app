@@ -20,7 +20,7 @@ export function PeriodOffsetSelect({ period, from, to, onDateChange, onOffsetCha
   const fromDate = new Date(from)
 
   const description = (
-    <p className="fs-3 mb-0 user-select-none">{toHumanDate(from)} - {toHumanDate(to)}</p>
+    <p className="fs-3 text-center mb-0 user-select-none">{toHumanDate(from)} - {toHumanDate(to)}</p>
   )
 
   if (isNavigationDisabled) {

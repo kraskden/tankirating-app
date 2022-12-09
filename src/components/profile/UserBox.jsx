@@ -31,7 +31,7 @@ const UpdatedInfo = ({ user, snapshot }) => {
   return (
     <>
       <Card.Subtitle className={`d-inline float-end align-middle ${fontClass} fs-6`}>
-        Updated: {toHumanDateTime(snapshot.timestamp)}
+        <span className="d-none d-md-inline">Updated: {toHumanDateTime(snapshot.timestamp)}</span>
         <Badge pill bg={STATUSES[user.status].bg} className="fs-6 ms-2 ">
           {STATUSES[user.status].title}
         </Badge>
@@ -64,7 +64,7 @@ export const UserBox = () => {
           <div className="col px-0">
             <UserInfo user={user} snapshot={snapshot} />
           </div>
-          <div className="col px-0 my-auto ">
+          <div className="col px-0 my-auto">
             <UpdatedInfo user={user} snapshot={snapshot} />
           </div>
         </div>
