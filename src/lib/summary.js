@@ -1,7 +1,7 @@
 import { FormLabel } from "react-bootstrap"
 import { getDaysBetweenDates } from "../util/date"
 import { formatBigNumber, formatTime } from "../util/format"
-import {getSupplyUsages} from '../lib/tracking'
+import {batteryEnabled, getSupplyUsages} from '../lib/tracking'
 
 function getFavourite(activities) {
   return activities.reduce((acc, curr) => {
@@ -81,7 +81,7 @@ export function makeDiffSummary(data) {
       ['DD/Hour', divide(dd, hours)],
       ['AID/Hour', divide(aid, hours)],
       null,
-      ['BTR/Hour', `${btrPerHour} [${(btr / hours * 100 / 60).toFixed()}%]`],
+      ['BTR/Hour', batteryEnabled(new Date(data.trackEnd)) ?  `${btrPerHour} [${(btr / hours * 100 / 60).toFixed()}%]` : 'N/A'],
       null,
       ['Fav. Turret', favTurret],
       ['Fav. Hull', favHull],

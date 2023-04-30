@@ -1,6 +1,7 @@
-import { getSupplyUsages } from "../../../lib/tracking"
+import { batteryEnabled, getSupplyUsages } from "../../../lib/tracking"
 import { getDaysBetweenDates } from "../../../util/date"
 import { btrPhBgMatcher, CryBadge, cryPhBgMatcher, ddPhBgMatcher, KdBadge, killsPhBgMatcher, PerHourBadge, PremiumBadge, scorePhBgMatcher, TimePerDayBadge, } from "./Badges"
+
 
 export function SummaryBadges({ summary }) {
 
@@ -11,10 +12,9 @@ export function SummaryBadges({ summary }) {
   const batteries = getSupplyUsages(summary, 'BATTERY')
   const dd = getSupplyUsages(summary, 'DD')
 
-
   const badges = [
     <KdBadge key='kdph' kills={kills} deaths={deaths} />,
-    <PerHourBadge key='btrph' value={batteries} time={time} valueTitle='BTR' bgMatcher={btrPhBgMatcher} />,
+    batteryEnabled(new Date(summary.trackEnd)) ? <PerHourBadge key='btrph' value={batteries} time={time} valueTitle='BTR' bgMatcher={btrPhBgMatcher} /> : <></>,
     <PremiumBadge key='prem' premiumDays={premiumDays} totalDays={days} />,
     <PerHourBadge key='ddph' value={dd} time={time} valueTitle='DD' bgMatcher={ddPhBgMatcher} />,
 

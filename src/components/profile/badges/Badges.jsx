@@ -75,7 +75,7 @@ export function TimePerDayBadge({time, totalDays, bg}) {
 
 export const ddPhBgMatcher = matcher(["danger", [25], "warning", [50], "secondary", [100], "success", [300], "dark"])
 export const btrPhBgMatcher = matcher(["danger", [5], "warning", [30], "secondary", [45], "success", [55], "dark"])
-export const cryPhBgMatcher = matcher(["danger", [5000], "warning", [10000], "secondary", [15000], "success", [25000], "dark"])
+export const cryPhBgMatcher = matcher(["danger", [3000], "warning", [5000], "secondary", [10000], "success", [25000], "dark"])
 export const scorePhBgMatcher = cryPhBgMatcher
 export const killsPhBgMatcher = matcher(["danger", [150], "warning", [175], "secondary" [225], "success", [250], "dark"])
 

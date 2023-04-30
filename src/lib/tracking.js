@@ -16,7 +16,8 @@ const MODULES_MAP = {
   Griffin: "Magnum",
   Owl: "Gauss",
   Eagle: "Shaft",
-  Spider: "Mines"
+  Spider: "Mines",
+  Vulture: "Scorp"
 }
 
 function getNormalModuleName(name) {
@@ -99,3 +100,8 @@ export function makeItemsTracks(tracks, category, property, items) {
   return tracks.map(makeItemsTrack)
 }
 
+// https://ru.tankiforum.com/topic/317423/
+const BATTERY_REMOVED_DATE = new Date("2023-04-13T00:00:00.000")
+export function batteryEnabled(date) {
+  return BATTERY_REMOVED_DATE - date > 0;
+}
