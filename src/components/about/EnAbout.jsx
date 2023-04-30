@@ -35,7 +35,7 @@ export function EnAbout() {
        <li><span className="fs-5"><Link to="/">Main page</Link> — User ratings</span></li>
        <li><span className="fs-5"><Link to="/user/Fizzika">The user profile</Link> — Player statistics</span></li>
        <li><span className="fs-5"><Link to="/trends">Trends</Link> — Summary statistics of all legend-players</span></li>
-       <li><span className="fs-5"><Link to="/online">OnlineHub</Link> — The Great Online Chart</span></li>
+       <li><span className="fs-5"><Link to="/online">OnlineHub</Link> — The Great Online Chart (only archive data, thanks to alternativa games)</span></li>
      </ul>
  
      <p className="h3 mt-4">

@@ -35,7 +35,7 @@ export function RuAbout() {
         <li><span className="fs-5"><Link to="/">Главная страница</Link> — рейтинг зарегистрированных пользователей</span></li>
         <li><span className="fs-5"><Link to="/user/Fizzika">Профиль пользователя</Link> — информация о игроке</span></li>
         <li><span className="fs-5"><Link to="/trends">Тренды</Link> — статистика по всем игрокам-легендам</span></li>
-        <li><span className="fs-5"><Link to="/online">OnlineHub</Link> — график онлаена!!111</span></li>
+        <li><span className="fs-5"><Link to="/online">OnlineHub</Link> — график онлаена!!111 К сожалению, только архивные данные, спасибо альтернативе гамез</span></li>
       </ul>
 
       <p className="h3 mt-4">

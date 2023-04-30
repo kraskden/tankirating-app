@@ -9,6 +9,35 @@ import { getData } from "../../util/slices";
 import { UncontrolledOptionRadio } from "../control/OptionRadio";
 import { Loader } from "../loader/Loaders";
 
+
+
+// Alternativa disables their online services. 
+
+function DisabledOnlineStatCard() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadMomentary())
+  }, [])
+
+  return (
+    <Card className="mt-3">
+      <Card.Header className="d-flex justify-content-center">
+        <p className="text-center fw-bold h3">Press F</p>
+      </Card.Header>
+      <Card.Body>
+        <Loader selector={getMomentary}>
+          <SnapshotDateView />
+        </Loader>
+      </Card.Body>
+    </Card>
+  )
+
+}
+
+export const OnlineStatCard = DisabledOnlineStatCard
+
 const ONLINE_PERIODS = [
   { name: 'day', title: 'Day' },
   { name: 'week', title: 'Week' },
@@ -68,7 +97,7 @@ function SnapshotDateView() {
   )
 }
 
-export function OnlineStatCard() {
+export function OldOnlineStatCard() {
 
   const [period, setPeriod] = useState(ONLINE_PERIODS[0])
   const dispatch = useDispatch()

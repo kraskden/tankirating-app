@@ -27,10 +27,10 @@ export function OnlineChartContainer() {
 
   const dispatch = useDispatch()
 
-  const [variant, setVariant] = useState(VARIANTS[0])
+  const [variant, setVariant] = useState(VARIANTS[1])
   const [zoom, setZoom] = useState(ZOOM_OPTIONS[0])
-  const [pcuDatePeriod, setPcuDatePeriod] = useDatePeriodState(DIFF_PERIODS[0], defaultPcuOffset)
-  const [ccuDatePeriod, setCcuDatePeriod] = useDatePeriodState(DIFF_PERIODS[0], defaultCcuOffset)
+  const [pcuDatePeriod, setPcuDatePeriod] = useDatePeriodState(DIFF_PERIODS[2], defaultPcuOffset)
+  const [ccuDatePeriod, setCcuDatePeriod] = useDatePeriodState(DIFF_PERIODS[2], defaultCcuOffset)
 
 
   const [datePeriod, setDatePeriod] = variant.name === 'pcu' ?
