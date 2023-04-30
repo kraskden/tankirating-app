@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { addThunkReducers, getIdleState } from "../util/slices";
-import {apiGetTargetByName} from '../service/target'
+import {apiGetTargetByName, apiActivateTarget} from '../service/target'
 import { eraseSnapshot } from "./snapshotSlice";
 import { eraseHeatMap } from "./heatMapSlice";
 import { eraseDiffs } from "./diffSlice";
@@ -15,19 +15,29 @@ const targetSlice = createSlice({
     },
     extraReducers(builder) {
         addThunkReducers(builder, loadTarget)
+        addThunkReducers(builder, activateTarget)
     }
+})
+
+export const activateTarget = createAsyncThunk('target/activate', async ({id, captcha}, {dispatch}) => {
+    const target = await apiActivateTarget(id, captcha)
+    eraseUserData(dispatch)
+    return target
 })
 
 export const loadTarget = createAsyncThunk('target/set', async ({name, type}, {dispatch, getState}) => {
     const target = await apiGetTargetByName(name, type)
-    // TODO: global eraseUserData() action and global reducer...
-    dispatch(eraseSnapshot())
-    dispatch(eraseHeatMap())
-    dispatch(eraseDiffs())
-    dispatch(eraseSummary())
+    eraseUserData(dispatch)
     return target   
 });
 
 export const getTarget = state => state.target
 
 export const targetReducer = targetSlice.reducer
+
+function eraseUserData(dispatch) {
+    dispatch(eraseSnapshot())
+    dispatch(eraseHeatMap())
+    dispatch(eraseDiffs())
+    dispatch(eraseSummary())
+}

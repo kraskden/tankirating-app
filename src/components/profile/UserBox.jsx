@@ -1,12 +1,15 @@
-import { Badge, Card, ProgressBar, Row } from "react-bootstrap"
+import { Alert, Badge, Button, Card, Modal, ProgressBar, Row } from "react-bootstrap"
 import { useData } from "../../hooks/hooks";
 
 import { getSnapshot } from "../../slices/snapshotSlice";
-import { getTarget } from "../../slices/targetSlice";
+import { activateTarget, getTarget } from "../../slices/targetSlice";
 import { getRank, getRankPercent } from "../../lib/ranks";
 import { toHumanDate, toHumanDateTime } from "../../util/format";
 import { matcher } from "../../lib/matcher";
 import { differenceInHours } from "date-fns";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { CaptchaModal } from "../captcha/CaptchaModal";
 
 
 const UPDATER_MATCHER = matcher(["text-success", [4], "text-muted", [24], "text-danger", [24 * 7], "text-danger fw-bold"])
@@ -50,6 +53,31 @@ const UserInfo = ({ user, snapshot }) => {
   )
 }
 
+const DisabledAlert = ({ user }) => {
+
+  const [showModal, setShowModal] = useState(false)
+  const dispatch = useDispatch()
+  const onCaptchaSubmit = (captcha) => {
+    setShowModal(false)
+    if (captcha) {
+      dispatch(activateTarget({ id: user.id, captcha: captcha }))
+    }
+  }
+
+  return (
+    <>
+      <div className="row mt-2">
+        <Button onClick={() => setShowModal(true)} variant="danger" size="sm">Account is disabled.Try to activate it?</Button>
+      </div>
+      {showModal &&
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <CaptchaModal onResult={onCaptchaSubmit} />
+        </Modal>
+      }
+    </>
+  )
+}
+
 export const UserBox = () => {
 
   const user = useData(getTarget)
@@ -71,6 +99,7 @@ export const UserBox = () => {
         <div className="row">
           <ProgressBar className="px-0" now={percent} label={`${percent}%`} />
         </div>
+        {user.status === 'DISABLED' && <DisabledAlert user={user} />}
       </Card.Body>
     </Card>
   )

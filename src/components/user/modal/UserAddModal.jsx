@@ -11,7 +11,7 @@ export function UserAddModal({onClose, onAdd, defaultUsers}) {
   const [text, setText] = useState("")
 
   // TODO: Default captcha should be null
-  const [captcha, setCaptcha] = useState('mock')
+  const [captcha, setCaptcha] = useState(null)
 
   useEffect(() => {
     if (defaultUsers) {
