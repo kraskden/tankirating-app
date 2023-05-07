@@ -10,6 +10,7 @@ import { differenceInHours } from "date-fns";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { CaptchaModal } from "../captcha/CaptchaModal";
+import { AbbrContent } from "../Util";
 
 
 const UPDATER_MATCHER = matcher(["text-success", [4], "text-muted", [24], "text-danger", [24 * 7], "text-danger fw-bold"])
@@ -17,26 +18,35 @@ const UPDATER_MATCHER = matcher(["text-success", [4], "text-muted", [24], "text-
 const STATUSES = {
   'ACTIVE': {
     bg: 'success',
-    title: 'Active'
+    title: 'Active',
+    abbr: 'Account is updating regulary'
   },
   'FROZEN': {
     bg: 'primary',
-    title: 'Frozen'
+    title: 'Frozen',
+    abbr: 'Last account updates is failed'
   },
   'DISABLED': {
     bg: 'danger',
-    title: 'Disabled'
+    title: 'Disabled',
+    abbr: 'Account is disabled, system will not updating it'
+  },
+  'SLEEP': {
+    bg: 'secondary',
+    title: 'Sleep',
+    abbr: 'User is not actively played, account is updating once per day'
   }
 }
 
 const UpdatedInfo = ({ user, snapshot }) => {
   const fontClass = UPDATER_MATCHER(differenceInHours(new Date(), new Date(snapshot.timestamp)))
+  const statusMeta = STATUSES[user.status]
   return (
     <>
       <Card.Subtitle className={`d-inline float-end align-middle ${fontClass} fs-6`}>
         <span className="d-none d-md-inline">Updated: {toHumanDateTime(snapshot.timestamp)}</span>
-        <Badge pill bg={STATUSES[user.status].bg} className="fs-6 ms-2 ">
-          {STATUSES[user.status].title}
+        <Badge pill bg={statusMeta.bg} className="fs-6 ms-2 " >
+          <AbbrContent abbr={statusMeta.abbr} content={statusMeta.title} />
         </Badge>
       </Card.Subtitle>
 
