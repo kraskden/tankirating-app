@@ -7,11 +7,12 @@ import { SummaryNoData } from '../components/view/SummaryView'
 import { usePeriodWithOffsetState } from '../hooks/hooks'
 import { GLOBAL_TRACK_PERIODS } from '../lib/constants'
 import { getSummarySelector, loadSummary } from '../slices/summarySlice'
+import { GroupSummaryInfo } from '../components/group/GroupSummaryInfo'
 
 const periods = GLOBAL_TRACK_PERIODS
 const defaultPeriod = periods[1]
 
-export function GlobalSummaryPage() {
+export function GlobalSummaryPage({group}) {
 
   const { offset, period, setOffset, setPeriod, changeOffset, changeDate } = usePeriodWithOffsetState(defaultPeriod, periods)
 
@@ -22,6 +23,7 @@ export function GlobalSummaryPage() {
     <ErrorSummaryControl error={error} onOffsetChange={changeOffset} onDateChange={changeDate} period={period} />
   )
 
+
   return (
     <>
       <PeriodSelectContainer periods={periods} period={period} onPeriodChange={setPeriod}
@@ -31,6 +33,9 @@ export function GlobalSummaryPage() {
             onOffsetChange={changeOffset} onDateChange={changeDate} period={period} />
         </Loader>
       </PeriodSelectContainer>
+      <Loader selector={summarySelector} errorHandler={() => <></>} loader={<></>}>
+        <GroupSummaryInfo group={group} selector={summarySelector} />
+      </Loader>
       <Loader selector={summarySelector} errorHandler={SummaryNoData} loader={<></>}>
         <GlobalSummaryView percentLimit={0} selector={summarySelector} />
       </Loader>
