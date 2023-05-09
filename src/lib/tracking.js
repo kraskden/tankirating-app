@@ -105,3 +105,7 @@ const BATTERY_REMOVED_DATE = new Date("2023-04-13T00:00:00.000")
 export function batteryEnabled(date) {
   return BATTERY_REMOVED_DATE - date > 0;
 }
+
+export function calcSummaryTime(summary) {
+  return summary.activities.modes.map(m => m.time).reduce((fst, snd) => fst + snd, 0)
+}

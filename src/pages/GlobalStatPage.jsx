@@ -23,14 +23,14 @@ export function GlobalStatPage() {
 
   return (
     <Container fluid='md' className="mt-2">
-      <p className="mt-3 fs-3 text-center" variant="info">
+      {/* <p className="mt-3 fs-3 text-center" variant="info">
         Global Legends Statistics
-      </p>
+      </p> */}
       {/* <UncontrolledOptionRadio item={group} items={GROUPS} onChange={setGroup} /> */}
       <Loader selector={getTarget} loader={<AbsoluteSpinner />}>
         <Tabs defaultActiveKey="summary" className="my-2" mountOnEnter={true} unmountOnExit={false}>
           <Tab eventKey="summary" title="Period Summary">
-            <GlobalSummaryPage />
+            <GlobalSummaryPage group={group.name} />
           </Tab>
           <Tab eventKey="activity" title="Activity Chart">
             <FullDiffChart periods={GLOBAL_DIFF_PERIODS} properties={RELATIVE_ACTIVE_PROPERTIES} />

@@ -7,7 +7,7 @@ export function SummaryBadges({ summary }) {
 
   const { kills, deaths, cry, score, time, activities, supplies, premiumDays } = summary
 
-  const days = getDaysBetweenDates(summary.trackStart, summary.trackEnd)
+  const days = Math.max(1, getDaysBetweenDates(summary.trackStart, summary.trackEnd))
 
   const batteries = getSupplyUsages(summary, 'BATTERY')
   const dd = getSupplyUsages(summary, 'DD')

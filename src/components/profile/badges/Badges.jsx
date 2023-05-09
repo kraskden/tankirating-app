@@ -1,21 +1,22 @@
 import { Badge } from 'react-bootstrap'
 import { matcher } from '../../../lib/matcher'
 import { formatTime, truncateBigNumber } from '../../../util/format'
+import { AbbrContent } from '../../Util'
 
-function UserBadge({ bg, name, value, abbr }) {
+export function UserBadge({ bg, name, value, abbr }) {
   const content = (
     <>
       {name && <span className="me-3 user-select-none">
         {name}
       </span>}
-      <span className='user-select-none'>
+      {value && <span className='user-select-none'>
         {value}
-      </span>
+      </span>}
     </>
   )
   return (
     <Badge pill bg={bg} className="fs-6 me-2 shadow-sm my-2">
-      {abbr ? <abbr title={abbr}>{content}</abbr> : content}
+      <AbbrContent abbr={abbr} content={content} />
     </Badge>
   )
 }
