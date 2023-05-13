@@ -63,7 +63,7 @@ export function makeDiffSummary(data) {
   const [dd, aid, btr] = ['DD', 'AID', 'BATTERY'].map(name => getSupplyUsages(data, name))
   const btrPerHour = divide(btr, hours)
 
-  const totalDays = getDaysBetweenDates(data.trackStart, data.trackEnd)
+  const totalDays = Math.max(1, getDaysBetweenDates(data.trackStart, data.trackEnd))
 
   return ({
     left: [
