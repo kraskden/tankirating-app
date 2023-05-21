@@ -74,7 +74,8 @@ export function UserSummaryPage() {
         </Loader>
       </PeriodSelectContainer>
       <Loader selector={summarySelector} errorHandler={SummaryNoData} loader={<></>}>
-        <SummaryView selector={summarySelector} />
+        <SummaryView selector=
+        {summarySelector} />
       </Loader>
     </>
   )

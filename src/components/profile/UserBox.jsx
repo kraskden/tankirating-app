@@ -1,4 +1,5 @@
 import { Alert, Badge, Button, Card, Modal, ProgressBar, Row } from "react-bootstrap"
+import {FcRefresh} from "react-icons/fc"
 import { useData } from "../../hooks/hooks";
 
 import { getSnapshot } from "../../slices/snapshotSlice";
@@ -43,11 +44,15 @@ const UpdatedInfo = ({ user, snapshot }) => {
   const statusMeta = STATUSES[user.status]
   return (
     <>
-      <Card.Subtitle className={`d-inline float-end align-middle ${fontClass} fs-6`}>
+      <Card.Subtitle className={`d-flex align-items-center float-end align-middle ${fontClass} fs-6`}>
         <span className="d-none d-md-inline">Updated: {toHumanDateTime(snapshot.timestamp)}</span>
+        {user.status != 'DISABLED' &&
+        <a href="#" className="ms-2 me-1">Update</a> }
+
         <Badge pill bg={statusMeta.bg} className="fs-6 ms-2 " >
           <AbbrContent abbr={statusMeta.abbr} content={statusMeta.title} />
         </Badge>
+
       </Card.Subtitle>
 
     </>
@@ -56,9 +61,11 @@ const UpdatedInfo = ({ user, snapshot }) => {
 
 const UserInfo = ({ user, snapshot }) => {
   return (
-    <div>
-      <Card.Title className="d-inline fs-4 me-2" >{user.name}</Card.Title>
-      <Card.Subtitle className="d-inline text-muted fs-6">{getRank(snapshot.score)}</Card.Subtitle>
+    <div className="d-flex align-items-baseline mb-1">
+      <div className="d-flex align-items-baseline">
+        <Card.Title className="d-inline fs-4 me-2 my-0" >{user.name}</Card.Title>
+        <Card.Subtitle className="d-inline text-muted fs-6 my-0">{getRank(snapshot.score)}</Card.Subtitle>
+      </div>
     </div>
   )
 }
