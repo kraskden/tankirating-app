@@ -11,9 +11,15 @@ import { GlobalStatPage } from './pages/GlobalStatPage';
 import { OnlinePage } from './pages/OnlinePage';
 import { RatingPage } from './pages/RatingPage';
 import { UserPage } from './pages/UserPage';
+import { AuthPage } from './pages/AuthPage';
+import { useDispatch } from 'react-redux';
+import { apiAuth, apiAuthWithHeader } from './service/auth';
+import { setUser } from './slices/userSlice';
 
 
 function App() {
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     initialize({
@@ -21,6 +27,10 @@ function App() {
       theme: 'neowhite',
       lang: 'en'
     })
+    const auth = localStorage.getItem('auth')
+    if (auth) {
+      apiAuthWithHeader(auth).then(data => dispatch(setUser(data)))
+    }
   }, [])
 
   return (
@@ -39,6 +49,7 @@ function App() {
           />
           <Route exact path='/trends' element={<GlobalStatPage />} />
           <Route exact path='/about' element={<AboutPage />} />
+          <Route exact path='/auth' element={<AuthPage />} />
         </Routes>
       </div>
 

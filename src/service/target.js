@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CAPTCHA_HEADER } from "../util/api";
+import { CAPTCHA_HEADER, buildAuthHeaders } from "../util/api";
 
 export async function apiGetTargetByName(name, type) {
   const {data} = await axios.get(`/target/${name}`, {
@@ -12,18 +12,14 @@ export async function apiGetTargetByName(name, type) {
 
 export async function apiActivateTarget(id, captcha) {
   const {data} = await axios.post(`/account/${id}/activate`, {}, {
-    headers: {
-      [CAPTCHA_HEADER]: captcha || undefined
-    }
+    headers: buildAuthHeaders(captcha)
   })
   return data
 }
 
 export async function apiUpdateTarget(id, captcha) {
   const {data} = await axios.post(`/account/${id}/update`, {}, {
-    headers: {
-      [CAPTCHA_HEADER]: captcha || undefined
-    }
+    headers: buildAuthHeaders(captcha)
   })
   return data
 }
@@ -32,9 +28,7 @@ export async function apiAddUsers(nicknames, captcha) {
   const {data} = await axios.post('/account', {
     nicknames
   }, {
-    headers: {
-      [CAPTCHA_HEADER]: captcha || undefined
-    }
+    headers: buildAuthHeaders(captcha)
   })
   
   return data 

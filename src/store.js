@@ -6,6 +6,7 @@ import { ratingReducer } from './slices/ratingSlice';
 import { snapshotReducer } from './slices/snapshotSlice';
 import { summaryReducer } from './slices/summarySlice';
 import { targetReducer } from './slices/targetSlice';
+import { userReducer } from './slices/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     diffs: diffReducer,
     summary: summaryReducer,
     online: onlineReducer,
-    rating: ratingReducer
+    rating: ratingReducer,
+    user: userReducer
   }
 });

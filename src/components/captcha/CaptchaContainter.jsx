@@ -2,16 +2,20 @@ import { Modal } from "react-bootstrap"
 import { activateTarget } from "../../slices/targetSlice"
 import { CaptchaModal } from "./CaptchaModal"
 import { forwardRef, useImperativeHandle, useState } from "react"
+import { useSelector } from "react-redux"
+import { getAdmin } from "../../slices/userSlice"
 
 
 // Ask user for captcha or bypass if it's an admin
 export const CaptchaContainer = forwardRef(({onHandle}, ref) => {
   const [showModal, setShowModal] = useState(false)
+  const admin = useSelector(getAdmin)
 
   useImperativeHandle(ref, () => ({
     activate: () => {
+      console.log(admin)
       // TODO: Check for current user
-      if (false) {
+      if (admin) {
         onHandle({
           success: true,
           captcha: null
