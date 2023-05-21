@@ -13,7 +13,16 @@ export async function apiGetTargetByName(name, type) {
 export async function apiActivateTarget(id, captcha) {
   const {data} = await axios.post(`/account/${id}/activate`, {}, {
     headers: {
-      [CAPTCHA_HEADER]: captcha
+      [CAPTCHA_HEADER]: captcha || undefined
+    }
+  })
+  return data
+}
+
+export async function apiUpdateTarget(id, captcha) {
+  const {data} = await axios.post(`/account/${id}/update`, {}, {
+    headers: {
+      [CAPTCHA_HEADER]: captcha || undefined
     }
   })
   return data
@@ -24,7 +33,7 @@ export async function apiAddUsers(nicknames, captcha) {
     nicknames
   }, {
     headers: {
-      [CAPTCHA_HEADER]: captcha
+      [CAPTCHA_HEADER]: captcha || undefined
     }
   })
   

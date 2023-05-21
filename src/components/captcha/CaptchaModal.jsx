@@ -25,7 +25,7 @@ export function CaptchaModal({ onResult }) {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={onResult}>
+                <Button variant="secondary" onClick={() => onResult(null)}>
                     Close
                 </Button>
                 <Button variant="primary" onClick={() => onResult(captcha)} disabled={!captcha}>
