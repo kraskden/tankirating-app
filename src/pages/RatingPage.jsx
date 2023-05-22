@@ -25,7 +25,7 @@ export function RatingPage() {
   const dispatch = useDispatch()
   const [pagination, setPagination] = useState({page: 0, size: 25})
   const [sort, setSort] = useState({
-    column: TABLE_COLUMNS[3],
+    column: TABLE_COLUMNS[4],
     direction: 'desc'
   })
   const [rank, setRank] = useState(RANKS[0])

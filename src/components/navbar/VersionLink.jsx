@@ -19,10 +19,11 @@ export function VersionLink() {
     return <></>
   }
   
+  const link = `https://github.com/kraskden/tankirating-api/blob/master/release_notes/RELEASE-${version.version}.md`
   const isNew = differenceInDays(new Date(version.buildAt), new Date()) < 7
 
   return (
-    <Nav.Link className="fw-semibold mx-lg-3 fs-5">
+    <Nav.Link className="fw-semibold mx-lg-3 fs-5" href={link} target="_blank">
       <div className="d-flex align-items-center">
        <span>v{version.version}</span>
        {isNew && <ReleaseIcon className="fs-5 ms-1"/>}
