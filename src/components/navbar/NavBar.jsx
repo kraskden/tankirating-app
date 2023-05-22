@@ -5,6 +5,7 @@ import { LinkContainer } from "react-router-bootstrap"
 import { UserAddHandler } from "../user/UserAddHandler"
 import { useSelector } from "react-redux"
 import { getAdmin } from "../../slices/userSlice"
+import { VersionLink } from "./VersionLink"
 
 const LINKS = [
   {
@@ -57,6 +58,7 @@ export function NavigationBar() {
               ))}
             </Nav>
             <Nav>
+              <VersionLink />
               <Button variant="success" className="fw-semibold fs-5" onClick={() => setUserModalShow(true)}>Add users</Button>
             </Nav>
           </Navbar.Collapse>
