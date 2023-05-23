@@ -107,3 +107,26 @@ export const DEFAULT_DATEPICKER_PARAMS = {
 export const CHART_COLOR_PALLETE = ["#4053d3", "#ddb310", "#b51d14", "#00beff", "#fb49b0", "#00b25d"]
 
 export const ONLINE_COLOR_PALLETE = ['#3a3af9', '#ff0000']
+
+export const STATUSES = {
+  'ACTIVE': {
+    bg: 'success',
+    title: 'Active',
+    abbr: 'Account is updating regulary'
+  },
+  'FROZEN': {
+    bg: 'primary',
+    title: 'Frozen',
+    abbr: 'Last account updates are failed'
+  },
+  'DISABLED': {
+    bg: 'danger',
+    title: 'Disabled',
+    abbr: 'Account is disabled, system will not updating it'
+  },
+  'SLEEP': {
+    bg: 'secondary',
+    title: 'Sleep',
+    abbr: 'User is not actively played, account is updating once per day'
+  }
+}

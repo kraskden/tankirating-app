@@ -82,9 +82,9 @@ export const killsPhBgMatcher = matcher(["danger", [150], "warning", [175], "sec
 
 export function PerHourBadge({ value, time, valueTitle, bgMatcher }) {
   const valuePh = (value * 3600 / time).toFixed()
-  const valuePerBattle = (valuePh * 7 / 60).toFixed(0)
+  const valuePerBattle = (valuePh * 13 / 60).toFixed(0)
 
-  const abbr = `${valueTitle}/7min:  ${valuePerBattle}`
+  const abbr = `${valueTitle}/13min:  ${valuePerBattle}`
 
   const bg = bgMatcher ? (bgMatcher instanceof Function ? bgMatcher(valuePh) : bgMatcher) : "secondary"
   return <UserBadge bg={bg} name={`${valueTitle}/H`} value={truncateBigNumber(valuePh)} abbr={abbr}/>

@@ -10,7 +10,6 @@ export function UserAddModal({onClose, onAdd, defaultUsers}) {
   const [nicknames, setNicknames] = useState([])
   const [text, setText] = useState("")
 
-  // TODO: Default captcha should be null
   const [captcha, setCaptcha] = useState(null)
 
   useEffect(() => {

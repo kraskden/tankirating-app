@@ -18,7 +18,7 @@ export const TABLE_COLUMNS = [
   { dataField: 'name', text: 'Nickname', sort: true, sortField: 'target.name', formatter: (cell) => <Link to={`/user/${cell}`}>{cell}</Link> },
   { dataField: 'maxScore', text: 'Rank', sort: true, formatter: getRank },
   { dataField: 'kd', text: 'K/D', sort: true, sortField: 'trackRecord.kd', formatter: (x) => x?.toFixed(2) ?? ZERO_PLACEHOLDER, headerStyle: () => ({ width: '10%' }) },
-  { dataField: 'kh', text: 'Kills/7min', sort: true, sortField: 'trackRecord.kt', formatter: (x) => ((x ?? 0) * 7 / 60).toFixed(), headerStyle: () => ({ width: '10%' }) },
+  { dataField: 'kh', text: 'Kills/13min', sort: true, sortField: 'trackRecord.kt', formatter: (x) => ((x ?? 0) * 13 / 60).toFixed(), headerStyle: () => ({ width: '10%' }) },
   { dataField: 'time', text: 'Time', sort: true, sortField: 'trackRecord.time', formatter: (t) => formatTime(t, ZERO_PLACEHOLDER), headerStyle: () => ({ width: '10%' }) },
   { dataField: 'score', text: 'Score', sort: true, sortField: 'trackRecord.score', formatter: (s) => formatBigNumber(s, ZERO_PLACEHOLDER), headerStyle: () => ({ width: '10%' }) },
   { dataField: 'cry', text: 'Cry', sort: true, sortField: 'trackRecord.cry', formatter: (c) => formatBigNumber(c, ZERO_PLACEHOLDER), headerStyle: () => ({ width: '10%' }) },
