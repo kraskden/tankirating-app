@@ -19,8 +19,8 @@ export function VersionLink() {
     return <></>
   }
   
-  const link = `https://github.com/kraskden/tankirating-api/blob/master/release_notes/RELEASE-${version.version}.md`
-  const isNew = differenceInDays(new Date(version.buildAt), new Date()) < 7
+  const link = `https://github.com/kraskden/tankirating-api/blob/master/RELEASE_NOTES.md`
+  const isNew = differenceInDays(new Date(), new Date(version.buildAt), ) < 7
 
   return (
     <Nav.Link className="fw-semibold mx-lg-3 fs-5" href={link} target="_blank">

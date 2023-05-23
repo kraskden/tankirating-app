@@ -14,7 +14,6 @@ export const CaptchaContainer = forwardRef(({onHandle}, ref) => {
   useImperativeHandle(ref, () => ({
     activate: () => {
       console.log(admin)
-      // TODO: Check for current user
       if (admin) {
         onHandle({
           success: true,
