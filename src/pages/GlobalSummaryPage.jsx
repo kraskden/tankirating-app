@@ -4,7 +4,7 @@ import { ErrorSummaryControl, LoadedSummaryControl } from '../components/control
 import { Loader } from '../components/loader/Loaders'
 import { GlobalSummaryView } from '../components/view/GlobalSummaryView'
 import { SummaryNoData } from '../components/view/SummaryView'
-import { usePeriodWithOffsetState } from '../hooks/hooks'
+import { usePeriodWithOffsetState } from '../hooks/tracking'
 import { GLOBAL_TRACK_PERIODS } from '../lib/constants'
 import { getSummarySelector, loadSummary } from '../slices/summarySlice'
 import { GroupSummaryInfo } from '../components/group/GroupSummaryInfo'

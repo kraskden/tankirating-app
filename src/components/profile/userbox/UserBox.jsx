@@ -1,5 +1,5 @@
 import { Card, ProgressBar } from "react-bootstrap"
-import { useData } from "../../../hooks/hooks";
+import { useData } from "../../../hooks/common";
 
 import { getSnapshot } from "../../../slices/snapshotSlice";
 import { getTarget } from "../../../slices/targetSlice";

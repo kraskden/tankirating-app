@@ -13,7 +13,6 @@ export const CaptchaContainer = forwardRef(({onHandle}, ref) => {
 
   useImperativeHandle(ref, () => ({
     activate: () => {
-      console.log(admin)
       if (admin) {
         onHandle({
           success: true,

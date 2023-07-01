@@ -7,7 +7,7 @@ import { PeriodSelectContainer } from "../components/control/period/PeriodSelect
 import { ErrorSummaryControl, LoadedSummaryControl } from "../components/control/summary/SummaryControls";
 import { Loader } from "../components/loader/Loaders";
 import { SummaryNoData, SummaryView } from "../components/view/SummaryView";
-import { usePeriodWithOffsetState } from "../hooks/hooks";
+import { usePeriodWithOffsetState } from "../hooks/tracking";
 import { TRACK_PERIODS } from "../lib/constants";
 import { erasePeriod, getSummarySelector, loadCustomSummary, loadSummary } from '../slices/summarySlice';
 import { getData } from "../util/slices";
