@@ -1,12 +1,6 @@
 import { startOfDay, sub } from "date-fns";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { getData } from "../util/slices";
 import { getInitOffsetMap } from "../util/util";
-
-export function useData(selector) {
-  return useSelector(getData(selector))
-}
 
 export function useDatePeriodState(defPeriod, defOffset) {
 

@@ -7,7 +7,7 @@ import { PeriodSelectContainer } from "../components/control/period/PeriodSelect
 import { Loader } from "../components/loader/Loaders";
 import { RatingTable, TABLE_COLUMNS } from "../components/rating/RatingTable";
 import { SearchBoxContainer } from "../components/SearchBox";
-import { usePeriodWithOffsetState } from "../hooks/hooks";
+import { usePeriodWithOffsetState } from "../hooks/tracking";
 import { TRACK_PERIODS } from "../lib/constants";
 import { getRatingSelector, loadRating } from "../slices/ratingSlice";
 import { getData } from "../util/slices";

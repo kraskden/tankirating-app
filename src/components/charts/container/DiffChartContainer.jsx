@@ -7,7 +7,7 @@ import { OptionRadio } from '../../control/OptionRadio';
 
 import { Loader } from '../../loader/Loaders';
 
-import { useDatePeriodState } from '../../../hooks/hooks';
+import { useDatePeriodState } from '../../../hooks/tracking';
 import { DiffDateRangeSelect } from '../../control/DiffDateRangeSelect';
 
 export function DiffChartContainer({ properties, format, additionalControls, chartComponent,
