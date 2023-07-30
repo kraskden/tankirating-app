@@ -11,13 +11,15 @@ import { usePeriodWithOffsetState } from "../hooks/tracking";
 import { TRACK_PERIODS } from "../lib/constants";
 import { getRatingSelector, loadRating } from "../slices/ratingSlice";
 import { getData } from "../util/slices";
+import { getFavouriteUsersFromStorage } from "../service/favouriteUsers";
 
 const periods = TRACK_PERIODS
 const defaultPeriod = periods[1]
 
-const RANKS = [
-  { name: 'all', title: 'All', filter: {}, },
-  { name: 'legends', title: 'Legends', filter: {minScore: 1600000} }
+const FILTERS = [
+  { name: 'all', title: 'All', getFilter: () => {}, },
+  { name: 'legends', title: 'Legends', getFilter: () => ({minScore: 1600000}) },
+  { name: 'favouriteUsers', title: 'Favourites', getFilter: () => ({ids: getFavouriteUsersFromStorage()})}
 ]
 
 export function RatingPage() {
@@ -25,10 +27,10 @@ export function RatingPage() {
   const dispatch = useDispatch()
   const [pagination, setPagination] = useState({page: 0, size: 25})
   const [sort, setSort] = useState({
-    column: TABLE_COLUMNS[4],
+    column: TABLE_COLUMNS[5],
     direction: 'desc'
   })
-  const [rank, setRank] = useState(RANKS[0])
+  const [filter, setFilter] = useState(FILTERS[0])
 
   const {period, offset, setPeriod, setOffset, changeOffset, changeDate} = usePeriodWithOffsetState(defaultPeriod, periods)
 
@@ -36,11 +38,13 @@ export function RatingPage() {
   const ratingLoader = useCallback(() => loadRating({
     period: period.name,
     offset,
-    ...rank.filter,
-    page: pagination.page,
-    size: pagination.size,
-    sort: `${sort.column.sortField ?? sort.column.dataField},${sort.direction}`
-  }), [period, offset, pagination, sort, rank])
+    queryParams: {
+      ...filter.getFilter(),
+      page: pagination.page,
+      size: pagination.size,
+      sort: `${sort.column.sortField ?? sort.column.dataField},${sort.direction}`  
+    }
+  }), [period, offset, pagination, sort, filter])
 
   useEffect(() => {
     dispatch(ratingLoader())
@@ -74,7 +78,7 @@ export function RatingPage() {
           </Loader>
       </PeriodSelectContainer>
       <div className="mt-3"></div>
-      <UncontrolledOptionRadio item={rank} items={RANKS} onChange={setRank} />
+      <UncontrolledOptionRadio item={filter} items={FILTERS} onChange={setFilter} />
       <Loader selector={ratingSelector} loader={<></>}>
         <RatingTable ratingSelector={ratingSelector} onTableChange={onTableChange} sort={sort} />
       </Loader>

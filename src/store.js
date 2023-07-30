@@ -7,6 +7,7 @@ import { snapshotReducer } from './slices/snapshotSlice';
 import { summaryReducer } from './slices/summarySlice';
 import { targetReducer } from './slices/targetSlice';
 import { userReducer } from './slices/userSlice';
+import { favUserReducer } from './slices/favouriteUsersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     summary: summaryReducer,
     online: onlineReducer,
     rating: ratingReducer,
-    user: userReducer
+    user: userReducer,
+    favouriteUsers: favUserReducer
   }
 });

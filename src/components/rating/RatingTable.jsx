@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../util/slices";
 
 import BootstrapTable from "react-bootstrap-table-next";
@@ -14,7 +14,8 @@ import './RatingTable.css'
 const ZERO_PLACEHOLDER = ' - '
 
 export const TABLE_COLUMNS = [
-  { dataField: 'position', text: '#', sort: false, headerStyle: () => ({ width: '50px' }) },
+  { dataField: 'position', text: '#', sort: false, headerStyle: () => ({ width: '50px' })},
+  { dataField: 'id', sort: false, hidden: true},
   { dataField: 'name', text: 'Nickname', sort: true, sortField: 'target.name', formatter: (cell) => <Link to={`/user/${cell}`}>{cell}</Link> },
   { dataField: 'maxScore', text: 'Rank', sort: true, formatter: getRank },
   { dataField: 'kd', text: 'K/D', sort: true, sortField: 'trackRecord.kd', formatter: (x) => x?.toFixed(2) ?? ZERO_PLACEHOLDER, headerStyle: () => ({ width: '10%' }) },
