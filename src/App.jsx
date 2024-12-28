@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { apiAuth, apiAuthWithHeader } from './service/auth';
 import { setUser } from './slices/userSlice';
 import { AdminPage } from './pages/AdminPage';
+import { HelpPage } from './pages/HelpPage.jsx';
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
           />
           <Route exact path='/trends' element={<GlobalStatPage />} />
           <Route exact path='/about' element={<AboutPage />} />
+          <Route exact path='/help' element={<HelpPage />} />
           <Route exact path='/auth' element={<AuthPage />} />
           <Route exact path='/admin' element={<AdminPage />} />
         </Routes>

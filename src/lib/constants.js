@@ -128,5 +128,10 @@ export const STATUSES = {
     bg: 'secondary',
     title: 'Sleep',
     abbr: 'User is not actively played, account is updating once per day'
+  },
+  'PREMIUM': {
+    bg: 'dark',
+    title: "Premium",
+    abbr: "User is a TankiRating supporter"
   }
 }

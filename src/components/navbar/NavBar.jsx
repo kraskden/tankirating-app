@@ -1,11 +1,12 @@
 import { useState } from "react"
-import { Button, Container, Nav, Navbar } from "react-bootstrap"
+import { Alert, Button, Container, Nav, Navbar } from "react-bootstrap"
 import { useNavigate } from "react-router"
 import { LinkContainer } from "react-router-bootstrap"
 import { UserAddHandler } from "../user/UserAddHandler"
 import { useSelector } from "react-redux"
 import { getAdmin } from "../../slices/userSlice"
 import { VersionLink } from "./VersionLink"
+import { NeedMoneyAlert } from "./NeedMoneyAlert.jsx"
 
 const LINKS = [
   {
@@ -16,10 +17,6 @@ const LINKS = [
     link: '/trends',
     name: 'Trends'
   },
-  // {
-  //   link: '/compare',
-  //   name: 'Compare Users'
-  // },
   {
     link: '/online',
     name: 'OnlineHub'
@@ -29,11 +26,28 @@ const LINKS = [
     name: 'About'
   },
   {
+    link: '/help',
+    name: 'Help Us!',
+    urgent: true
+  },
+  {
     link: '/admin',
     name: 'Admin',
     admin: true
   }
 ]
+
+function Link({link, idx, admin}) {
+  if (link.admin && !admin) {
+    return null
+  }
+  const addStyle = link.urgent ? "fw-bold" : "fw-semibold"
+  return (
+    <LinkContainer to={link.link} key={idx}>
+      <Nav.Link id={`navlink-${idx}`} className={`${addStyle} mx-lg-3 fs-5`}>{link.name}</Nav.Link>
+    </LinkContainer>
+  )
+}
 
 export function NavigationBar() {
 
@@ -52,9 +66,7 @@ export function NavigationBar() {
           <Navbar.Collapse id="main-navbar-nav">
             <Nav className="me-auto">
               {LINKS.map((l, idx) => (
-                !l.admin || admin ? <LinkContainer to={l.link} key={idx}>
-                  <Nav.Link id={`navlink-${idx}`} className="fw-semibold mx-lg-3 fs-5">{l.name}</Nav.Link>
-                </LinkContainer> : <></>
+                <Link link={l} idx={idx} admin={admin} />
               ))}
             </Nav>
             <Nav>
@@ -65,6 +77,7 @@ export function NavigationBar() {
         </Container>
       </Navbar>
       <UserAddHandler show={userModalShow} onClose={() => setUserModalShow(false)} />
+      <NeedMoneyAlert />
     </>
   )
 }
