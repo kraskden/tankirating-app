@@ -132,6 +132,6 @@ export const STATUSES = {
   'PREMIUM': {
     bg: 'dark',
     title: "Premium",
-    abbr: "User is a TankiRating supporter"
+    abbr: "User is the supporter of TankiRating project"
   }
 }
